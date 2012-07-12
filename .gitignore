@@ -1,0 +1,8 @@
+# Eclipse project files
+/.classpath
+/.project
+/.settings/
+
+# Ant and Maven build directories
+/build/
+/target/
