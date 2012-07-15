@@ -61,10 +61,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.thetransactioncompany</groupId>
-			<artifactId>property-util</artifactId>
-			<version>1.5</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/property-util-1.5.jar</systemPath>
+			<artifactId>java-property-utils</artifactId>
+			<version>1.6</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
