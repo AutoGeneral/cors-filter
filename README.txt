@@ -78,7 +78,8 @@ version 1.3.1 (2011-12-02)
 	* Removes improper filter chain for preflight HTTP OPTIONS CORS 
 	  requests.
 
-version 1.3.2
-	* Add Maven POM.
+version 1.3.2 (2012-05-15)
+	* Updates Property Util JAR to 1.6.
+	* Adds Maven POM.
 
 [EOF]
