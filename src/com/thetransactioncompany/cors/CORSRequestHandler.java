@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  * <p>Note that the actual CORS exception handling (which is outside the CORS
  * specification scope) is left to the invoking class to implement.
  *
- * @author <a href="http://dzhuvinov.com">Vladimir Dzhuvinov</a>
- * @version 1.3.1 (2011-12-02)
+ * @author Vladimir Dzhuvinov
+ * @version $version$ (2011-12-02)
  */
 public class CORSRequestHandler {
 

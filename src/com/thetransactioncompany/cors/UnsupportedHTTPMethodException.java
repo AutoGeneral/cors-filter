@@ -4,8 +4,8 @@ package com.thetransactioncompany.cors;
 /**
  * Unsupported HTTP method exception.
  *
- * @author <a href="http://dzhuvinov.com">Vladimir Dzhuvinov</a>
- * @version 1.3.1 (2010-09-27)
+ * @author Vladimir Dzhuvinov
+ * @version $version$ (2010-09-27)
  */
 public class UnsupportedHTTPMethodException extends CORSException {
 

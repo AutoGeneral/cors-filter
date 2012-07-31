@@ -5,8 +5,8 @@ package com.thetransactioncompany.cors;
  * Base Cross-Origin Resource Sharing (CORS) exception, typically thrown during
  * processing of CORS requests.
  *
- * @author <a href="http://dzhuvinov.com">Vladimir Dzhuvinov</a>
- * @version 1.3.1 (2010-09-27)
+ * @author Vladimir Dzhuvinov
+ * @version $version$ (2010-09-27)
  */
 public class CORSException extends Exception {
 

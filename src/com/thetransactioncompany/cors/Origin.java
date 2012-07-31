@@ -21,8 +21,8 @@ import java.net.IDN;
  *         null
  * </pre>
  *
- * @author <a href="http://dzhuvinov.com">Vladimir Dzhuvinov</a>
- * @version 1.3.1 (2010-09-24)
+ * @author Vladimir Dzhuvinov
+ * @version $version$ (2010-09-24)
  */
 public class Origin {
 

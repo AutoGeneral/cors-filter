@@ -5,8 +5,8 @@ package com.thetransactioncompany.cors;
  * Unsupported HTTP header exception. Thrown to indicate that a custom HTTP
  * request header is not supported by the CORS policy.
  *
- * @author <a href="http://dzhuvinov.com">Vladimir Dzhuvinov</a>
- * @version 1.3.1 (2010-09-27)
+ * @author Vladimir Dzhuvinov
+ * @version $version$ (2010-09-27)
  */
 public class UnsupportedHTTPHeaderException extends CORSException {
 

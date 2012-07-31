@@ -1,10 +1,10 @@
 <project name="CorsFilter" default="dist" basedir=".">
 
 	<property name="version" value="1.3.2"/>
+	<property name="version-date" value="2012-07-31"/>
 	<property name="jarfile" value="cors-filter-${version}.jar"/>
 	<property name="demo-warfile" value="cors-demo.war"/>
 	<property file="test.properties"/>
-
 	
 	<path id="classpath.compile">
 		<fileset dir="lib">
@@ -21,8 +21,8 @@
 		<pathelement location="build/test"/>
 	</path>
 	
-	
 	<target name="clean">
+		<delete dir="procsrc"/>
 		<delete dir="build"/>
 		<delete dir="javadoc"/>
 		<delete file="${jarfile}"/>
@@ -30,13 +30,28 @@
 		<delete>
 			<fileset dir="." includes="**/TEST*"/>
 		</delete>
+		<delete file="CorsFilter.zip"/>
 	</target>
 	
+	<target name="src">
+		<mkdir dir="procsrc"/>
+		<copy todir="procsrc">
+    			<fileset dir="src"/>
+  		</copy>
+		
+		<!-- Indicate version number and version date -->
+		<replace dir="procsrc" token="$version$" value="${version}">
+			<include name="**/*.java"/>
+		</replace>
+		<replace dir="procsrc" token="$version-date$" value="${version-date}">
+			<include name="**/*.java"/>
+		</replace>
+	</target>
 	
-	<target name="compile">
+	<target name="compile" depends="src">
 		<mkdir dir="build"/>
 		<mkdir dir="build/main"/>
-		<javac srcdir="src" 
+		<javac srcdir="procsrc" 
 		       destdir="build/main" 
 		       classpathref="classpath.compile"
 		       includeantruntime="false">
@@ -44,31 +59,28 @@
 		</javac>
 	</target>
 	
-	
-	<target name="javadoc">
+	<target name="javadoc" depends="src">
 		<mkdir dir="javadoc"/>
 		<javadoc packagenames="com.thetransactioncompany.cors.*"
-	        	 sourcepath="src"
+	        	 sourcepath="procsrc"
 			 classpathref="classpath.compile"
 			 destdir="javadoc"
 			 private="false"
 			 author="true"
 			 version="true"
-			 use="false"
+			 use="true"
 			 linksource="true"
 			 windowtitle="CORS Filter">
 		</javadoc>
 	</target>
 	
-	
-	<target name="compile-tests">
+	<target name="compile-tests" depends="compile">
 		<mkdir dir="build/test"/>
 		<javac srcdir="test" 
 		       destdir="build/test" 
 		       classpathref="classpath.compile"
 		       includeantruntime="false"/>
 	</target>
-	
 	
 	<target name="junit" depends="compile,compile-tests">
 		<junit showoutput="true">
@@ -85,18 +97,15 @@
 		</junit>
 	</target>
 	
-	
 	<target name="jar" depends="junit">
 		<jar destfile="${jarfile}" basedir="build/main">
 			<zipfileset src="lib/property-util-1.6.jar" excludes="**/MANIFEST.MF"/>
 		</jar>
 	</target>
 	
-	
 	<target name="jar-nodep" depends="junit">
 		<jar destfile="${jarfile}" basedir="build/main"/>
 	</target>
-	
 	
 	<target name="compile-demo" depends="jar">
 		<mkdir dir="build/demo"/>
@@ -106,7 +115,6 @@
 		       includeantruntime="false"/>
 	</target>
 	
-	
 	<target name="demo-war" depends="compile-demo">
 		<war destfile="${demo-warfile}" webxml="demo/web.xml">
 			<classes dir="build/demo"/>
@@ -115,12 +123,15 @@
 		</war>
 	</target>
 	
-	
 	<target name="dist" depends="clean,jar,demo-war,javadoc">
+		<delete dir="procsrc"/>
 		<delete dir="build"/>
 		<delete>
 			<fileset dir="." includes="**/TEST*"/>
 		</delete>
+		<zip destfile="CorsFilter.zip">
+			<zipfileset dir="." prefix="CorsFilter-${version}"/>
+		</zip>
 	</target>
 	
 </project>

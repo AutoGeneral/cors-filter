@@ -5,8 +5,8 @@ package com.thetransactioncompany.cors;
  * Invalid CORS request exception. Thrown to indicate a CORS request (simple /
  * actual or preflight) that doesn't conform to the specification.
  *
- * @author <a href="http://dzhuvinov.com">Vladimir Dzhuvinov</a>
- * @version 1.3.1 (2010-09-27)
+ * @author Vladimir Dzhuvinov
+ * @version $version$ (2010-09-27)
  */
 public class InvalidCORSRequestException extends CORSException {
 

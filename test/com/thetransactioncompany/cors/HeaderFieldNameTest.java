@@ -7,16 +7,10 @@ import junit.framework.*;
 /**
  * Tests the header field name class.
  *
- * @author <a href="http://dzhuvinov.com">Vladimir Dzhuvinov</a>
- * @version 1.3 (2010-09-26)
+ * @author Vladimir Dzhuvinov
+ * @version $version$ (2010-09-26)
  */
 public class HeaderFieldNameTest extends TestCase {
-
-
-        public HeaderFieldNameTest(String name) {
-        
-                super(name);
-        }
         
         
         public void testFormatCanonical1() {

@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Enumeration of the CORS request types.
  *
- * @author <a href="http://dzhuvinov.com">Vladimir Dzhuvinov</a>
- * @version 1.3.1 (2011-12-02)
+ * @author Vladimir Dzhuvinov
+ * @version $version$ (2011-12-02)
  */
 public enum CORSRequestType {
 
@@ -57,6 +57,4 @@ public enum CORSRequestType {
 		else
 			return ACTUAL;
 	}
-
-
 }

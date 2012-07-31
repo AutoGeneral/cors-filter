@@ -14,8 +14,8 @@ import com.thetransactioncompany.util.PropertyRetriever;
  * descriptor file {@code web.xml}). The fields become immutable (final) after 
  * the are initialised.
  *
- * @author <a href="http://dzhuvinov.com">Vladimir Dzhuvinov</a>
- * @version 1.3.1 (2011-07-29)
+ * @author Vladimir Dzhuvinov
+ * @version $version$ (2011-07-29)
  */
 public class CORSConfiguration {
 	

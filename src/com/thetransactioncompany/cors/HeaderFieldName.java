@@ -14,8 +14,8 @@ package com.thetransactioncompany.cors;
  *     <li>X-Requested-With
  * </ul>
  *
- * @author <a href="http://dzhuvinov.com">Vladimir Dzhuvinov</a>
- * @version 1.3.1 (2010-09-26)
+ * @author Vladimir Dzhuvinov
+ * @version $version$ (2010-09-26)
  */
 public class HeaderFieldName {
 

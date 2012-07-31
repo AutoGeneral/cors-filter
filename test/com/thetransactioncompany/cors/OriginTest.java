@@ -9,16 +9,10 @@ import junit.framework.*;
 /**
  * Tests the origin class.
  *
- * @author <a href="http://dzhuvinov.com">Vladimir Dzhuvinov</a>
- * @version 1.3 (2010-09-24)
+ * @author Vladimir Dzhuvinov
+ * @version $version$ (2010-09-24)
  */
 public class OriginTest extends TestCase {
-
-
-        public OriginTest(String name) {
-        
-                super(name);
-        }
         
         
         public void testConstructorUnknown() {

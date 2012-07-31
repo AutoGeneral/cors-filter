@@ -5,23 +5,14 @@ import java.util.*;
 
 import junit.framework.*;
 
-// import com.thetransactioncompany.util.PropertyParseException;
-// import com.thetransactioncompany.util.PropertyRetriever;
-
 
 /**
  * Tests the CORS configuration class.
  *
- * @author <a href="http://dzhuvinov.com">Vladimir Dzhuvinov</a>
- * @version 1.3 (2010-09-27)
+ * @author Vladimir Dzhuvinov
+ * @version $version$ (2010-09-27)
  */
 public class CORSConfigurationTest extends TestCase {
-
-
-        public CORSConfigurationTest(String name) {
-        
-                super(name);
-        }
 	
 	
 	public void testParseWordsSpace() {

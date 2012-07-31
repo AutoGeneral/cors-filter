@@ -1,6 +1,6 @@
 Java Cross-Origin Resource Sharing (CORS) Filter
 
-Copyright (c) Vladimir Dzhuvinov, 2010 - 2011
+Copyright (c) Vladimir Dzhuvinov, 2010 - 2012
 
 
 README
@@ -78,8 +78,9 @@ version 1.3.1 (2011-12-02)
 	* Removes improper filter chain for preflight HTTP OPTIONS CORS 
 	  requests.
 
-version 1.3.2 (2012-05-15)
+version 1.3.2 (2012-07-31)
 	* Updates Property Util JAR to 1.6.
 	* Adds Maven POM.
+	* Updates Ant build.xml script.
 
 [EOF]

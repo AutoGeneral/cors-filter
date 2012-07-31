@@ -35,8 +35,8 @@ import javax.servlet.http.HttpServletResponse;
  *     <li>cors.maxAge {int} defaults to {@code -1} (unspecified).
  * </ul>
  *
- * @author <a href="http://dzhuvinov.com">Vladimir Dzhuvinov</a>
- * @version 1.3.1 (2011-12-02)
+ * @author Vladimir Dzhuvinov
+ * @version $version$ (2011-12-02)
  */
 public class CORSFilter
 	implements Filter {
