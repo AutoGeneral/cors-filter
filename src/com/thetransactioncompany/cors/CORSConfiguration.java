@@ -15,7 +15,9 @@ import com.thetransactioncompany.util.PropertyRetriever;
  * the are initialised.
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2011-07-29)
+ * @author Luis Sala
+ * @author Jared Ottley
+ * @version $version$ (2012-10-12)
  */
 public class CORSConfiguration {
 	
@@ -38,7 +40,15 @@ public class CORSConfiguration {
 	 */
 	public final boolean allowAnyOrigin;
 
-
+	/**
+	 * If {@code true} the CORS filter must allow requests from any origin
+	 * whose suffix matches any of the {@link #allowedOrigins}.
+	 *
+	 * <p>Property key: cors.allowOrigin (set to {@code *})
+	 */
+	public final boolean allowOriginSuffixMatching;
+	
+	
 	/**
 	 * Whitelisted origins that the CORS filter must allow. Requests from 
 	 * origins not included here must be refused with a HTTP 403 "Forbidden"
@@ -68,6 +78,9 @@ public class CORSConfiguration {
         	if (allowAnyOrigin)
                 	return true;
 		
+		if (this.allowOriginSuffixMatching)
+        	return originSuffixAllowed(origin);
+
 		if (origin == null)
 			return false;
 		
@@ -77,6 +90,38 @@ public class CORSConfiguration {
 			return false;
 	}
 	
+	/**
+	 * Helper method to check whether requests from the specified origin suffix and scheme
+	 * are allowed. This is done by looking up the Origin's scheme and host name 
+	 * and matching with {@link #allowedOrigins} but also allowing for subdomains.
+	 * eg. Origin: https://foo.example.com matches cors.allowedOrigin = https://example.com
+	 * whereas cors.allowedOrigin = http://example.com would not match.
+	 *
+	 * @param originString The origin as reported by the web client (browser), 
+	 *               {@code null} if unknown.
+	 *
+	 * @return {@code true} if the origin suffix is allowed, else {@code false}.
+	 */
+	public final boolean originSuffixAllowed(final String originString) {
+		
+		boolean allowed = false;
+		
+		try {
+			Origin origin = new Origin(originString);
+			
+			String originSuffix = origin.getSuffix();
+			
+			for (String allowedOriginString: allowedOrigins) {
+				Origin allowedOrigin = new Origin(allowedOriginString);
+				if (originSuffix.endsWith(allowedOrigin.getSuffix()) && origin.getScheme().equalsIgnoreCase(allowedOrigin.getScheme()))
+					return true;
+			}
+			
+		} catch (OriginException e) {
+			return allowed;
+		}
+		return allowed;
+	}
 	
 	/**
 	 * The supported HTTP methods. Requests for methods not included here 
@@ -184,6 +229,7 @@ public class CORSConfiguration {
 	 *
 	 * <ul>
 	 *     <li>cors.allowGenericHttpRequests {true|false} defaults to {@code true}.
+	 *     <li>cors.allowOriginSuffixMatching {true|false} defaults to {@code false}.
 	 *     <li>cors.allowOrigin {"*"|origin-list} defaults to {@code *}.
 	 *     <li>cors.supportedMethods {method-list} defaults to {@code "GET, POST, HEAD, OPTIONS"}.
 	 *     <li>cors.supportedHeaders {header-list} defaults to empty list.
@@ -206,7 +252,9 @@ public class CORSConfiguration {
 			
 			allowGenericHttpRequests = pr.getOptBoolean("cors.allowGenericHttpRequests", true);
 
-
+			// Parse the allow origin suffix matching option
+			allowOriginSuffixMatching = pr.getOptBoolean("cors.allowOriginSuffixMatching", false);
+			
 			// Parse the allowed origins list
 			
 			String originSpec = pr.getOptString("cors.allowOrigin", "*").trim();
@@ -226,7 +274,9 @@ public class CORSConfiguration {
 				for (String url: urls) {
 
 					try {
-						allowedOrigins.add(new Origin(url).toString());
+						
+						Origin origin = new Origin(url);
+						allowedOrigins.add(origin.toString());
 
                                 	} catch (OriginException e) {
                                         	throw new PropertyParseException("Bad origin URL in property cors.allowOrigin: " + url);

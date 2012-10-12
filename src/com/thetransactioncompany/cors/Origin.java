@@ -22,7 +22,9 @@ import java.net.IDN;
  * </pre>
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2010-09-24)
+ * @author Luis Sala
+ * @author Jared Ottley
+ * @version $version$ (2012-10-12)
  */
 public class Origin {
 
@@ -153,6 +155,29 @@ public class Origin {
 		return s;
 	}
 	
+	/**
+	* Returns the suffix which is made up of the host plus and port defined
+	*
+	* @return The suffix as a string
+	*/
+	public String getSuffix() {
+		String s = host;
+		
+		if (port != -1)
+			s = s + ":" + port;
+		
+		return s;
+	}
+	
+	/**
+	* Returns the scheme
+	*
+	* @return returns the scheme as a string
+	*/
+	public String getScheme() {
+
+		return scheme;
+	}
 	
 	/**
 	 * Overrides {@code Object.hashCode}.
