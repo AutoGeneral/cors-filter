@@ -79,7 +79,7 @@ public class CORSConfiguration {
                 	return true;
 		
 		if (this.allowOriginSuffixMatching)
-        	return originSuffixAllowed(origin);
+        	return isOriginSuffixAllowed(origin);
 
 		if (origin == null)
 			return false;
@@ -102,7 +102,7 @@ public class CORSConfiguration {
 	 *
 	 * @return {@code true} if the origin suffix is allowed, else {@code false}.
 	 */
-	public final boolean originSuffixAllowed(final String originString) {
+	public final boolean isOriginSuffixAllowed(final String originString) {
 		
 		boolean allowed = false;
 		
