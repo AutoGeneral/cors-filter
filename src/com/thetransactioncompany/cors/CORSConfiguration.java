@@ -44,7 +44,7 @@ public class CORSConfiguration {
 	 * If {@code true} the CORS filter must allow requests from any origin
 	 * whose suffix matches any of the {@link #allowedOrigins}.
 	 *
-	 * <p>Property key: cors.allowOrigin (set to {@code *})
+	 * <p>Property key: cors.allowOriginSuffixMatching
 	 */
 	public final boolean allowOriginSuffixMatching;
 	
@@ -106,19 +106,21 @@ public class CORSConfiguration {
 		
 		boolean allowed = false;
 		
-		try {
-			Origin origin = new Origin(originString);
-			
-			String originSuffix = origin.getSuffix();
-			
-			for (String allowedOriginString: allowedOrigins) {
-				Origin allowedOrigin = new Origin(allowedOriginString);
-				if (originSuffix.endsWith(allowedOrigin.getSuffix()) && origin.getScheme().equalsIgnoreCase(allowedOrigin.getScheme()))
-					return true;
-			}
-			
-		} catch (OriginException e) {
-			return allowed;
+		if (allowOriginSuffixMatching) {		
+    		try {
+    			Origin origin = new Origin(originString);
+    			
+    			String originSuffix = origin.getSuffix();
+    			
+    			for (String allowedOriginString: allowedOrigins) {
+    				Origin allowedOrigin = new Origin(allowedOriginString);
+    				if (originSuffix.endsWith(allowedOrigin.getSuffix()) && origin.getScheme().equalsIgnoreCase(allowedOrigin.getScheme()))
+    					return true;
+    			}
+    			
+    		} catch (OriginException e) {
+    			return allowed;
+    		}
 		}
 		return allowed;
 	}

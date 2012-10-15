@@ -10,7 +10,8 @@ import junit.framework.*;
  * Tests the origin class.
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2010-09-24)
+ * @author Jared Ottley
+ * @version $version$ (2012-10-15)
  */
 public class OriginTest extends TestCase {
         
@@ -198,4 +199,54 @@ public class OriginTest extends TestCase {
 	
 		assertTrue(o.equals(uri));
 	}
+	
+	public void testGetScheme() {
+	    String uri = "http://example.com";
+	    
+	    Origin o = null;
+	    
+	    try {
+	        o = new Origin(uri);
+	        
+	    } catch (OriginException e) {
+	        
+	        fail(e.getMessage());
+	    }
+	    
+	    assertEquals("http", o.getScheme());
+	}
+	
+	   public void testGetSuffix1() {
+	        String uri = "http://example.com:8080";
+	        
+	        Origin o = null;
+	        
+	        try {
+	            o = new Origin(uri);
+	            
+	        } catch (OriginException e) {
+	            
+	            fail(e.getMessage());
+	        }
+	        
+	        assertEquals("example.com:8080", o.getSuffix());
+	    }
+	   
+       public void testGetSuffix2() {
+           String uri = "http://example.com";
+           
+           Origin o = null;
+           
+           try {
+               o = new Origin(uri);
+               
+           } catch (OriginException e) {
+               
+               fail(e.getMessage());
+           }
+           
+           assertEquals("example.com", o.getSuffix());
+       }
+	
+	
 }
