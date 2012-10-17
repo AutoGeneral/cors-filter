@@ -291,7 +291,6 @@ public class CORSConfiguration {
 				allowAnyOrigin = true;
 			}
 			else {
-
 				allowAnyOrigin = false;
 
 				String[] urls = parseWords(originSpec);
@@ -299,7 +298,6 @@ public class CORSConfiguration {
 				for (String url: urls) {
 
 					try {
-						
 						Origin origin = new Origin(url);
 						allowedOrigins.add(origin.toString());
 

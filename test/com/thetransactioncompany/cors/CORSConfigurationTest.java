@@ -304,4 +304,32 @@ public class CORSConfigurationTest extends TestCase {
 		assertTrue(c.isAllowedOriginSuffix(originString));
 		assertTrue(c.isAllowedOrigin(originString));
 	}
+	
+	
+	public void testStrictAllowOriginSuffixMatching() {
+	
+		String origin = "http://example.com:8080";
+		String originWithSuffix = "http://myexample.com:8080";
+
+		Properties p = new Properties();
+		p.setProperty("cors.allowOriginSuffixMatching", "true");
+		p.setProperty("cors.allowOrigin", origin);
+		
+
+		CORSConfiguration c = null;
+
+		try {
+
+			c = new CORSConfiguration(p);
+
+		} catch (CORSConfigurationException e) {
+		
+			fail(e.getMessage());
+		}
+
+		assertTrue(c.allowOriginSuffixMatching);
+		assertFalse(c.isAllowedOriginSuffix(originWithSuffix));
+		assertTrue(c.isAllowedOrigin(origin));
+		assertFalse(c.isAllowedOrigin(originWithSuffix));
+	}
 }
