@@ -7,18 +7,17 @@ import java.net.IDN;
 
 
 /**
- * Represents a resource request origin, as defined in IETF's 
- * draft-abarth-origin-07. Supported protocols are {@code http}, {@code https}
- * and {@code file}.
+ * Represents a resource request origin, as defined in RFC 6454. Supported 
+ * protocols are {@code http}, {@code https} and {@code file}.
  *
  * <p>Examples:
  *
  * <pre>
- *         http://www.example.com
- *         https://sso.example.com:8080
- *         http://192.168.0.1
- *         file:///data/file.html
- *         null
+ * http://www.example.com
+ * https://sso.example.com:8080
+ * http://192.168.0.1
+ * file:///data/file.html
+ * null
  * </pre>
  *
  * @author Vladimir Dzhuvinov
@@ -66,7 +65,7 @@ public class Origin {
 	 */
 	public Origin() {
 	
-		// Leave all fields at their default null
+		// Leave all fields at their default null values
 	}
 
 	
@@ -155,12 +154,21 @@ public class Origin {
 		return s;
 	}
 	
+	
 	/**
-	* Returns the suffix which is made up of the host plus and port defined
-	*
-	* @return The suffix as a string
-	*/
+	 * Returns the suffix which is made up of the hostname and port.
+	 *
+	 * <p>Example:
+	 *
+	 * <pre>
+	 * http://example.com => example.com
+	 * http://example.com:8080 => example.com:8080
+	 * </pre>
+	 *
+	 * @return The suffix as a string.
+	 */
 	public String getSuffix() {
+		
 		String s = host;
 		
 		if (port != -1)
@@ -169,15 +177,17 @@ public class Origin {
 		return s;
 	}
 	
+	
 	/**
-	* Returns the scheme
-	*
-	* @return returns the scheme as a string
-	*/
+	 * Returns the scheme.
+	 *
+	 * @return The scheme as a string.
+	 */
 	public String getScheme() {
 
 		return scheme;
 	}
+	
 	
 	/**
 	 * Overrides {@code Object.hashCode}.

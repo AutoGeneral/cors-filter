@@ -12,12 +12,12 @@ import com.thetransactioncompany.util.PropertyRetriever;
 /**
  * The CORS filter configuration (typically originating from the web application
  * descriptor file {@code web.xml}). The fields become immutable (final) after 
- * the are initialised.
+ * they are initialised.
  *
  * @author Vladimir Dzhuvinov
  * @author Luis Sala
  * @author Jared Ottley
- * @version $version$ (2012-10-12)
+ * @version $version$ (2012-10-17)
  */
 public class CORSConfiguration {
 	
@@ -39,10 +39,20 @@ public class CORSConfiguration {
 	 * <p>Property key: cors.allowOrigin (set to {@code *})
 	 */
 	public final boolean allowAnyOrigin;
-
+	
+	
 	/**
 	 * If {@code true} the CORS filter must allow requests from any origin
-	 * whose suffix matches any of the {@link #allowedOrigins}.
+	 * whose suffix matches any of the {@link #allowedOrigins}. Used to 
+	 * match any subdomain.
+	 *
+	 * <p>Example:
+	 *
+	 * <p>Allowed origin: {@code http://example.com}
+	 *
+	 * <p>Matches the original origin as well as any subdomain: 
+	 * {@code http://example.com}, {@code http://server1.example.com}, 
+	 * {@code http://server2.example.com}, etc...
 	 *
 	 * <p>Property key: cors.allowOriginSuffixMatching
 	 */
@@ -78,52 +88,64 @@ public class CORSConfiguration {
         	if (allowAnyOrigin)
                 	return true;
 		
-		if (this.allowOriginSuffixMatching)
-        	return isOriginSuffixAllowed(origin);
-
 		if (origin == null)
 			return false;
 		
+		if (allowOriginSuffixMatching)
+        		return isAllowedOriginSuffix(origin);
+		
         	if (allowedOrigins.contains(origin))
 			return true;
-		else
-			return false;
+		
+		return false;
 	}
 	
 	/**
-	 * Helper method to check whether requests from the specified origin suffix and scheme
-	 * are allowed. This is done by looking up the Origin's scheme and host name 
-	 * and matching with {@link #allowedOrigins} but also allowing for subdomains.
-	 * eg. Origin: https://foo.example.com matches cors.allowedOrigin = https://example.com
-	 * whereas cors.allowedOrigin = http://example.com would not match.
+	 * Helper method to check whether requests from the specified origin
+	 * suffix and scheme are allowed. This is done by looking up the 
+	 * Origin's scheme and host name and matching with 
+	 * {@link #allowedOrigins} but also allowing for subdomains.
 	 *
-	 * @param originString The origin as reported by the web client (browser), 
-	 *               {@code null} if unknown.
+	 * <p>Example: {@code Origin: https://foo.example.com } matches 
+	 * {@code cors.allowedOrigin = https://example.com } whereas 
+	 * {@code cors.allowedOrigin = http://example.com } would not match.
 	 *
-	 * @return {@code true} if the origin suffix is allowed, else {@code false}.
+	 * @param originString The origin as reported by the web client 
+	 *                     (browser), {@code null} if unknown.
+	 *
+	 * @return {@code true} if the origin suffix is allowed, else 
+	 *         {@code false}.
 	 */
-	public final boolean isOriginSuffixAllowed(final String originString) {
+	public final boolean isAllowedOriginSuffix(final String originString) {
 		
 		boolean allowed = false;
 		
-		if (allowOriginSuffixMatching) {		
-    		try {
-    			Origin origin = new Origin(originString);
+		if (allowOriginSuffixMatching) {
+			
+    			try {
+    				Origin origin = new Origin(originString);
+				
+				String originSuffix = origin.getSuffix();
     			
-    			String originSuffix = origin.getSuffix();
+				for (String allowedOriginString: allowedOrigins) {
+					
+					Origin allowedOrigin = new Origin(allowedOriginString);
+					
+					if (originSuffix.endsWith(allowedOrigin.getSuffix()) && 
+					    origin.getScheme().equalsIgnoreCase(allowedOrigin.getScheme()))
+
+						return true;
+    				}
+			
+			} catch (OriginException e) {
     			
-    			for (String allowedOriginString: allowedOrigins) {
-    				Origin allowedOrigin = new Origin(allowedOriginString);
-    				if (originSuffix.endsWith(allowedOrigin.getSuffix()) && origin.getScheme().equalsIgnoreCase(allowedOrigin.getScheme()))
-    					return true;
-    			}
-    			
-    		} catch (OriginException e) {
-    			return allowed;
-    		}
+				return allowed;
+			}
 		}
+		
 		return allowed;
 	}
+	
 	
 	/**
 	 * The supported HTTP methods. Requests for methods not included here 
@@ -230,17 +252,21 @@ public class CORSConfiguration {
 	 * to the specified values):
 	 *
 	 * <ul>
-	 *     <li>cors.allowGenericHttpRequests {true|false} defaults to {@code true}.
-	 *     <li>cors.allowOriginSuffixMatching {true|false} defaults to {@code false}.
+	 *     <li>cors.allowGenericHttpRequests {true|false} defaults to 
+	 *         {@code true}.
 	 *     <li>cors.allowOrigin {"*"|origin-list} defaults to {@code *}.
-	 *     <li>cors.supportedMethods {method-list} defaults to {@code "GET, POST, HEAD, OPTIONS"}.
+	 *     <li>cors.allowOriginSuffixMatching {true|false} defaults to 
+	 *         {@code false}.
+	 *     <li>cors.supportedMethods {method-list} defaults to {@code "GET, 
+	 *         POST, HEAD, OPTIONS"}.
 	 *     <li>cors.supportedHeaders {header-list} defaults to empty list.
 	 *     <li>cors.exposedHeaders {header-list} defaults to empty list.
-	 *     <li>cors.supportsCredentials {true|false} defaults to {@code true}.
+	 *     <li>cors.supportsCredentials {true|false} defaults to 
+	 *         {@code true}.
 	 *     <li>cors.maxAge {int} defaults to {@code -1} (unspecified).
 	 * </ul>
 	 *
-	 * @param props The properties.
+	 * @param props The properties. Must not be {@code null}.
 	 *
 	 * @throws CORSConfigurationException On a invalid property.
 	 */
@@ -253,9 +279,6 @@ public class CORSConfiguration {
 			// Parse the allow generic HTTP requests option
 			
 			allowGenericHttpRequests = pr.getOptBoolean("cors.allowGenericHttpRequests", true);
-
-			// Parse the allow origin suffix matching option
-			allowOriginSuffixMatching = pr.getOptBoolean("cors.allowOriginSuffixMatching", false);
 			
 			// Parse the allowed origins list
 			
@@ -285,6 +308,9 @@ public class CORSConfiguration {
                                 	}
 				}
 			}
+			
+			// Parse the allow origin suffix matching option
+			allowOriginSuffixMatching = pr.getOptBoolean("cors.allowOriginSuffixMatching", false);
 			
 
 			// Parse the supported methods list

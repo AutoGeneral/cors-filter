@@ -3,14 +3,14 @@ package com.thetransactioncompany.cors;
 
 import java.util.*;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
 
 /**
  * Tests the CORS configuration class.
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2010-09-27)
+ * @version $version$ (2010-10-17)
  */
 public class CORSConfigurationTest extends TestCase {
 	
@@ -256,48 +256,52 @@ public class CORSConfigurationTest extends TestCase {
 	
 	}
 	
+	
 	public void testNotAllowOriginSuffixMatching(){
 	    
-	    String origin = "http://example.com:8080";
-	    String originWithSuffix = "http://test.example.com:8080";
-	    
-	    Properties p = new Properties();
-	    p.setProperty("cors.allowOrigin", origin);
-	    
-	    CORSConfiguration c = null;
-	    
-	    try {
-	        c = new CORSConfiguration(p);
-	        
-	    } catch (CORSConfigurationException e) {
-	        fail(e.getMessage());
-	    }
-	    
-	    assertFalse(c.allowOriginSuffixMatching);
-	    assertFalse(c.isOriginSuffixAllowed(originWithSuffix));
-	    assertTrue(c.isAllowedOrigin(origin));
-	    assertFalse(c.isAllowedOrigin(originWithSuffix));
+		String origin = "http://example.com:8080";
+		String originWithSuffix = "http://test.example.com:8080";
+
+		Properties p = new Properties();
+		p.setProperty("cors.allowOrigin", origin);
+
+		CORSConfiguration c = null;
+
+		try {
+
+			c = new CORSConfiguration(p);
+
+		} catch (CORSConfigurationException e) {
+		
+			fail(e.getMessage());
+		}
+
+		assertFalse(c.allowOriginSuffixMatching);
+		assertFalse(c.isAllowedOriginSuffix(originWithSuffix));
+		assertTrue(c.isAllowedOrigin(origin));
+		assertFalse(c.isAllowedOrigin(originWithSuffix));
 	}
 	
-	   public void testAllowOriginSuffixMatching(){
-	        
-	        Properties p = new Properties();
-	        p.setProperty("cors.allowOriginSuffixMatching", "true");
-	        p.setProperty("cors.allowOrigin", "http://example.com:8080");
-	        
-	        CORSConfiguration c = null;
-	        
-	        try {
-	            c = new CORSConfiguration(p);
-	            
-	        } catch (CORSConfigurationException e) {
-	            fail(e.getMessage());
-	        }
-	        
-	        String originString = "http://test.example.com:8080";
-	        
-	        assertTrue(c.isOriginSuffixAllowed(originString));
-	        assertTrue(c.isAllowedOrigin(originString));
-	    }
 
+	public void testAllowOriginSuffixMatching(){
+
+		Properties p = new Properties();
+		p.setProperty("cors.allowOriginSuffixMatching", "true");
+		p.setProperty("cors.allowOrigin", "http://example.com:8080");
+
+		CORSConfiguration c = null;
+
+		try {
+			c = new CORSConfiguration(p);
+
+		} catch (CORSConfigurationException e) {
+
+			fail(e.getMessage());
+		}
+
+		String originString = "http://test.example.com:8080";
+
+		assertTrue(c.isAllowedOriginSuffix(originString));
+		assertTrue(c.isAllowedOrigin(originString));
+	}
 }
