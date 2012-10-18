@@ -83,4 +83,9 @@ version 1.3.2 (2012-07-31)
 	* Adds Maven POM.
 	* Updates Ant build.xml script.
 
+version 1.4 (2012-10-18)
+	* Adds new optional cors.allowSubdomains configuration parameter to
+	  enable domain suffix matching (contributed by Jared Ottley and Luis
+	  Sala of Alfresco).
+
 [EOF]

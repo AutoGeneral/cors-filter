@@ -17,7 +17,7 @@ import com.thetransactioncompany.util.PropertyRetriever;
  * @author Vladimir Dzhuvinov
  * @author Luis Sala
  * @author Jared Ottley
- * @version $version$ (2012-10-17)
+ * @version $version$ (2012-10-18)
  */
 public class CORSConfiguration {
 	
@@ -42,24 +42,6 @@ public class CORSConfiguration {
 	
 	
 	/**
-	 * If {@code true} the CORS filter must allow requests from any origin
-	 * whose suffix matches any of the {@link #allowedOrigins}. Used to 
-	 * match any subdomain.
-	 *
-	 * <p>Example:
-	 *
-	 * <p>Allowed origin: {@code http://example.com}
-	 *
-	 * <p>Matches the original origin as well as any subdomain: 
-	 * {@code http://example.com}, {@code http://server1.example.com}, 
-	 * {@code http://server2.example.com}, etc...
-	 *
-	 * <p>Property key: cors.allowOriginSuffixMatching
-	 */
-	public final boolean allowOriginSuffixMatching;
-	
-	
-	/**
 	 * Whitelisted origins that the CORS filter must allow. Requests from 
 	 * origins not included here must be refused with a HTTP 403 "Forbidden"
 	 * response. This property is overriden by {@link #allowAnyOrigin}.
@@ -72,11 +54,28 @@ public class CORSConfiguration {
 	 */
 	public final Set<String> allowedOrigins;
 	
+	
+	/**
+	 * If {@code true} the CORS filter must allow requests from any origin
+	 * which is a subdomain of the {@link #allowedOrigins}.
+	 *
+	 * <p>Example:
+	 *
+	 * <p>Explicitly allowed origin: {@code http://example.com}
+	 *
+	 * <p>Matches the original origin as well as any subdomain, e.g. 
+	 * {@code http://s1.example.com}, {@code http://s2.example.com}, etc...
+	 *
+	 * <p>Property key: cors.allowSubdomains
+	 */
+	public final boolean allowSubdomains;
+	
 
 	/**
 	 * Helper method to check whether requests from the specified origin 
 	 * must be allowed. This is done by looking up {@link #allowAnyOrigin} 
-	 * and {@link #allowedOrigins} (in that order).
+	 * and {@link #allowedOrigins} (in that order, observing the subdomains
+	 * setting).
 	 *
 	 * @param origin The origin as reported by the web client (browser), 
 	 *               {@code null} if unknown.
@@ -91,59 +90,55 @@ public class CORSConfiguration {
 		if (origin == null)
 			return false;
 		
-		if (allowOriginSuffixMatching)
-        		return isAllowedOriginSuffix(origin);
-		
-        	if (allowedOrigins.contains(origin))
+		if (allowedOrigins.contains(origin))
 			return true;
+			
+		else if (allowSubdomains)
+			return isAllowedSubdomainOrigin(origin);
 		
 		return false;
 	}
 	
 	/**
-	 * Helper method to check whether requests from the specified origin
-	 * suffix and scheme are allowed. This is done by looking up the 
-	 * Origin's scheme and host name and matching with 
-	 * {@link #allowedOrigins} but also allowing for subdomains.
+	 * Helper method to check whether the specified origin is a subdomain of
+	 * the {@link #allowedOrigins}. This is done by looking up the origin's 
+	 * scheme and hostname and matching them with each of the 
+	 * {@link #allowedOrigins}.
 	 *
 	 * <p>Example: {@code Origin: https://foo.example.com } matches 
 	 * {@code cors.allowedOrigin = https://example.com } whereas 
 	 * {@code cors.allowedOrigin = http://example.com } would not match.
 	 *
-	 * @param originString The origin as reported by the web client 
-	 *                     (browser), {@code null} if unknown.
+	 * @param origin The origin as reported by the web client (browser), 
+	 *               {@code null} if unknown.
 	 *
-	 * @return {@code true} if the origin suffix is allowed, else 
-	 *         {@code false}.
+	 * @return {@code true} if the origin is an allowed subdomain origin, 
+	 *         else {@code false}.
 	 */
-	public final boolean isAllowedOriginSuffix(final String originString) {
+	public final boolean isAllowedSubdomainOrigin(final String origin) {
 		
-		boolean allowed = false;
-		
-		if (allowOriginSuffixMatching) {
+		try {
+			Origin o = new Origin(origin);
 			
-    			try {
-    				Origin origin = new Origin(originString);
+			String scheme = o.getScheme();
+			String suffix = o.getSuffix();
+			
+			for (String allowedOrigin: allowedOrigins) {
+					
+				Origin allowedO = new Origin(allowedOrigin);
 				
-				String originSuffix = origin.getSuffix();
-    			
-				for (String allowedOriginString: allowedOrigins) {
-					
-					Origin allowedOrigin = new Origin(allowedOriginString);
-					
-					if (originSuffix.endsWith(allowedOrigin.getSuffix()) && 
-					    origin.getScheme().equalsIgnoreCase(allowedOrigin.getScheme()))
+				if (suffix.endsWith("." + allowedO.getSuffix()) && 
+				    scheme.equalsIgnoreCase(allowedO.getScheme()))
 
-						return true;
-    				}
-			
-			} catch (OriginException e) {
-    			
-				return allowed;
+					return true;
 			}
+			
+		} catch (OriginException e) {
+    			
+			return false;
 		}
 		
-		return allowed;
+		return false;
 	}
 	
 	
@@ -255,7 +250,7 @@ public class CORSConfiguration {
 	 *     <li>cors.allowGenericHttpRequests {true|false} defaults to 
 	 *         {@code true}.
 	 *     <li>cors.allowOrigin {"*"|origin-list} defaults to {@code *}.
-	 *     <li>cors.allowOriginSuffixMatching {true|false} defaults to 
+	 *     <li>cors.allowOriginSubdomains {true|false} defaults to 
 	 *         {@code false}.
 	 *     <li>cors.supportedMethods {method-list} defaults to {@code "GET, 
 	 *         POST, HEAD, OPTIONS"}.
@@ -291,7 +286,6 @@ public class CORSConfiguration {
 				allowAnyOrigin = true;
 			}
 			else {
-
 				allowAnyOrigin = false;
 
 				String[] urls = parseWords(originSpec);
@@ -299,7 +293,6 @@ public class CORSConfiguration {
 				for (String url: urls) {
 
 					try {
-						
 						Origin origin = new Origin(url);
 						allowedOrigins.add(origin.toString());
 
@@ -310,7 +303,7 @@ public class CORSConfiguration {
 			}
 			
 			// Parse the allow origin suffix matching option
-			allowOriginSuffixMatching = pr.getOptBoolean("cors.allowOriginSuffixMatching", false);
+			allowSubdomains = pr.getOptBoolean("cors.allowSubdomains", false);
 			
 
 			// Parse the supported methods list
