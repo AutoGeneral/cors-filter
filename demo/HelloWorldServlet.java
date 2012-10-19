@@ -8,7 +8,7 @@ import javax.servlet.http.*;
 /**
  * Simple test servlet for CORS requests.
  *
- * @author <a href="http://dzhuvinov.com">Vladimir Dzhuvinov</a>
+ * @author Vladimir Dzhuvinov
  * @version 1.3 (2011-11-02)
  */
 public class HelloWorldServlet extends HttpServlet {

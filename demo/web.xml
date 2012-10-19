@@ -39,6 +39,11 @@
 		</init-param>
 		
 		<init-param>
+			<param-name>cors.allowSubdomains</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		
+		<init-param>
 			<param-name>cors.supportedMethods</param-name>
 			<param-value>GET, HEAD, POST, OPTIONS</param-value>
 		</init-param>
