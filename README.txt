@@ -10,12 +10,12 @@ Resource Sharing (CORS) mechanism for allowing cross-domain HTTP requests from
 web browsers. The CORS W3C working draft settled in 2009 and as of 2010 CORS is 
 supported by all major browsers such as Firefox, Safari, Chrome and IE.
 
-To enable CORS for a particular HTTP resource, such as a servlet, a JSP or a
-static file, attach a CORSFilter to it via a <filter-mapping> element in the 
+To enable CORS for a particular HTTP resource, such as a servlet, JSP or plain 
+HTML file, attach a CORSFilter to it via a <filter-mapping> element in the 
 web.xml descriptor file. The default CORS filter policy is to allow any origin 
-(including credentials). To impose a stricter access policy configure the filter 
-using the supported <init-param> tags in the web.xml file. See the CORSFilter 
-online documentation for configuration details.
+(including credentials). To impose a stricter access policy configure the filter
+using the supported <init-param> elements. See the CORSFilter JavaDoc for 
+configuration details. 
 
 This CORS filter version implements the W3C working draft from 2010-07-27:
 
@@ -83,10 +83,11 @@ version 1.3.2 (2012-07-31)
 	* Adds Maven POM.
 	* Updates Ant build.xml script.
 
-version 1.4 (2012-10-18)
+version 1.4 (2012-10-19)
 	* Adds new optional cors.allowSubdomains configuration parameter to
 	  enable domain suffix matching (contributed by Jared Ottley and Luis
 	  Sala of Alfresco).
 	* Removes support of file:// CORS scheme.
+	* Refactors Origin processing.
 
 [EOF]
