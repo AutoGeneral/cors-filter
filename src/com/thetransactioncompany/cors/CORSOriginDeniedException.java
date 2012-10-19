@@ -32,8 +32,8 @@ public class CORSOriginDeniedException extends CORSException {
 	 * Creates a new CORS origin denied exception with the specified 
 	 * message and request origins.
 	 *
-	 * @param message        The message.
-	 * @param requestOrigins The request origin, {@code null} if unknown.
+	 * @param message       The message.
+	 * @param requestOrigin The request origin, {@code null} if unknown.
 	 */
 	public CORSOriginDeniedException(final String message, final Origin requestOrigin) {
 	
