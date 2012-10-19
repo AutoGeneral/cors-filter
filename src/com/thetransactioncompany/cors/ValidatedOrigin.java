@@ -70,7 +70,6 @@ public class ValidatedOrigin extends Origin {
 		if (scheme == null)
 			throw new OriginException("Bad origin URI: Missing scheme, must be http or https");
 		
-		
 		// Canonicalise scheme and host
 		
 		scheme = scheme.toLowerCase();
