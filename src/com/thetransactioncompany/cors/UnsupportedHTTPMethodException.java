@@ -5,7 +5,7 @@ package com.thetransactioncompany.cors;
  * Unsupported HTTP method exception.
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2010-09-27)
+ * @version $version$ (2012-10-19)
  */
 public class UnsupportedHTTPMethodException extends CORSException {
 
@@ -13,7 +13,7 @@ public class UnsupportedHTTPMethodException extends CORSException {
 	/**
 	 * The requested HTTP method.
 	 */
-	private HTTPMethod method = null;
+	private final HTTPMethod method;
 	
 	
 	/**
