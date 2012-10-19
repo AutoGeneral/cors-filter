@@ -92,6 +92,7 @@
 				<propertyref prefix="log4j"/>
 			</syspropertyset>
 			<test name="com.thetransactioncompany.cors.OriginTest"/>
+			<test name="com.thetransactioncompany.cors.ValidatedOriginTest"/>
 			<test name="com.thetransactioncompany.cors.HeaderFieldNameTest"/>
 			<test name="com.thetransactioncompany.cors.CORSConfigurationTest"/>
 		</junit>

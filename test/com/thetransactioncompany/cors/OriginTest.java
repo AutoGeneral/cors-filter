@@ -1,252 +1,69 @@
 package com.thetransactioncompany.cors;
 
 
-import java.util.*;
-
-import junit.framework.*;
+import junit.framework.TestCase;
 
 
 /**
- * Tests the origin class.
+ * Tests the base origin class.
  *
  * @author Vladimir Dzhuvinov
  * @author Jared Ottley
- * @version $version$ (2012-10-15)
+ * @version $version$ (2012-10-19)
  */
 public class OriginTest extends TestCase {
         
         
-        public void testConstructorUnknown() {
-        
-                Origin o = new Origin();
-		
-		assertTrue(o.equals(Origin.UNKNOWN));
-        }
-	
-	
-	public void testConstructor1() {
+	public void testOrigin() {
 	
 		String uri = "http://example.com";
 		
-		Origin o = null;
-		
-		try {
-			o = new Origin(uri);
-		
-		} catch (OriginException e) {
-			fail(e.getMessage());
-		}
+		Origin o = new Origin(uri);
 		
 		assertEquals(uri, o.toString());
+		assertEquals(uri.hashCode(), o.hashCode());
 	}
 	
 	
-	public void testConstructor2() {
+	public void testOriginEquality() {
 	
-		String uri = "HTTP://example.com";
+		String uri = "http://example.com";
 		
-		Origin o = null;
+		Origin o1 = new Origin(uri);
+		Origin o2 = new Origin(uri);
 		
-		try {
-			o = new Origin(uri);
-		
-		} catch (OriginException e) {
-			fail(e.getMessage());
-		}
-		
-		assertEquals("http://example.com", o.toString());
-	}
-	
-	
-	public void testConstructor3() {
-	
-		String uri = "https://example.com";
-		
-		Origin o = null;
-		
-		try {
-			o = new Origin(uri);
-		
-		} catch (OriginException e) {
-			fail(e.getMessage());
-		}
-		
-		assertEquals(uri, o.toString());
-	}
-	
-	public void testConstructor4() {
-	
-		String uri = "file:///data/file.xml";
-		
-		Origin o = null;
-		
-		try {
-			o = new Origin(uri);
-		
-		} catch (OriginException e) {
-			fail(e.getMessage());
-		}
-		
-		assertEquals(uri, o.toString());
-	}
-	
-	
-	public void testConstructor5() {
-	
-		String uri = "http://192.168.0.1:8080";
-		
-		Origin o = null;
-		
-		try {
-			o = new Origin(uri);
-		
-		} catch (OriginException e) {
-			fail(e.getMessage());
-		}
-		
-		assertEquals(uri, o.toString());
-	}
-	
-	
-	public void testConstructor6() {
-	
-		String uri = "https://LOCALHOST:8080/my-app/upload.php";
-		
-		Origin o = null;
-		
-		try {
-			o = new Origin(uri);
-		
-		} catch (OriginException e) {
-			fail(e.getMessage());
-		}
-		
-		assertEquals("https://localhost:8080", o.toString());
-	}
-	
-	
-	public void testConstructor7() {
-	
-		String uri = "ftp://ftp.example.com";
-		
-		Origin o = null;
-		
-		try {
-			o = new Origin(uri);
-			fail("Failed to raise bad protocol exception on FTP://");
-			
-		} catch (OriginException e) {
-			// ok
-		}
-	}
-	
-	
-	public void testEquality1() {
-	
-		String uri1 = "http://MY.service.com";
-		String uri2 = "HTTP://my.service.com/my-app";
-		
-		Origin o1 = null;
-		Origin o2 = null;
-		
-		try {
-			o1 = new Origin(uri1);
-			o2 = new Origin(uri2);
-		
-		} catch (OriginException e) {
-		
-			fail(e.getMessage());
-		}
-	
 		assertTrue(o1.equals(o2));
 	}
 	
 	
-	public void testEquality2() {
+	public void testOriginInequality() {
 	
-		String uri1 = "http://MY.service.com";
-		String uri2 = "HTTPS://my.service.com/my-app";
+		String uri1 = "http://example.com";
+		String uri2 = "HTTP://EXAMPLE.COM";
 		
-		Origin o1 = null;
-		Origin o2 = null;
+		Origin o1 = new Origin(uri1);
+		Origin o2 = new Origin(uri2);
 		
-		try {
-			o1 = new Origin(uri1);
-			o2 = new Origin(uri2);
-		
-		} catch (OriginException e) {
-		
-			fail(e.getMessage());
-		}
-	
 		assertFalse(o1.equals(o2));
 	}
 	
 	
-	public void testEqualityWithString() {
+	public void testValidation() {
 	
-		String uri = "http://my.service.com";
+		String uri = "http://example.com";
 		
-		Origin o = null;
+		ValidatedOrigin validatedOrigin = null;
 		
 		try {
-			o = new Origin(uri);
-		
+			validatedOrigin = new Origin(uri).validate();
+			
 		} catch (OriginException e) {
 		
 			fail(e.getMessage());
 		}
-	
-		assertTrue(o.equals(uri));
+		
+		assertNotNull(validatedOrigin);
+		
+		assertEquals(uri, validatedOrigin.toString());
 	}
-	
-	public void testGetScheme() {
-	    String uri = "http://example.com";
-	    
-	    Origin o = null;
-	    
-	    try {
-	        o = new Origin(uri);
-	        
-	    } catch (OriginException e) {
-	        
-	        fail(e.getMessage());
-	    }
-	    
-	    assertEquals("http", o.getScheme());
-	}
-	
-	   public void testGetSuffix1() {
-	        String uri = "http://example.com:8080";
-	        
-	        Origin o = null;
-	        
-	        try {
-	            o = new Origin(uri);
-	            
-	        } catch (OriginException e) {
-	            
-	            fail(e.getMessage());
-	        }
-	        
-	        assertEquals("example.com:8080", o.getSuffix());
-	    }
-	   
-       public void testGetSuffix2() {
-           String uri = "http://example.com";
-           
-           Origin o = null;
-           
-           try {
-               o = new Origin(uri);
-               
-           } catch (OriginException e) {
-               
-               fail(e.getMessage());
-           }
-           
-           assertEquals("example.com", o.getSuffix());
-       }
-	
-	
 }

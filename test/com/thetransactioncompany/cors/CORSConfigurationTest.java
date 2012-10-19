@@ -1,7 +1,7 @@
 package com.thetransactioncompany.cors;
 
 
-import java.util.*;
+import java.util.Properties;
 
 import junit.framework.TestCase;
 
@@ -10,7 +10,7 @@ import junit.framework.TestCase;
  * Tests the CORS configuration class.
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2010-10-17)
+ * @version $version$ (2010-10-19)
  */
 public class CORSConfigurationTest extends TestCase {
 	
@@ -71,7 +71,7 @@ public class CORSConfigurationTest extends TestCase {
 		assertTrue(c.allowGenericHttpRequests);
 		
 		assertTrue(c.allowAnyOrigin);
-		assertTrue(c.isAllowedOrigin("http://example.com"));
+		assertTrue(c.isAllowedOrigin(new Origin("http://example.com")));
 		
 		assertTrue(c.isSupportedMethod(HTTPMethod.GET));
 		assertTrue(c.isSupportedMethod(HTTPMethod.POST));
@@ -108,7 +108,7 @@ public class CORSConfigurationTest extends TestCase {
 		assertTrue(c.allowGenericHttpRequests);
 		
 		assertTrue(c.allowAnyOrigin);		
-		assertTrue(c.isAllowedOrigin("http://example.com"));
+		assertTrue(c.isAllowedOrigin(new Origin("http://example.com")));
 		
 		assertTrue(c.isSupportedMethod(HTTPMethod.GET));
 		assertTrue(c.isSupportedMethod(HTTPMethod.POST));
@@ -140,10 +140,10 @@ public class CORSConfigurationTest extends TestCase {
 		assertFalse(c.allowGenericHttpRequests);
 		
 		assertFalse(c.allowAnyOrigin);
-		assertTrue(c.isAllowedOrigin("http://example.com:8080"));
-		assertFalse(c.isAllowedOrigin("http://example.com:8008"));
-		assertFalse(c.isAllowedOrigin("http://example.com"));
-		assertFalse(c.isAllowedOrigin("http://deny-origin.com"));
+		assertTrue(c.isAllowedOrigin(new Origin("http://example.com:8080")));
+		assertFalse(c.isAllowedOrigin(new Origin("http://example.com:8008")));
+		assertFalse(c.isAllowedOrigin(new Origin("http://example.com")));
+		assertFalse(c.isAllowedOrigin(new Origin("http://deny-origin.com")));
         }
 	
 	
@@ -257,13 +257,13 @@ public class CORSConfigurationTest extends TestCase {
 	}
 	
 	
-	public void testNotAllowOriginSuffixMatching(){
+	public void testDenySubdomainOrigins(){
 	    
-		String origin = "http://example.com:8080";
-		String originWithSuffix = "http://test.example.com:8080";
+		Origin origin = new Origin("http://example.com:8080");
+		Origin subdomainOrigin = new Origin("http://test.example.com:8080");
 
 		Properties p = new Properties();
-		p.setProperty("cors.allowOrigin", origin);
+		p.setProperty("cors.allowOrigin", origin.toString());
 
 		CORSConfiguration c = null;
 
@@ -276,17 +276,17 @@ public class CORSConfigurationTest extends TestCase {
 			fail(e.getMessage());
 		}
 
-		assertFalse(c.allowOriginSuffixMatching);
-		assertFalse(c.isAllowedOriginSuffix(originWithSuffix));
+		assertFalse(c.allowSubdomains);
+		assertTrue(c.isAllowedSubdomainOrigin(subdomainOrigin));
 		assertTrue(c.isAllowedOrigin(origin));
-		assertFalse(c.isAllowedOrigin(originWithSuffix));
+		assertFalse(c.isAllowedOrigin(subdomainOrigin));
 	}
 	
 
-	public void testAllowOriginSuffixMatching(){
+	public void testAllowSubdomainOrigin(){
 
 		Properties p = new Properties();
-		p.setProperty("cors.allowOriginSuffixMatching", "true");
+		p.setProperty("cors.allowSubdomains", "true");
 		p.setProperty("cors.allowOrigin", "http://example.com:8080");
 
 		CORSConfiguration c = null;
@@ -299,37 +299,15 @@ public class CORSConfigurationTest extends TestCase {
 			fail(e.getMessage());
 		}
 
-		String originString = "http://test.example.com:8080";
+		Origin origin = new Origin("http://test.example.com:8080");
 
-		assertTrue(c.isAllowedOriginSuffix(originString));
-		assertTrue(c.isAllowedOrigin(originString));
-	}
-	
-	
-	public void testStrictAllowOriginSuffixMatching() {
-	
-		String origin = "http://example.com:8080";
-		String originWithSuffix = "http://myexample.com:8080";
-
-		Properties p = new Properties();
-		p.setProperty("cors.allowOriginSuffixMatching", "true");
-		p.setProperty("cors.allowOrigin", origin);
-		
-
-		CORSConfiguration c = null;
-
-		try {
-
-			c = new CORSConfiguration(p);
-
-		} catch (CORSConfigurationException e) {
-		
-			fail(e.getMessage());
-		}
-
-		assertTrue(c.allowOriginSuffixMatching);
-		assertFalse(c.isAllowedOriginSuffix(originWithSuffix));
+		assertTrue(c.isAllowedSubdomainOrigin(origin));
 		assertTrue(c.isAllowedOrigin(origin));
-		assertFalse(c.isAllowedOrigin(originWithSuffix));
+		
+		
+		origin = new Origin("http://myexample.com:8080");
+
+		assertFalse(c.isAllowedSubdomainOrigin(origin));
+		assertFalse(c.isAllowedOrigin(origin));
 	}
 }

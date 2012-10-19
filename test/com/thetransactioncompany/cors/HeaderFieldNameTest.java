@@ -1,7 +1,7 @@
 package com.thetransactioncompany.cors;
 
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
 
 /**
