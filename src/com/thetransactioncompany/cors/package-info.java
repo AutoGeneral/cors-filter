@@ -33,13 +33,14 @@
  * </ul>
  *
  * <p>This CORS filter version implements the W3C 
- * <a href="http://www.w3.org/TR/cors/">working draft</a> from 2010-07-10.</p>
+ * <a href="http://www.w3.org/TR/2012/WD-cors-20120403/">working draft</a> from 
+ * 2012-04-03.</p>
  *
  * <p>Supported CORS request types:</p>
  * 		    
  * <ul>
- *         <li><a href="http://www.w3.org/TR/cors/#resource-requests">Simple / actual requests</a></li>
- *         <li><a href="http://www.w3.org/TR/cors/#resource-preflight-requests">Preflight requests</a></li>
+ *         <li><a href="http://www.w3.org/TR/2012/WD-cors-20120403/#resource-requests">Simple / actual requests</a></li>
+ *         <li><a href="http://www.w3.org/TR/2012/WD-cors-20120403/#resource-preflight-requests">Preflight requests</a></li>
  * 
  * </ul>
  * 
@@ -48,21 +49,21 @@
  * <ul>
  *     <li>Request headers:
  *         <ul>
- *             <li><a href="http://www.w3.org/TR/cors/#origin-request-header">Origin</a></li>
- *             <li><a href="http://www.w3.org/TR/cors/#access-control-request-method-request-he">Access-Control-Request-Method</a></li>
- *             <li><a href="http://www.w3.org/TR/cors/#access-control-request-headers-request-h">Access-Control-Request-Headers</a></li>
+ *             <li><a href="http://www.w3.org/TR/2012/WD-cors-20120403/#origin-request-header">Origin</a></li>
+ *             <li><a href="http://www.w3.org/TR/2012/WD-cors-20120403/#access-control-request-method-request-header">Access-Control-Request-Method</a></li>
+ *             <li><a href="http://www.w3.org/TR/2012/WD-cors-20120403/#access-control-request-headers-request-header">Access-Control-Request-Headers</a></li>
  *         </ul>
  *     </li>
  *
  *     <li>Response headers:
  *         <ul>
- *             <li><a href="http://www.w3.org/TR/cors/#access-control-allow-origin-response-hea">Access-Control-Allow-Origin</a></li>
- *             <li><a href="http://www.w3.org/TR/cors/#access-control-allow-credentials-respons">Access-Control-Allow-Credentials</a></li>
- *             <li><a href="http://www.w3.org/TR/cors/#access-control-allow-methods-response-he">Access-Control-Allow-Methods</a></li>
- *             <li><a href="http://www.w3.org/TR/cors/#access-control-allow-headers-response-he">Access-Control-Allow-Headers</a></li>
+ *             <li><a href="http://www.w3.org/TR/2012/WD-cors-20120403/#access-control-allow-origin-response-header">Access-Control-Allow-Origin</a></li>
+ *             <li><a href="http://www.w3.org/TR/2012/WD-cors-20120403/#access-control-allow-credentials-response-header">Access-Control-Allow-Credentials</a></li>
+ *             <li><a href="http://www.w3.org/TR/2012/WD-cors-20120403/#access-control-allow-methods-response-header">Access-Control-Allow-Methods</a></li>
+ *             <li><a href="http://www.w3.org/TR/2012/WD-cors-20120403/#access-control-allow-headers-response-header">Access-Control-Allow-Headers</a></li>
  * 
- *             <li><a href="http://www.w3.org/TR/cors/#access-control-expose-headers-response-h">Access-Control-Expose-Headers</a></li>
- *             <li><a href="http://www.w3.org/TR/cors/#access-control-max-age-response-header">Access-Control-Max-Age</a></li>
+ *             <li><a href="http://www.w3.org/TR/2012/WD-cors-20120403/#access-control-expose-headers-response-header">Access-Control-Expose-Headers</a></li>
+ *             <li><a href="http://www.w3.org/TR/2012/WD-cors-20120403/#access-control-max-age-response-header">Access-Control-Max-Age</a></li>
  *         </ul>
  *     </li>
  * </ul>

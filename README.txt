@@ -90,4 +90,8 @@ version 1.4 (2012-10-19)
 	* Removes support of file:// CORS scheme.
 	* Refactors Origin processing.
 
+version 1.5 (2012-10-19)
+	* Removes support of multivalued Origin headers according to the
+	  latest CORS spec from 2012-04-03.
+
 [EOF]

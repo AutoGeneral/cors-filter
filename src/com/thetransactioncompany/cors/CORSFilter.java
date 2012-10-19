@@ -83,32 +83,6 @@ public class CORSFilter
 	
 	
 	/**
-	 * Serialises the items of an array into a string. Each item must have a 
-	 * meaningful {@code toString()} method.
-	 * 
-	 * @param array The array to serialise, may be {@code null}.
-	 * @param sep   The string separator to apply.
-	 *
-	 * @return The serialised array as string.
-	 */
-	private static String serialize(final Object[] array, final String sep) {
-	
-		if (array == null)
-			return "";
-	
-		String s = "";
-		
-		for (int i=0; i<array.length; i++) {
-			s = s + array[i].toString();
-			if (i+1 < array.length)
-				s = s + sep;
-		}
-		
-		return s;
-	}
-	
-	
-	/**
 	 * This method is invoked by the web container to initialise the
 	 * filter at startup.
 	 *
@@ -218,7 +192,7 @@ public class CORSFilter
 		
 		} catch (CORSOriginDeniedException e) {
 			
-			String msg = e.getMessage() + ": " + serialize(e.getRequestOrigins(), " ");
+			String msg = e.getMessage() + ": " + e.getRequestOrigin();
 			printMessage(response, HttpServletResponse.SC_FORBIDDEN, msg);
 			
 		} catch (UnsupportedHTTPMethodException e) {

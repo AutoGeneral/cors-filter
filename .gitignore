@@ -6,3 +6,9 @@
 # Ant and Maven build directories
 /build/
 /target/
+
+# Others
+TEST*
+/procsrc/
+/javadoc/
+

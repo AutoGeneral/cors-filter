@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Handles incoming cross-origin (CORS) requests according to the configured 
  * access policy. Encapsulates the CORS processing logic as specified by the
- * <a href="http://www.w3.org/TR/access-control/">W3C draft</a> from 
- * 2010-07-27.
+ * <a href="http://www.w3.org/TR/2012/WD-cors-20120403/">W3C draft</a> from 
+ * 2012-04-03.
  *
  * <p>Note that the actual CORS exception handling (which is outside the CORS
  * specification scope) is left to the invoking class to implement.
@@ -116,50 +116,6 @@ public class CORSRequestHandler {
 	
 	
 	/**
-	 * Parses a header value consisting of zero or more space / comma / 
-	 * space+comma separated origin strings. The input string is trimmed 
-	 * before splitting.
-	 *
-	 * @param headerValue The header value, may be {@code null}.
-	 *
-	 * @return An array of the parsed origin items, empty if none were 
-	 *         found or the input was {@code null}.
-	 */
-	private static Origin[] parseOriginHeaderValues(final String headerValue) {
-	
-		String[] tokens = parseMultipleHeaderValues(headerValue);
-		
-		Origin[] origins = new Origin[tokens.length];
-		
-		for (int i=0; i < tokens.length; i++)
-			origins[i] = new Origin(tokens[i]);
-		
-		return origins;
-	}
-	
-	
-	/**
-	 * Matches the list of request origins against the allowed origins.
-	 *
-	 * @param requestOrigins The request origins (zero or more). Must not be
-	 *                       {@code null}.
-	 *
-	 * @return The first case-insensitive match, or {@code null} if nothing
-	 *         matched.
-	 */
-	protected Origin checkOrigin(final Origin[] requestOrigins) {
-	
-		for (Origin origin: requestOrigins) {
-		
-			if (config.isAllowedOrigin(origin))
-				return origin;
-		}
-	
-		return null;
-	}
-	
-	
-	/**
 	 * Tags an HTTP servlet request to provide CORS information to 
 	 * downstream handlers.
 	 *
@@ -197,6 +153,7 @@ public class CORSRequestHandler {
 				request.setAttribute("cors.requestType", "preflight");
 				request.setAttribute("cors.requestHeaders", request.getHeader("Access-Control-Request-Headers"));
 				break;
+				
 			case OTHER:
 				request.setAttribute("cors.isCorsRequest", false);
 		}
@@ -227,19 +184,11 @@ public class CORSRequestHandler {
 			throw new InvalidCORSRequestException("Invalid simple/actual CORS request");
 		
 		
-		// Get request origins
-		
-		final String originHeader = request.getHeader("Origin");
-		
-		Origin[] requestOrigins = parseOriginHeaderValues(originHeader);
-		
-		
 		// Check origin against allow list
+		Origin requestOrigin = new Origin(request.getHeader("Origin"));
 		
-		Origin matchedOrigin = checkOrigin(requestOrigins);
-		
-		if (matchedOrigin == null)
-			throw new CORSOriginDeniedException("CORS origin denied", requestOrigins);
+		if (! config.isAllowedOrigin(requestOrigin))
+			throw new CORSOriginDeniedException("CORS origin denied", requestOrigin);
 		
 		
 		// Check method
@@ -260,7 +209,7 @@ public class CORSRequestHandler {
 		
 		// Success, append response headers
 		
-		response.addHeader("Access-Control-Allow-Origin", originHeader);
+		response.addHeader("Access-Control-Allow-Origin", requestOrigin.toString());
 		
 		if (config.supportsCredentials)
 			response.addHeader("Access-Control-Allow-Credentials", "true");
@@ -270,7 +219,7 @@ public class CORSRequestHandler {
 		
 		
 		// Tag request
-		request.setAttribute("cors.origin", originHeader);
+		request.setAttribute("cors.origin", requestOrigin.toString());
 		request.setAttribute("cors.requestType", "actual");
 	}
 	
@@ -302,19 +251,11 @@ public class CORSRequestHandler {
 		if (CORSRequestType.detect(request) != CORSRequestType.PREFLIGHT)
 			throw new InvalidCORSRequestException("Invalid preflight CORS request");
 		
-		// Get request origins
-		
-		final String originHeader = request.getHeader("Origin");
-		
-		Origin[] requestOrigins = parseOriginHeaderValues(originHeader);
-		
-		
 		// Check origin against allow list
+		Origin requestOrigin = new Origin(request.getHeader("Origin"));
 		
-		Origin matchedOrigin = checkOrigin(requestOrigins);
-		
-		if (matchedOrigin == null)
-			throw new CORSOriginDeniedException("CORS origin denied", requestOrigins);
+		if (! config.isAllowedOrigin(requestOrigin))
+			throw new CORSOriginDeniedException("CORS origin denied", requestOrigin);
 			
 		
 		// Parse requested method
@@ -371,14 +312,14 @@ public class CORSRequestHandler {
 		// Success, append response headers
 		
 		if (config.supportsCredentials) {
-			response.addHeader("Access-Control-Allow-Origin", originHeader);
+			response.addHeader("Access-Control-Allow-Origin", requestOrigin.toString());
 			response.addHeader("Access-Control-Allow-Credentials", "true");
 		}
 		else {
 			if (config.allowAnyOrigin)
 				response.addHeader("Access-Control-Allow-Origin", "*");
 			else
-				response.addHeader("Access-Control-Allow-Origin", originHeader);
+				response.addHeader("Access-Control-Allow-Origin", requestOrigin.toString());
 		}
 		
 		if (config.maxAge > 0)

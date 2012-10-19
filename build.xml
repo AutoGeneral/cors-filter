@@ -1,6 +1,6 @@
 <project name="CorsFilter" default="dist" basedir=".">
 
-	<property name="version" value="1.4"/>
+	<property name="version" value="1.5"/>
 	<property name="version-date" value="2012-10-19"/>
 	<property name="jarfile" value="cors-filter-${version}.jar"/>
 	<property name="demo-warfile" value="cors-demo.war"/>

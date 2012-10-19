@@ -11,9 +11,9 @@ public class CORSOriginDeniedException extends CORSException {
 
 	
 	/**
-	 * The request origins (zero or more).
+	 * The request origin.
 	 */
-	private final Origin[] requestOrigins;
+	private final Origin requestOrigin;
 	
 	
 	/**
@@ -33,24 +33,23 @@ public class CORSOriginDeniedException extends CORSException {
 	 * message and request origins.
 	 *
 	 * @param message        The message.
-	 * @param requestOrigins The request origins (zero or more), 
-	 *                       {@code null} if unknown.
+	 * @param requestOrigins The request origin, {@code null} if unknown.
 	 */
-	public CORSOriginDeniedException(final String message, final Origin[] requestOrigins) {
+	public CORSOriginDeniedException(final String message, final Origin requestOrigin) {
 	
 		super(message);
 		
-		this.requestOrigins = requestOrigins;
+		this.requestOrigin = requestOrigin;
 	}
 	
 	
 	/**
-	 * Gets the request origins (zero or more).
+	 * Gets the request origin.
 	 *
-	 * @return The request origins, {@code null} if unknown or not set.
+	 * @return The request origin, {@code null} if unknown or not set.
 	 */
-	public Origin[] getRequestOrigins() {
+	public Origin getRequestOrigin() {
 	
-		return requestOrigins;
+		return requestOrigin;
 	}
 }
