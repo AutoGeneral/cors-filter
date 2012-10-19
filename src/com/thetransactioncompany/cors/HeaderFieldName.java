@@ -15,24 +15,24 @@ package com.thetransactioncompany.cors;
  * </ul>
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2010-09-26)
+ * @version $version$ (2012-10-19)
  */
 public class HeaderFieldName {
 
 
 	/**
-	 * The header field name, in canonical form, for example
-	 * {@code Aaa-Bbb-Ccc}.
+	 * The header field name, formatted as {@code Aaa-Bbb-Ccc}.
 	 */
-	private String name;
+	private final String name;
 	
 	
 	/**
-	 * Applies a canonical format, for example {@code Aaa-Bbb-Ccc}.
+	 * Applies a {@code Aaa-Bbb-Ccc} format to a header field name.
 	 *
-	 * @param name The name to format, must not be an empty string.
+	 * @param name The header field name to format, must not be an empty 
+	 *             string or {@code null}.
 	 *
-	 * @return The formatted name.
+	 * @return The formatted header field name.
 	 *
 	 * @throws IllegalArgumentException On a empty or invalid header field
 	 *                                  name.
@@ -46,7 +46,7 @@ public class HeaderFieldName {
 		
 		// Check for valid syntax: must begin with letter, then only word and dash chars allowed
 		if (! nameTrimmed.matches("^[a-zA-Z][\\w-]*$"))
-			throw new IllegalArgumentException("The header field name has invalid syntax");
+			throw new IllegalArgumentException("Invalid header field name syntax");
 		
 	
 		String[] tokens = nameTrimmed.toLowerCase().split("-");
@@ -71,10 +71,10 @@ public class HeaderFieldName {
 	
 	
 	/**
-	 * Creates a new header field name from the specified string. Does not
-	 * perform validation if the input string is a valid name.
+	 * Creates a new header field name from the specified string.
 	 *
-	 * @param name The header field name, empty strings are not allowed.
+	 * @param name The header field name, must not be an empty strings or
+	 *             {@code null}.
 	 *
 	 * @throws IllegalArgumentException On a empty or invalid header field
 	 *                                  name.
@@ -86,8 +86,8 @@ public class HeaderFieldName {
 	
 	
 	/**
-	 * Returns a string representation of a header field name in canonical
-	 * format, e.g. {@code Aaa-Bbb-Ccc}.
+	 * Returns a string representation of a header field name in 
+	 * {@code Aaa-Bbb-Ccc} format.
 	 *
 	 * @return The header field name as string.
 	 */
@@ -120,5 +120,4 @@ public class HeaderFieldName {
 		
 		return object instanceof HeaderFieldName && name.equals(object.toString());
 	}
-
 }
