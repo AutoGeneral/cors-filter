@@ -2,7 +2,7 @@ package com.thetransactioncompany.cors;
 
 
 /**
- * Enumeration of all standard HTTP methods.
+ * Enumeration of supported standard HTTP methods.
  *
  * @author Vladimir Dzhuvinov
  * @version $version$ (2010-09-23)
@@ -62,6 +62,4 @@ public enum HTTPMethod {
 	 * HTTP PATCH.
 	 */
 	PATCH
-
-
 }

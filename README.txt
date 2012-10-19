@@ -87,5 +87,6 @@ version 1.4 (2012-10-18)
 	* Adds new optional cors.allowSubdomains configuration parameter to
 	  enable domain suffix matching (contributed by Jared Ottley and Luis
 	  Sala of Alfresco).
+	* Removes support of file:// CORS scheme.
 
 [EOF]

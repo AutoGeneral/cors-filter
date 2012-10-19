@@ -5,7 +5,7 @@ package com.thetransactioncompany.cors;
  * CORS origin denied (not allowed) exception.
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2010-09-27)
+ * @version $version$ (2012-10-19)
  */
 public class CORSOriginDeniedException extends CORSException {
 
@@ -13,7 +13,7 @@ public class CORSOriginDeniedException extends CORSException {
 	/**
 	 * The request origins (zero or more).
 	 */
-	private String[] requestOrigins = null;
+	private final Origin[] requestOrigins;
 	
 	
 	/**
@@ -36,7 +36,7 @@ public class CORSOriginDeniedException extends CORSException {
 	 * @param requestOrigins The request origins (zero or more), 
 	 *                       {@code null} if unknown.
 	 */
-	public CORSOriginDeniedException(final String message, final String[] requestOrigins) {
+	public CORSOriginDeniedException(final String message, final Origin[] requestOrigins) {
 	
 		super(message);
 		
@@ -49,7 +49,7 @@ public class CORSOriginDeniedException extends CORSException {
 	 *
 	 * @return The request origins, {@code null} if unknown or not set.
 	 */
-	public String[] getRequestOrigins() {
+	public Origin[] getRequestOrigins() {
 	
 		return requestOrigins;
 	}

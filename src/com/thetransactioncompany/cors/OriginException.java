@@ -2,7 +2,7 @@ package com.thetransactioncompany.cors;
 
 
 /**
- * Origin exception. Typically thrown by the {@link Origin} class.
+ * Origin exception.
  *
  * @author Vladimir Dzhuvinov
  * @version $version$ (2010-09-27)

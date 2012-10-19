@@ -18,14 +18,14 @@ import javax.servlet.http.HttpServletResponse;
  * specification scope) is left to the invoking class to implement.
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2011-12-02)
+ * @version $version$ (2012-10-19)
  */
 public class CORSRequestHandler {
 
 	
 	/**
-	 * The CORS filter configuration, containing details of the cross-origin
-	 * access policy.
+	 * The CORS filter configuration, detailing the cross-origin access 
+	 * policy.
 	 */
 	private CORSConfiguration config;
 	
@@ -57,7 +57,7 @@ public class CORSRequestHandler {
 	
 		this.config = config;
 		
-		// Pre-compute some response headers
+		// Pre-compute response headers where possible
 		supportedMethods = serialize(config.supportedMethods, ", ");
 		supportedHeaders = serialize(config.supportedHeaders, ", ");
 		exposedHeaders = serialize(config.exposedHeaders, ", ");	
@@ -80,7 +80,9 @@ public class CORSRequestHandler {
 		String s = "";
 	
 		while (it.hasNext()) {
+			
 			s = s + it.next().toString();
+			
 			if (it.hasNext())
 				s = s + sep;
 		}
@@ -90,8 +92,9 @@ public class CORSRequestHandler {
 	
 	
 	/**
-	 * Parses a header value consisting of zero or more space/comma/space+comma 
-	 * separated strings. The input string is trimmed before splitting.
+	 * Parses a header value consisting of zero or more space / comma / 
+	 * space+comma separated strings. The input string is trimmed before 
+	 * splitting.
 	 *
 	 * @param headerValue The header value, may be {@code null}.
 	 *
@@ -113,18 +116,40 @@ public class CORSRequestHandler {
 	
 	
 	/**
-	 * Matches the list of request origins against the allowed origins. This
-	 * is done by invoking the configuration helper method
-	 * {@link CORSConfiguration#isAllowedOrigin}.
+	 * Parses a header value consisting of zero or more space / comma / 
+	 * space+comma separated origin strings. The input string is trimmed 
+	 * before splitting.
 	 *
-	 * @param requestOrigins The request origins (zero or more).
+	 * @param headerValue The header value, may be {@code null}.
+	 *
+	 * @return An array of the parsed origin items, empty if none were 
+	 *         found or the input was {@code null}.
+	 */
+	private static Origin[] parseOriginHeaderValues(final String headerValue) {
+	
+		String[] tokens = parseMultipleHeaderValues(headerValue);
+		
+		Origin[] origins = new Origin[tokens.length];
+		
+		for (int i=0; i < tokens.length; i++)
+			origins[i] = new Origin(tokens[i]);
+		
+		return origins;
+	}
+	
+	
+	/**
+	 * Matches the list of request origins against the allowed origins.
+	 *
+	 * @param requestOrigins The request origins (zero or more). Must not be
+	 *                       {@code null}.
 	 *
 	 * @return The first case-insensitive match, or {@code null} if nothing
 	 *         matched.
 	 */
-	protected String checkOrigin(final String[] requestOrigins) {
+	protected Origin checkOrigin(final Origin[] requestOrigins) {
 	
-		for (String origin: requestOrigins) {
+		for (Origin origin: requestOrigins) {
 		
 			if (config.isAllowedOrigin(origin))
 				return origin;
@@ -206,12 +231,12 @@ public class CORSRequestHandler {
 		
 		final String originHeader = request.getHeader("Origin");
 		
-		String[] requestOrigins = parseMultipleHeaderValues(originHeader);
+		Origin[] requestOrigins = parseOriginHeaderValues(originHeader);
 		
 		
 		// Check origin against allow list
 		
-		String matchedOrigin = checkOrigin(requestOrigins);
+		Origin matchedOrigin = checkOrigin(requestOrigins);
 		
 		if (matchedOrigin == null)
 			throw new CORSOriginDeniedException("CORS origin denied", requestOrigins);
@@ -281,12 +306,12 @@ public class CORSRequestHandler {
 		
 		final String originHeader = request.getHeader("Origin");
 		
-		String[] requestOrigins = parseMultipleHeaderValues(originHeader);
+		Origin[] requestOrigins = parseOriginHeaderValues(originHeader);
 		
 		
 		// Check origin against allow list
 		
-		String matchedOrigin = checkOrigin(requestOrigins);
+		Origin matchedOrigin = checkOrigin(requestOrigins);
 		
 		if (matchedOrigin == null)
 			throw new CORSOriginDeniedException("CORS origin denied", requestOrigins);

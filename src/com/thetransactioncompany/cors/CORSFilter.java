@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  * <ul>
  *     <li>cors.allowGenericHttpRequests {true|false} defaults to {@code true}.
  *     <li>cors.allowOrigin {"*"|origin-list} defaults to {@code *}.
+ *     <li>cors.allowSubdomains {true|false} defaults to {@code false}.
  *     <li>cors.supportedMethods {method-list} defaults to {@code "GET, POST, HEAD, OPTIONS"}.
  *     <li>cors.supportedHeaders {header-list} defaults to empty list.
  *     <li>cors.exposedHeaders {header-list} defaults to empty list.
@@ -211,6 +212,7 @@ public class CORSFilter
 			}
 				
 		} catch (InvalidCORSRequestException e) {
+			
 			request.setAttribute("cors.isCorsRequest", false); // tag
 			printMessage(response, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 		
