@@ -1,11 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
 	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>com.thetransactioncompany</groupId>
-	<artifactId>cors-filter</artifactId>
-	<version>1.5</version>
-	<packaging>jar</packaging>
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -13,11 +9,18 @@
 		<version>7</version>
 	</parent>
 
+	<groupId>com.thetransactioncompany</groupId>
+	<artifactId>cors-filter</artifactId>
+	<version>1.5.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
 	<name>CORS Filter</name>
 	<description>
-		CORS Filter is a universal solution for fitting Cross-Origin Resource Sharing (CORS) support to Java web
-		applications. CORS is a recent W3C effort to introduce a standard mechanism for enabling cross-domain requests
-		in web browsers and participating servers.
+		CORS Filter is a universal solution for fitting Cross-Origin 
+		Resource Sharing (CORS) support to Java web applications. CORS 
+		is a recent W3C effort to introduce a standard mechanism for 
+		enabling cross-domain requests in web browsers and 
+		participating servers.
 	</description>
 	<inceptionYear>2010</inceptionYear>
 	<url>http://software.dzhuvinov.com/cors-filter.html</url>
@@ -53,16 +56,16 @@
 	</contributors>
 
 	<scm>
-		<url>https://bitbucket.org/vdzhuvinov/cors-filter</url>
-		<connection>scm:git:https://bitbucket.org/vdzhuvinov/cors-filter.git</connection>
-		<developerConnection>scm:git:git://git@bitbucket.org/vdzhuvinov/cors-filter.git</developerConnection>
+		<url>https://bitbucket.org/thetransactioncompany/cors-filter</url>
+		<connection>scm:git:https://bitbucket.org/thetransactioncompany/cors-filter.git</connection>
+		<developerConnection>scm:git:git://git@bitbucket.org/thetransactioncompany/cors-filter.git</developerConnection>
 	</scm>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.thetransactioncompany</groupId>
 			<artifactId>java-property-utils</artifactId>
-			<version>1.6</version>
+			<version>1.7.1</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -72,14 +75,12 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
+			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
 	<build>
-		<sourceDirectory>src</sourceDirectory>
-		<testSourceDirectory>test</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
