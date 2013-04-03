@@ -6,7 +6,6 @@ package com.thetransactioncompany.cors;
  * parameters at startup.
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2010-09-27)
  */
 public class CORSConfigurationException extends Exception {
 

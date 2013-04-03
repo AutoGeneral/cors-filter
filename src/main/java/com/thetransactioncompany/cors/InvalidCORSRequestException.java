@@ -6,7 +6,6 @@ package com.thetransactioncompany.cors;
  * actual or preflight) that doesn't conform to the specification.
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2010-09-27)
  */
 public class InvalidCORSRequestException extends CORSException {
 

@@ -6,7 +6,6 @@ package com.thetransactioncompany.cors;
  * processing of CORS requests.
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2010-09-27)
  */
 public class CORSException extends Exception {
 

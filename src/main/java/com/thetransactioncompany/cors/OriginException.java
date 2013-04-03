@@ -5,7 +5,6 @@ package com.thetransactioncompany.cors;
  * Origin exception.
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2010-09-27)
  */
 public class OriginException extends Exception {
 

@@ -1,3 +1,7 @@
+package com.thetransactioncompany.cors.demo;
+
+
+
 import java.io.*;
 import java.util.*;
 
@@ -9,7 +13,6 @@ import javax.servlet.http.*;
  * Simple test servlet for CORS requests.
  *
  * @author Vladimir Dzhuvinov
- * @version 1.3 (2011-11-02)
  */
 public class HelloWorldServlet extends HttpServlet {
 

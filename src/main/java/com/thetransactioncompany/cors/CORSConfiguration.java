@@ -17,7 +17,6 @@ import com.thetransactioncompany.util.PropertyRetriever;
  * @author Vladimir Dzhuvinov
  * @author Luis Sala
  * @author Jared Ottley
- * @version $version$ (2012-10-19)
  */
 public class CORSConfiguration {
 	

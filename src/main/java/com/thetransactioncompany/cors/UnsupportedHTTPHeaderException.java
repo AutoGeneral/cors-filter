@@ -6,7 +6,6 @@ package com.thetransactioncompany.cors;
  * request header is not supported by the CORS policy.
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2012-10-19)
  */
 public class UnsupportedHTTPHeaderException extends CORSException {
 

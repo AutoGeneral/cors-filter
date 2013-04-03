@@ -9,7 +9,6 @@ import junit.framework.TestCase;
  *
  * @author Vladimir Dzhuvinov
  * @author Jared Ottley
- * @version $version$ (2012-10-19)
  */
 public class OriginTest extends TestCase {
         

@@ -15,7 +15,6 @@ package com.thetransactioncompany.cors;
  * </ul>
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2012-10-19)
  */
 public class HeaderFieldName {
 

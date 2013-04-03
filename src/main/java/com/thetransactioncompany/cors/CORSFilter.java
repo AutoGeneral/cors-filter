@@ -37,7 +37,6 @@ import javax.servlet.http.HttpServletResponse;
  * </ul>
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2011-12-02)
  */
 public class CORSFilter
 	implements Filter {

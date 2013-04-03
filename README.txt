@@ -96,5 +96,7 @@ version 1.5 (2012-10-19)
 
 version 1.5.1 (2013-04-03)
 	* Updates CORS spec reference.
+	* Switches build to Apache Maven and enabled publishing to Maven 
+	  Central.
 
 [EOF]

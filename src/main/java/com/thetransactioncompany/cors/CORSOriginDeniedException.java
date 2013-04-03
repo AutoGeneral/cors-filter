@@ -5,7 +5,6 @@ package com.thetransactioncompany.cors;
  * CORS origin denied (not allowed) exception.
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2012-10-19)
  */
 public class CORSOriginDeniedException extends CORSException {
 

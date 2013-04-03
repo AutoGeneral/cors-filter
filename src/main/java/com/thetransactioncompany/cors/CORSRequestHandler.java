@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
  * specification scope) is left to the invoking class to implement.
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2012-10-19)
  */
 public class CORSRequestHandler {
 

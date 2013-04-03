@@ -77,6 +77,5 @@
  * </ul>
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ ($version-date$)
  */
 package com.thetransactioncompany.cors;

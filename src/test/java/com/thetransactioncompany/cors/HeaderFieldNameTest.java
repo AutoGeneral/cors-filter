@@ -8,7 +8,6 @@ import junit.framework.TestCase;
  * Tests the header field name class.
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2010-09-26)
  */
 public class HeaderFieldNameTest extends TestCase {
         

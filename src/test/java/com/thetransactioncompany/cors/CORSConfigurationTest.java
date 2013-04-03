@@ -10,7 +10,6 @@ import junit.framework.TestCase;
  * Tests the CORS configuration class.
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2010-10-19)
  */
 public class CORSConfigurationTest extends TestCase {
 	

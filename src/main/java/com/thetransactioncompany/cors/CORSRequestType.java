@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
  * Enumeration of the CORS request types.
  *
  * @author Vladimir Dzhuvinov
- * @version $version$ (2011-12-02)
  */
 public enum CORSRequestType {
 
