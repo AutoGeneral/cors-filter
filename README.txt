@@ -1,6 +1,6 @@
 Java Cross-Origin Resource Sharing (CORS) Filter
 
-Copyright (c) Vladimir Dzhuvinov, 2010 - 2012
+Copyright (c) Vladimir Dzhuvinov, 2010 - 2013
 
 
 README
@@ -13,17 +13,17 @@ supported by all major browsers such as Firefox, Safari, Chrome and IE.
 To enable CORS for a particular HTTP resource, such as a servlet, JSP or plain 
 HTML file, attach a CORSFilter to it via a <filter-mapping> element in the 
 web.xml descriptor file. The default CORS filter policy is to allow any origin 
-(including credentials). To impose a stricter access policy configure the filter
-using the supported <init-param> elements. See the CORSFilter JavaDoc for 
-configuration details. 
+(including credentials). To impose a stricter access policy configure the 
+filter using the supported <init-param> elements. See the CORSFilter JavaDoc 
+for configuration details. 
 
-This CORS filter version implements the W3C working draft from 2010-07-27:
+This CORS filter version implements the W3C working draft from 2013-01-29:
 
-	http://www.w3.org/TR/2010/WD-cors-20100727/
+	http://www.w3.org/TR/2013/CR-cors-20130129/
 
 
-For installation instructions, usage and other information visit the CORS Filter
-website:
+For installation instructions, usage and other information visit the CORS 
+Filter website:
 
 	http://software.dzhuvinov.com/cors-filter.html
 
@@ -93,5 +93,8 @@ version 1.4 (2012-10-19)
 version 1.5 (2012-10-19)
 	* Removes support of multivalued Origin headers according to the
 	  latest CORS spec from 2012-04-03.
+
+version 1.5.1 (2013-04-03)
+	* Updates CORS spec reference.
 
 [EOF]
