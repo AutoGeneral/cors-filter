@@ -73,7 +73,7 @@ public class ValidatedOrigin extends Origin {
 		
 		scheme = scheme.toLowerCase();
 		
-		if (! scheme.equals("http") && ! scheme.equals("https"))
+		if (! scheme.equals("http") && ! scheme.equals("https") && ! scheme.equals("app"))
 			throw new OriginException("Bad origin URI: Scheme must be http or https");
 		
 		// Apply the IDNA toASCII algorithm [RFC3490] to /host/

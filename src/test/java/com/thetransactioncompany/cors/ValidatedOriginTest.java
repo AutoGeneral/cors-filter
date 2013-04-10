@@ -33,8 +33,8 @@ public class ValidatedOriginTest extends TestCase {
 		assertEquals(-1, o.getPort());
 		assertEquals("example.com", o.getSuffix());
 	}
-	
-	
+
+
 	public void testHTTPSOrigin() {
 	
 		String uri = "https://example.com";
@@ -55,8 +55,30 @@ public class ValidatedOriginTest extends TestCase {
 		assertEquals(-1, o.getPort());
 		assertEquals("example.com", o.getSuffix());
 	}
-	
-	
+
+
+        public void testAPPOrigin() {
+	        
+            String uri = "app://example.com";
+            
+            ValidatedOrigin o = null;
+            
+            try {
+                    o = new ValidatedOrigin(uri);
+            
+            } catch (OriginException e) {
+                    fail(e.getMessage());
+            }
+            
+            assertEquals(uri, o.toString());
+            
+            assertEquals("app", o.getScheme());
+            assertEquals("example.com", o.getHost());
+            assertEquals(-1, o.getPort());
+            assertEquals("example.com", o.getSuffix());
+        }
+
+
 	public void testUnsupportedSchemeException() {
 	
 		String uri = "file:///data/file.xml";
