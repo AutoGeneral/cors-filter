@@ -9,6 +9,7 @@ import junit.framework.TestCase;
  *
  * @author Vladimir Dzhuvinov
  * @author Jared Ottley
+ * @author Edraí Brosa
  */
 public class OriginTest extends TestCase {
         
@@ -44,6 +45,12 @@ public class OriginTest extends TestCase {
 		Origin o2 = new Origin(uri2);
 		
 		assertFalse(o1.equals(o2));
+	}
+
+
+	public void testOriginInequalityNull() {
+	
+		assertFalse(new Origin("http://example.com").equals(null));
 	}
 	
 	

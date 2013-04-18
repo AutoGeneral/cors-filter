@@ -7,8 +7,8 @@ import java.net.IDN;
 
 
 /**
- * Resource request origin (not validated), as defined in The Web Origin Concept 
- * (RFC 6454).
+ * Resource request origin (not validated), as defined in The Web Origin 
+ * Concept (RFC 6454).
  *
  * <p>Use {@link #validate} to check the origin syntax or if you want to query
  * its scheme, host and port.
@@ -41,7 +41,8 @@ public class Origin {
 	 * Creates a new origin from the specified URI string. Note that the 
 	 * syntax is not validated.
 	 *
-	 * @param value The URI string for the origin. Must not be {@code null}.
+	 * @param value The URI string for the origin. Must not be 
+	 *              {@code null}.
 	 */
 	public Origin(final String value) {
 	
@@ -100,10 +101,8 @@ public class Origin {
 	@Override
 	public boolean equals(Object object) {
 		
-		if (object instanceof Origin)
-			return this.toString().equals(object.toString());
-		
-		else
-			return false;
+		return object != null &&
+		       object instanceof Origin &&
+		       this.toString().equals(object.toString());
 	}
 }
