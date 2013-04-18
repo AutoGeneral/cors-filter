@@ -13,6 +13,7 @@ import java.net.IDN;
  * @author Vladimir Dzhuvinov
  * @author Luis Sala
  * @author Jared Ottley
+ * @author Edraí Brosa
  */
 public class ValidatedOrigin extends Origin {
 	
@@ -38,8 +39,8 @@ public class ValidatedOrigin extends Origin {
 	/**
 	 * Creates a new validated origin from the specified URI string.
 	 *
-	 * @param value The URI string for the origin. The origin scheme must be
-	 *              {@code http} or {@code https}. Must not be {@code null}.
+	 * @param value The URI string for the origin. Must not be 
+	 *              {@code null}.
 	 *
 	 * @throws OriginException If the value doesn't represent a valid and
 	 *                         supported origin string.
@@ -67,14 +68,10 @@ public class ValidatedOrigin extends Origin {
 		port = uri.getPort();
 		
 		if (scheme == null)
-			throw new OriginException("Bad origin URI: Missing scheme, must be http or https");
+			throw new OriginException("Bad origin URI: Missing scheme, such as http or https");
 		
 		// Canonicalise scheme and host
-		
 		scheme = scheme.toLowerCase();
-		
-		if (! scheme.equals("http") && ! scheme.equals("https") && ! scheme.equals("app"))
-			throw new OriginException("Bad origin URI: Scheme must be http or https");
 		
 		// Apply the IDNA toASCII algorithm [RFC3490] to /host/
 		host = IDN.toASCII(host, IDN.ALLOW_UNASSIGNED | IDN.USE_STD3_ASCII_RULES);
@@ -118,8 +115,8 @@ public class ValidatedOrigin extends Origin {
 	
 	
 	/**
-	 * Returns the suffix which is made up of the host name / IP address and 
-	 * port (if a non-default port is specified).
+	 * Returns the suffix which is made up of the host name / IP address 
+	 * and port (if a non-default port is specified).
 	 *
 	 * <p>Example:
 	 *

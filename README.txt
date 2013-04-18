@@ -99,4 +99,8 @@ version 1.5.1 (2013-04-03)
 	* Switches build to Apache Maven and enabled publishing to Maven 
 	  Central.
 
+version 1.6 (2013-04-18)
+	* Permits any URI scheme, not just http and https, according to RFC 
+	  6454.
+
 [EOF]

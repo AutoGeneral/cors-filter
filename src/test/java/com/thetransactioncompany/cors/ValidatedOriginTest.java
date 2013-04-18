@@ -77,22 +77,6 @@ public class ValidatedOriginTest extends TestCase {
             assertEquals(-1, o.getPort());
             assertEquals("example.com", o.getSuffix());
         }
-
-
-	public void testUnsupportedSchemeException() {
-	
-		String uri = "file:///data/file.xml";
-		
-		try {
-			new ValidatedOrigin(uri);
-		
-			fail("Failed to raise exception");
-			
-		} catch (OriginException e) {
-			
-			// ok
-		}
-	}
 	
 	
 	public void testIPAddressHost() {
