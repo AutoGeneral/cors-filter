@@ -65,4 +65,24 @@ public class OriginTest extends TestCase {
 		
 		assertEquals(uri, validatedOrigin.toString());
 	}
+
+
+	public void testValidationAppScheme() {
+	        
+            String uri = "app://example.com";
+            
+            ValidatedOrigin validatedOrigin = null;
+            
+            try {
+                    validatedOrigin = new Origin(uri).validate();
+                    
+            } catch (OriginException e) {
+            
+                    fail(e.getMessage());
+            }
+            
+            assertNotNull(validatedOrigin);
+            
+            assertEquals(uri, validatedOrigin.toString());
+        }
 }
