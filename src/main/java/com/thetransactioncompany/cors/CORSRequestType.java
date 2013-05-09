@@ -43,7 +43,10 @@ public enum CORSRequestType {
 			throw new NullPointerException("The HTTP request must not be null");
 		
 		// All CORS request have an Origin header
-		if (request.getHeader("Origin") == null)
+		if (request.getHeader("Origin") == null    ||
+                // Some browsers include the Origin header even when submitting from the same domain
+                (request.getHeader("Host") != null &&
+                 request.getHeader("Origin").equals(request.getScheme() + "://" + request.getHeader("Host"))))
 			return OTHER;
 		
 		// We have a CORS request - determine type
