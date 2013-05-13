@@ -90,12 +90,13 @@ public class CORSFilter
 	 * Tries to read the configuration file specified through an environment variable
 	 * 
 	 * @return The parameters as Java properties
+	 * @throws FileNotFoundException If a file is specified using the environment variable, but it cannot be found, a FileNotFoundException is thrown
 	 */
-	private Properties getFilterInitParametersFromFile() {
+	private Properties getFilterInitParametersFromFile() throws FileNotFoundException {
 		
 		InputStream configurationInputStream = null;
 		try {
-			String configurationFileLocation = getEnvironment().getenv(CONFIGURATION_FILE_ENV_VARIABLENAME);
+			String configurationFileLocation = getEnvironment().getProperty(CONFIGURATION_FILE_ENV_VARIABLENAME);
 			
 			if(configurationFileLocation == null || configurationFileLocation.length() == 0) 
 				return null;
@@ -110,8 +111,8 @@ public class CORSFilter
 			// Problem with getting the environment variable
 			return null;
 		} catch (FileNotFoundException e) {
-			// Couldn't find file
-			return null;
+			// Couldn't find file, throw an error to prevent loading of default values
+			throw e;
 		} catch (IOException e) {
 			// Couldn't load the file
 			return null;
@@ -136,7 +137,7 @@ public class CORSFilter
 	 * @return
 	 */
 	
-	private Properties getProperties(FilterConfig config) {
+	private Properties getProperties(FilterConfig config) throws FileNotFoundException {
 		
 		Properties props = getFilterInitParametersFromFile();
 		
@@ -176,14 +177,19 @@ public class CORSFilter
 		throws ServletException {
 		
 		// Get the init params
-		Properties props = getProperties(filterConfig);
-		
-		// Extract and parse all required CORS filter properties
 		try {
-			config = new CORSConfiguration(props);
+			Properties props = getProperties(filterConfig);
 			
-		} catch (CORSConfigurationException e) {
-		
+			// Extract and parse all required CORS filter properties
+			try {
+				config = new CORSConfiguration(props);
+				
+			} catch (CORSConfigurationException e) {
+			
+				throw new ServletException(e);
+			}
+		}
+		catch(FileNotFoundException e) {
 			throw new ServletException(e);
 		}
 		

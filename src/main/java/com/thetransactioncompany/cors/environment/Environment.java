@@ -1,12 +1,12 @@
 package com.thetransactioncompany.cors.environment;
 
-import java.util.Map;
+import java.util.Properties;
 
 /**
  * Encapsulates Environment settings
  *
  */
 public interface Environment {
-	public abstract String getenv(String name);
-	public abstract Map<String, String> getenv();
+	public abstract String getProperty(String name);
+	public abstract Properties getProperties();
 }

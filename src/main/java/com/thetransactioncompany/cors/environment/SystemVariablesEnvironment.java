@@ -1,6 +1,6 @@
 package com.thetransactioncompany.cors.environment;
 
-import java.util.Map;
+import java.util.Properties;
 
 /**
  * Loads Environment Variables from the System
@@ -8,13 +8,13 @@ import java.util.Map;
 public class SystemVariablesEnvironment implements Environment {
 
 	@Override
-	public String getenv(String name) {
-		return System.getenv(name);
+	public String getProperty(String name) {
+		return System.getProperty(name);
 	}
 
 	@Override
-	public Map<String, String> getenv() {
-		return System.getenv();
+	public Properties getProperties() {
+		return System.getProperties();
 	}
 
 }
