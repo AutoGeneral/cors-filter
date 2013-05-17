@@ -48,9 +48,9 @@ public enum CORSRequestType {
 		// Some browsers include the Origin header even when submitting 
 		// from the same domain. This is legal according to RFC 6454, 
 		// section-7.3
-		String requestOrigin = request.getScheme() + "://" + request.getHeader("Host");
+		String serverOrigin = request.getScheme() + "://" + request.getHeader("Host");
 
-		if (request.getHeader("Host") != null && request.getHeader("Origin").equals(requestOrigin))
+		if (request.getHeader("Host") != null && request.getHeader("Origin").equals(serverOrigin))
 			return OTHER;
 		
 		// We have a CORS request - determine type
