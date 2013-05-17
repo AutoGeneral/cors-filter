@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
  * Enumeration of the CORS request types.
  *
  * @author Vladimir Dzhuvinov
+ * @author Brandon Murray
  */
 public enum CORSRequestType {
 
@@ -39,14 +40,17 @@ public enum CORSRequestType {
 	 */
 	public static CORSRequestType detect(final HttpServletRequest request) {
 	
-		if (request == null)
-			throw new NullPointerException("The HTTP request must not be null");
-		
 		// All CORS request have an Origin header
-		if (request.getHeader("Origin") == null    ||
-                // Some browsers include the Origin header even when submitting from the same domain
-                (request.getHeader("Host") != null &&
-                 request.getHeader("Origin").equals(request.getScheme() + "://" + request.getHeader("Host"))))
+		if (request.getHeader("Origin") == null)
+			return OTHER;
+
+
+		// Some browsers include the Origin header even when submitting 
+		// from the same domain. This is legal according to RFC 6454, 
+		// section-7.3
+		String requestOrigin = request.getScheme() + "://" + request.getHeader("Host");
+
+		if (request.getHeader("Host") != null && request.getHeader("Origin").equals(requestOrigin))
 			return OTHER;
 		
 		// We have a CORS request - determine type
