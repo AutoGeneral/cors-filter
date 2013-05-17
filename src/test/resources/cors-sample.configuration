@@ -1,0 +1,9 @@
+cors.allowGenericHttpRequests=true
+cors.allowOrigin=https://www.example.org:9000, http://example.com:8008
+cors.allowSubdomains=false
+cors.supportedMethods=GET, PUT, HEAD, POST, DELETE, OPTIONS
+cors.supportedHeaders=Origin, X-Requested-With, Content-Type, Accept, Authorization
+cors.exposedHeaders=
+cors.supportsCredentials=true
+cors.maxAge=3600
+		

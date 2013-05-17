@@ -1,7 +1,9 @@
 package com.thetransactioncompany.cors;
 
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -14,6 +16,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.thetransactioncompany.cors.environment.Environment;
+import com.thetransactioncompany.cors.environment.SystemVariablesEnvironment;
 
 
 /**
@@ -41,7 +46,7 @@ import javax.servlet.http.HttpServletResponse;
 public class CORSFilter
 	implements Filter {
 
-
+	
 	/**
 	 * The CORS filer configuration.
 	 */
@@ -80,6 +85,85 @@ public class CORSFilter
 		return props;
 	}
 	
+	public static final String CONFIGURATION_FILE_ENV_VARIABLENAME = "cors.configuration";
+	/**
+	 * Tries to read the configuration file specified through an environment variable
+	 * 
+	 * @return The parameters as Java properties
+	 * @throws FileNotFoundException If a file is specified using the environment variable, but it cannot be found, a FileNotFoundException is thrown
+	 */
+	private Properties getFilterInitParametersFromFile() throws FileNotFoundException {
+		
+		InputStream configurationInputStream = null;
+		try {
+			String configurationFileLocation = getEnvironment().getProperty(CONFIGURATION_FILE_ENV_VARIABLENAME);
+			
+			if(configurationFileLocation == null || configurationFileLocation.length() == 0) 
+				return null;
+			
+			configurationInputStream = this.getClass().getResourceAsStream("/"+configurationFileLocation);
+			
+			Properties props = new Properties();
+			props.load(configurationInputStream);
+			return props;
+			
+		} catch (SecurityException se) {
+			// Problem with getting the environment variable
+			return null;
+		} catch (FileNotFoundException e) {
+			// Couldn't find file, throw an error to prevent loading of default values
+			throw e;
+		} catch (IOException e) {
+			// Couldn't load the file
+			return null;
+		} finally {
+			try {
+				if(configurationInputStream != null)
+					configurationInputStream.close();
+			} catch (IOException e) {
+				
+			}
+		}
+	}
+	
+	/**
+	 * Loads the properties used for setting up the CORSFilter. 
+	 * There are two possible sources
+	 * 1) In the web.xml
+	 * 2) Via a java properties file specified by the environment variable cors.configuration
+	 * 
+	 * If the environment variable is specified, 2) takes precedence and all configuration made in the web.xml is ignored
+	 * @param config
+	 * @return
+	 */
+	
+	private Properties getProperties(FilterConfig config) throws FileNotFoundException {
+		
+		Properties props = getFilterInitParametersFromFile();
+		
+		if(props == null) {
+			props = getFilterInitParameters(config);
+		}
+		
+		return props;
+	}
+	
+	// Information about the environment is encapsulated here
+	private Environment environment;
+	
+	/**
+	 * Gets the current environment. Lazy loads an environment based on System Variables
+	 * @return The Environment containing environment variables etc
+	 */
+	private Environment getEnvironment() {
+		if(environment == null)
+			this.environment = new SystemVariablesEnvironment();
+		return this.environment;
+	}
+	
+	public void setEnvironment(Environment env) {
+		this.environment = env;
+	}
 	
 	/**
 	 * This method is invoked by the web container to initialise the
@@ -93,14 +177,19 @@ public class CORSFilter
 		throws ServletException {
 		
 		// Get the init params
-		Properties props = getFilterInitParameters(filterConfig);
-		
-		// Extract and parse all required CORS filter properties
 		try {
-			config = new CORSConfiguration(props);
+			Properties props = getProperties(filterConfig);
 			
-		} catch (CORSConfigurationException e) {
-		
+			// Extract and parse all required CORS filter properties
+			try {
+				config = new CORSConfiguration(props);
+				
+			} catch (CORSConfigurationException e) {
+			
+				throw new ServletException(e);
+			}
+		}
+		catch(FileNotFoundException e) {
 			throw new ServletException(e);
 		}
 		
@@ -245,7 +334,9 @@ public class CORSFilter
 		}
 	}
 	
-	
+	public CORSConfiguration getConfiguration() {
+		return this.config;
+	}
 	/**
 	 * Called by the web container to indicate to a filter that it is being 
 	 * taken out of service.
