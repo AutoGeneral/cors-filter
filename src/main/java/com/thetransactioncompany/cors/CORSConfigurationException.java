@@ -20,4 +20,17 @@ public class CORSConfigurationException extends Exception {
 	
 		super(message);
 	}
+
+
+	/**
+	 * Creates a new CORS filter configuration exception with the specified
+	 * message and cause.
+	 *
+	 * @param message The exception message.
+	 * @param cause   The exception cause.
+	 */
+	public CORSConfigurationException(final String message, final Throwable cause) {
+
+		super(message, cause);
+	}
 }

@@ -1,20 +1,27 @@
 package com.thetransactioncompany.cors.environment;
 
+
 import java.util.Properties;
 
+
 /**
- * Loads Environment Variables from the System
+ * System variables environment.
+ *
+ * @author David Bellem
  */
 public class SystemVariablesEnvironment implements Environment {
 
+
 	@Override
-	public String getProperty(String name) {
+	public String getProperty(final String name) {
+
 		return System.getProperty(name);
 	}
 
+
 	@Override
 	public Properties getProperties() {
+
 		return System.getProperties();
 	}
-
 }

@@ -1,12 +1,8 @@
 package com.thetransactioncompany.cors;
 
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.Enumeration;
-import java.util.Properties;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -17,9 +13,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.thetransactioncompany.cors.environment.Environment;
-import com.thetransactioncompany.cors.environment.SystemVariablesEnvironment;
-
 
 /**
  * Cross-Origin Resource Sharing (CORS) servlet filter.
@@ -28,7 +21,7 @@ import com.thetransactioncompany.cors.environment.SystemVariablesEnvironment;
  * policy as specified by the filter init parameters. The actual CORS
  * request is processed by the {@link CORSRequestHandler} class.
  *
- * <p>Supported filter init parameters:
+ * <p>Supported configuration parameters:
  *
  * <ul>
  *     <li>cors.allowGenericHttpRequests {true|false} defaults to {@code true}.
@@ -42,9 +35,9 @@ import com.thetransactioncompany.cors.environment.SystemVariablesEnvironment;
  * </ul>
  *
  * @author Vladimir Dzhuvinov
+ * @author David Bellem
  */
-public class CORSFilter
-	implements Filter {
+public class CORSFilter implements Filter {
 
 	
 	/**
@@ -57,140 +50,41 @@ public class CORSFilter
 	 * Encapsulates the CORS request handling logic.
 	 */
 	private CORSRequestHandler handler;
-	
-	
+
+
 	/**
-	 * Converts the initial filter parameters (typically specified in the 
-	 * {@code web.xml} file) to a Java properties hashtable. The parameter
-	 * names become property keys.
+	 * Gets the configuration of this CORS filter.
 	 *
-	 * @param config The filter configuration.
-	 *
-	 * @return The context parameters as Java properties.
+	 * @return The configuration, {@code null} if the filter is not
+	 *         initialised.
 	 */
-	private static Properties getFilterInitParameters(final FilterConfig config) {
-	
-		Properties props = new Properties();
-	
-		Enumeration en = config.getInitParameterNames();
-		
-		while (en.hasMoreElements()) {
-			
-			String key = (String)en.nextElement();
-			String value = config.getInitParameter(key);
-			
-			props.setProperty(key, value);
-		}
-	
-		return props;
+	public CORSConfiguration getConfiguration() {
+
+		return config;
 	}
 	
-	public static final String CONFIGURATION_FILE_ENV_VARIABLENAME = "cors.configuration";
-	/**
-	 * Tries to read the configuration file specified through an environment variable
-	 * 
-	 * @return The parameters as Java properties
-	 * @throws FileNotFoundException If a file is specified using the environment variable, but it cannot be found, a FileNotFoundException is thrown
-	 */
-	private Properties getFilterInitParametersFromFile() throws FileNotFoundException {
-		
-		InputStream configurationInputStream = null;
-		try {
-			String configurationFileLocation = getEnvironment().getProperty(CONFIGURATION_FILE_ENV_VARIABLENAME);
-			
-			if(configurationFileLocation == null || configurationFileLocation.length() == 0) 
-				return null;
-			
-			configurationInputStream = this.getClass().getResourceAsStream("/"+configurationFileLocation);
-			
-			Properties props = new Properties();
-			props.load(configurationInputStream);
-			return props;
-			
-		} catch (SecurityException se) {
-			// Problem with getting the environment variable
-			return null;
-		} catch (FileNotFoundException e) {
-			// Couldn't find file, throw an error to prevent loading of default values
-			throw e;
-		} catch (IOException e) {
-			// Couldn't load the file
-			return null;
-		} finally {
-			try {
-				if(configurationInputStream != null)
-					configurationInputStream.close();
-			} catch (IOException e) {
-				
-			}
-		}
-	}
-	
-	/**
-	 * Loads the properties used for setting up the CORSFilter. 
-	 * There are two possible sources
-	 * 1) In the web.xml
-	 * 2) Via a java properties file specified by the environment variable cors.configuration
-	 * 
-	 * If the environment variable is specified, 2) takes precedence and all configuration made in the web.xml is ignored
-	 * @param config
-	 * @return
-	 */
-	
-	private Properties getProperties(FilterConfig config) throws FileNotFoundException {
-		
-		Properties props = getFilterInitParametersFromFile();
-		
-		if(props == null) {
-			props = getFilterInitParameters(config);
-		}
-		
-		return props;
-	}
-	
-	// Information about the environment is encapsulated here
-	private Environment environment;
-	
-	/**
-	 * Gets the current environment. Lazy loads an environment based on System Variables
-	 * @return The Environment containing environment variables etc
-	 */
-	private Environment getEnvironment() {
-		if(environment == null)
-			this.environment = new SystemVariablesEnvironment();
-		return this.environment;
-	}
-	
-	public void setEnvironment(Environment env) {
-		this.environment = env;
-	}
 	
 	/**
 	 * This method is invoked by the web container to initialise the
 	 * filter at startup.
 	 *
-	 * @param filterConfig The filter configuration.
+	 * @param filterConfig The servlet filter configuration. Must not be
+	 *                     {@code null}.
 	 *
 	 * @throws ServletException On a filter initialisation exception.
 	 */
+	@Override
 	public void init(final FilterConfig filterConfig)
 		throws ServletException {
 		
-		// Get the init params
+		CORSConfigurationLoader configLoader = new CORSConfigurationLoader(filterConfig);
+
 		try {
-			Properties props = getProperties(filterConfig);
-			
-			// Extract and parse all required CORS filter properties
-			try {
-				config = new CORSConfiguration(props);
-				
-			} catch (CORSConfigurationException e) {
-			
-				throw new ServletException(e);
-			}
-		}
-		catch(FileNotFoundException e) {
-			throw new ServletException(e);
+			config = configLoader.load();
+		
+		} catch (CORSConfigurationException e) {
+
+			throw new ServletException(e.getMessage(), e);
 		}
 		
 		handler = new CORSRequestHandler(config);
@@ -202,9 +96,9 @@ public class CORSFilter
 	 * code and message.
 	 *
 	 * <p>Note: The CORS filter avoids falling back to the default web
-	 * container error page (typically a richly-formatted HTML page) to make
-	 * it easier for XHR debugger tools to identify the cause of failed 
-	 * requests.
+	 * container error page (typically a richly-formatted HTML page) to 
+	 * make it easier for XHR debugger tools to identify the cause of 
+	 * failed requests.
 	 *
 	 * @param sc      The HTTP status code.
 	 * @param message The message.
@@ -232,18 +126,20 @@ public class CORSFilter
 	
 	
 	/**
-	 * Filters an HTTP request/reponse pair according to the configured CORS
-	 * policy. Also tags the request with CORS information to downstream
-	 * handlers.
+	 * Filters an HTTP request/reponse pair according to the configured 
+	 * CORS policy. Also tags the request with CORS information to 
+	 * downstream handlers.
 	 * 
 	 * @param request  The servlet request.
 	 * @param response The servlet response.
-	 * @param chain    The filter chain.
+	 * @param chain    The servlet filter chain.
 	 *
 	 * @throws IOException      On a I/O exception.
 	 * @throws ServletException On a general request processing exception.
 	 */
-	private void doFilter(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain)
+	private void doFilter(final HttpServletRequest request, 
+		              final HttpServletResponse response, 
+		              final FilterChain chain)
 		throws IOException, ServletException {
 	
 		// Tag
@@ -316,31 +212,34 @@ public class CORSFilter
 	 * 
 	 * @param request  The servlet request.
 	 * @param response The servlet response.
-	 * @param chain    The filter chain.
+	 * @param chain    The servlet filter chain.
 	 *
 	 * @throws IOException      On a I/O exception.
 	 * @throws ServletException On a general request processing exception.
 	 */
-	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
+	@Override
+	public void doFilter(final ServletRequest request, 
+		             final ServletResponse response, 
+		             final FilterChain chain)
 		throws IOException, ServletException {
 		
 		if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
 		
 			// Cast to HTTP
 			doFilter((HttpServletRequest)request, (HttpServletResponse)response, chain);
-		}
-		else {
+
+		} else {
+
 			throw new ServletException("Cannot filter non-HTTP requests/responses");	
 		}
 	}
-	
-	public CORSConfiguration getConfiguration() {
-		return this.config;
-	}
+
+
 	/**
 	 * Called by the web container to indicate to a filter that it is being 
 	 * taken out of service.
 	 */
+	@Override
 	public void destroy() {
 	
 		// do nothing
