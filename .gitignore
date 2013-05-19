@@ -3,11 +3,7 @@
 /.project
 /.settings/
 
-# Ant and Maven build directories
-/build/
+# Maven build directories
 /target/
 
-# Others
-/procsrc/
-/javadoc/
 
