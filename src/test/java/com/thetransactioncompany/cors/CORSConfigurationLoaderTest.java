@@ -1,36 +1,37 @@
 package com.thetransactioncompany.cors;
 
 
-import javax.servlet.ServletException;
-
 import junit.framework.TestCase;
 
 import com.thetransactioncompany.cors.environment.MockEnvironment;
 
 
 /**
- * Tests the CORS Filter class.
+ * Tests the CORS configuration loader.
  *
  * @author David Bellem
+ * @author Vladimir Dzhuvinov
  */
-public class CORSFilterTest extends TestCase {
+public class CORSConfigurationLoaderTest extends TestCase {
 	
 	
-	public void testFileBasedConfig() {
-        
-		MockEnvironment mock = new MockEnvironment();
-		mock.setConfigurationFileName("cors-sample.configuration");
+	public void testEnvVarBasedConfig() {
 		
-		CORSFilter filter = new CORSFilter();
-		filter.setEnvironment(mock);
+		CORSConfigurationLoader configLoader = new CORSConfigurationLoader(new MockFilterConfig());
+
+		MockEnvironment mockEnv = new MockEnvironment();
+		mockEnv.setConfigurationFileName("cors-sample.configuration");
+		configLoader.setEnvironment(mockEnv);
 		
+		CORSConfiguration c = null;
+
 		try {
-			filter.init(null);
-		} catch (ServletException e) {
-			fail();
+			c = configLoader.load();
+
+		} catch (CORSConfigurationException e) {
+
+			fail(e.getMessage());
 		}
-		
-		CORSConfiguration c = filter.getConfiguration();
 		
 		assertTrue(c.allowGenericHttpRequests);
 		
