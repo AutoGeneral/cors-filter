@@ -24,9 +24,9 @@ public class CORSConfigurationLoader {
 
 
 	/**
-	 * The name of the system environment variable / filter initialisation
-	 * parameter that points to the file name holding the CORS 
-	 * configuration properties.
+	 * The name of the system environment variable / web.xml filter 
+	 * initialisation parameter that points to the file name holding the 
+	 * CORS configuration properties.
 	 */
 	public static final String CONFIG_FILE_PARAM_NAME = "cors.configurationFile";
 
@@ -44,9 +44,8 @@ public class CORSConfigurationLoader {
 
 
 	/**
-	 * Converts the initial filter parameters (typically specified in the 
-	 * {@code web.xml} file) to a Java properties representation. The 
-	 * parameter names become property keys.
+	 * Converts the web.xml filter initialisation parameters to a Java
+	 * properties representation. The parameter names become property keys.
 	 *
 	 * @param config The filter configuration. Must not be {@code null}.
 	 *
@@ -73,13 +72,13 @@ public class CORSConfigurationLoader {
 	/**
 	 * Creates a new CORS configuration loader.
 	 *
-	 * @param filterConfig The filter configuration. Must not be
+	 * @param filterConfig The servlet filter configuration. Must not be
 	 *                     {@code null}.
 	 */
 	public CORSConfigurationLoader(final FilterConfig filterConfig) {
 
 		if (filterConfig == null)
-			throw new IllegalArgumentException("The filter configuration must not be null");
+			throw new IllegalArgumentException("The servlet filter configuration must not be null");
 
 		this.filterConfig = filterConfig;
 	}
@@ -92,12 +91,11 @@ public class CORSConfigurationLoader {
 	 * 
 	 * @return The properties found in the file.
 	 *
-	 * @throws SecurityException If access to the file system was denied.
-	 * @throws IOException       If the file wasn't found, or the 
-	 *                           properties couldn't be loaded.
+	 * @throws IOException If the file wasn't found, or the properties
+	 *                     couldn't be loaded.
 	 */
 	private Properties loadPropertiesFromFile(final String filename)
-		throws SecurityException, IOException {
+		throws IOException {
 		
 		InputStream is = null;
 
@@ -123,7 +121,7 @@ public class CORSConfigurationLoader {
 	
 	
 	/**
-	 * Gets the current system variables environment (using lazy loading).
+	 * Gets the current system variables environment (lazy loading).
 	 *
 	 * @return The system variables environment.
 	 */
@@ -147,6 +145,36 @@ public class CORSConfigurationLoader {
 	}
 
 
+	/**
+	 * Loads the CORS filter configuration.
+	 *
+	 * <p>The following precedence applies:
+	 *
+	 * <ul>
+	 *     <li>The system environment is checked for a 
+	 *         {@code cors.configurationFile} variable. If it exists, the
+	 *         configuration properties are loaded from the file location
+	 *         specified by the variable value. The location is typically
+	 *         relative to the web application root directory.
+	 *     <li>The web.xml filter initialisation parameters are checked for
+	 *         a {@code cors.configurationFile} variable. If it exists, the
+	 *         configuration properties are loaded from the file location
+	 *         specified by the parameter value. The location is typically
+	 *         relative to the web application root directory.
+	 *     <li>The configuration is specified by the web.xml filter
+	 *         initialisation parameters with the matching name. If an
+	 *         initialisation parameter is not defined the default 
+	 *         configuration property is applied.
+	 * </ul>
+	 *
+	 * @return The loaded CORS filter configuration.
+	 *
+	 * @throws CORSFilterConfigurationException If the configuration file
+	 *                                          couldn't be loaded or
+	 *                                          parsing of one or more
+	 *                                          properties failed to an
+	 *                                          illegal value.
+	 */
 	public CORSConfiguration load()
 		throws CORSConfigurationException {
 
@@ -171,10 +199,6 @@ public class CORSConfigurationLoader {
 
 				props = getFilterInitParameters(filterConfig);
 			}
-
-		} catch (SecurityException e) {
-
-			throw new CORSConfigurationException(e.getMessage(), e);
 
 		} catch(IOException e) {
 
