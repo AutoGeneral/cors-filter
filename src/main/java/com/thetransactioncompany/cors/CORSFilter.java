@@ -126,7 +126,7 @@ public class CORSFilter implements Filter {
 	
 	
 	/**
-	 * Filters an HTTP request/reponse pair according to the configured 
+	 * Filters an HTTP request / response pair according to the configured 
 	 * CORS policy. Also tags the request with CORS information to 
 	 * downstream handlers.
 	 * 
@@ -149,13 +149,13 @@ public class CORSFilter implements Filter {
 	
 		try {
 			if (type == CORSRequestType.ACTUAL) {
-				// Simple/actual CORS request
+				// Simple / actual CORS request
 				handler.handleActualRequest(request, response);
 				chain.doFilter(request, response);
 			}
 			else if (type == CORSRequestType.PREFLIGHT) {
-				// Preflight CORS request, handle but don't pass
-				// further down the chain
+				// Preflight CORS request, handle but don't 
+				// pass further down the chain
 				handler.handlePreflightRequest(request, response);
 			}
 			else if (config.allowGenericHttpRequests) {
@@ -204,11 +204,10 @@ public class CORSFilter implements Filter {
 	}
 	
 	
-	
 	/**
-	 * Called by the servlet container each time a request/response pair is 
-	 * passed through the chain due to a client request for a resource at 
-	 * the end of the chain.
+	 * Called by the servlet container each time a request / response pair 
+	 * is passed through the chain due to a client request for a resource 
+	 * at the end of the chain.
 	 * 
 	 * @param request  The servlet request.
 	 * @param response The servlet response.
