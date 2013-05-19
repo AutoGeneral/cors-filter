@@ -1,10 +1,8 @@
 package com.thetransactioncompany.cors;
 
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -172,7 +170,7 @@ public class CORSConfigurationLoader {
 	 * @throws CORSFilterConfigurationException If the configuration file
 	 *                                          couldn't be loaded or
 	 *                                          parsing of one or more
-	 *                                          properties failed to an
+	 *                                          properties failed due to an
 	 *                                          illegal value.
 	 */
 	public CORSConfiguration load()
