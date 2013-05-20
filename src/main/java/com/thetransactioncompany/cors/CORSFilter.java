@@ -27,8 +27,9 @@ import javax.servlet.http.HttpServletResponse;
  *     <li>cors.allowGenericHttpRequests {true|false} defaults to {@code true}.
  *     <li>cors.allowOrigin {"*"|origin-list} defaults to {@code *}.
  *     <li>cors.allowSubdomains {true|false} defaults to {@code false}.
- *     <li>cors.supportedMethods {method-list} defaults to {@code "GET, POST, HEAD, OPTIONS"}.
- *     <li>cors.supportedHeaders {header-list} defaults to empty list.
+ *     <li>cors.supportedMethods {method-list} defaults to {@code "GET, POST, 
+ *         HEAD, OPTIONS"}.
+ *     <li>cors.supportedHeaders {"*"|header-list} defaults to {@code *}.
  *     <li>cors.exposedHeaders {header-list} defaults to empty list.
  *     <li>cors.supportsCredentials {true|false} defaults to {@code true}.
  *     <li>cors.maxAge {int} defaults to {@code -1} (unspecified).
