@@ -10,8 +10,7 @@ import com.thetransactioncompany.util.PropertyRetriever;
 
 
 /**
- * The CORS filter configuration (typically originating from the web application
- * descriptor file {@code web.xml}). The fields become immutable (final) after 
+ * The CORS filter configuration. The fields become immutable (final) after 
  * they are initialised.
  *
  * @author Vladimir Dzhuvinov
@@ -22,9 +21,9 @@ public class CORSConfiguration {
 	
 	
 	/**
-	 * If {@code true} generic HTTP requests must be allowed to pass through
-	 * the filter, else only valid and accepted CORS requests must be 
-	 * allowed (strict CORS filtering).
+	 * If {@code true} generic HTTP requests must be allowed to pass 
+	 * through the filter, else only valid and accepted CORS requests must 
+	 * be allowed (strict CORS filtering).
 	 *
 	 * <p>Property key: cors.allowGenericHttpRequests
 	 */
@@ -42,8 +41,9 @@ public class CORSConfiguration {
 	
 	/**
 	 * Whitelisted origins that the CORS filter must allow. Requests from 
-	 * origins not included here must be refused with a HTTP 403 "Forbidden"
-	 * response. This property is overriden by {@link #allowAnyOrigin}.
+	 * origins not included here must be refused with a HTTP 403 
+	 * "Forbidden" response. This property is overriden by 
+	 * {@link #allowAnyOrigin}.
 	 *
 	 * <p>Note: The set is of type String instead of Origin to bypass
 	 * parsing of the request origins before matching, see 

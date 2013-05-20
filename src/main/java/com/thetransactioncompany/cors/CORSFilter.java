@@ -148,22 +148,26 @@ public class CORSFilter implements Filter {
 		CORSRequestType type = CORSRequestType.detect(request);
 	
 		try {
-			if (type == CORSRequestType.ACTUAL) {
+			if (type.equals(CORSRequestType.ACTUAL)) {
+
 				// Simple / actual CORS request
 				handler.handleActualRequest(request, response);
 				chain.doFilter(request, response);
-			}
-			else if (type == CORSRequestType.PREFLIGHT) {
+
+			} else if (type.equals(CORSRequestType.PREFLIGHT)) {
+				
 				// Preflight CORS request, handle but don't 
 				// pass further down the chain
 				handler.handlePreflightRequest(request, response);
-			}
-			else if (config.allowGenericHttpRequests) {
+
+			} else if (config.allowGenericHttpRequests) {
+
 				// Not a CORS request, but allow it through
 				request.setAttribute("cors.isCorsRequest", false); // tag
 				chain.doFilter(request, response);
-			}
-			else {
+
+			} else {
+
 				// Generic HTTP requests denied
 				request.setAttribute("cors.isCorsRequest", false); // tag
 				printMessage(response, HttpServletResponse.SC_FORBIDDEN, "Generic HTTP requests not allowed");

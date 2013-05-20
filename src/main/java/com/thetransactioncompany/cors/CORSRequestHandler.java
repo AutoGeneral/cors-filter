@@ -26,7 +26,7 @@ public class CORSRequestHandler {
 	 * The CORS filter configuration, detailing the cross-origin access 
 	 * policy.
 	 */
-	private CORSConfiguration config;
+	private final CORSConfiguration config;
 	
 	
 	/**
@@ -162,7 +162,8 @@ public class CORSRequestHandler {
 	/**
 	 * Handles a simple or actual CORS request.
 	 *
-	 * <p>CORS specification: <a href="http://www.w3.org/TR/access-control/#resource-requests">Simple Cross-Origin Request, Actual Request, and Redirects</a>
+	 * <p>CORS specification: <a href="http://www.w3.org/TR/access-control/#resource-requests">Simple 
+	 * Cross-Origin Request, Actual Request, and Redirects</a>
 	 *
 	 * @param request  The HTTP request.
 	 * @param response The HTTP response.
@@ -174,7 +175,8 @@ public class CORSRequestHandler {
 	 *                                        is not supported by the CORS
 	 *                                        policy.
 	 */
-	public void handleActualRequest(final HttpServletRequest request, final HttpServletResponse response)
+	public void handleActualRequest(final HttpServletRequest request, 
+		                        final HttpServletResponse response)
 		throws InvalidCORSRequestException, 
 		       CORSOriginDeniedException, 
 		       UnsupportedHTTPMethodException {
@@ -226,7 +228,8 @@ public class CORSRequestHandler {
 	/**
 	 * Handles a preflight CORS request.
 	 *
-	 * <p>CORS specification: <a href="http://www.w3.org/TR/access-control/#resource-preflight-requests">Preflight Request</a>
+	 * <p>CORS specification: <a href="http://www.w3.org/TR/access-control/#resource-preflight-requests">Preflight 
+	 * Request</a>
 	 *
 	 * @param request  The HTTP request.
 	 * @param response The HTTP response.
@@ -313,8 +316,7 @@ public class CORSRequestHandler {
 		if (config.supportsCredentials) {
 			response.addHeader("Access-Control-Allow-Origin", requestOrigin.toString());
 			response.addHeader("Access-Control-Allow-Credentials", "true");
-		}
-		else {
+		} else {
 			if (config.allowAnyOrigin)
 				response.addHeader("Access-Control-Allow-Origin", "*");
 			else
