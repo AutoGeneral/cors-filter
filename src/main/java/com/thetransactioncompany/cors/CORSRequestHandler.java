@@ -32,19 +32,19 @@ public class CORSRequestHandler {
 	/**
 	 * Pre-computed string of the CORS supported methods.
 	 */
-	private String supportedMethods;
+	private final String supportedMethods;
 	
 	
 	/**
 	 * Pre-computed string of the CORS supported headers.
 	 */
-	private String supportedHeaders;
+	private final String supportedHeaders;
 	
 	
 	/**
 	 * Pre-computed string of the CORS exposed headers.
 	 */
-	private String exposedHeaders;
+	private final String exposedHeaders;
 	
 	
 	/**
@@ -57,8 +57,17 @@ public class CORSRequestHandler {
 		this.config = config;
 		
 		// Pre-compute response headers where possible
+
+		// Access-Control-Allow-Methods
 		supportedMethods = serialize(config.supportedMethods, ", ");
-		supportedHeaders = serialize(config.supportedHeaders, ", ");
+
+		// Access-Control-Allow-Headers
+		if (! config.supportAnyHeader)
+			supportedHeaders = serialize(config.supportedHeaders, ", ");
+		else
+			supportedHeaders = null;
+
+		/// Access-Control-Expose-Headers
 		exposedHeaders = serialize(config.exposedHeaders, ", ");	
 	}
 	
@@ -279,9 +288,9 @@ public class CORSRequestHandler {
 		}
 		
 		
-		// Parse custom headers
-		
-		final String[] requestHeaderValues = parseMultipleHeaderValues(request.getHeader("Access-Control-Request-Headers"));
+		// Parse the requested author (custom) headers
+		final String rawRequestHeadersString = request.getHeader("Access-Control-Request-Headers");
+		final String[] requestHeaderValues = parseMultipleHeaderValues(rawRequestHeadersString);
 		
 		final HeaderFieldName[] requestHeaders = new HeaderFieldName[requestHeaderValues.length];
 		
@@ -303,12 +312,13 @@ public class CORSRequestHandler {
 		
 		
 		// Author request headers check
-		
-		for (int i=0; i<requestHeaders.length; i++) {
-		
-			if (! config.supportedHeaders.contains(requestHeaders[i]))
-				throw new UnsupportedHTTPHeaderException("Unsupported HTTP request header", requestHeaders[i]);
-				
+		if (! config.supportAnyHeader) {
+
+			for (int i=0; i<requestHeaders.length; i++) {
+			
+				if (! config.supportedHeaders.contains(requestHeaders[i]))
+					throw new UnsupportedHTTPHeaderException("Unsupported HTTP request header", requestHeaders[i]);
+			}			
 		}
 		
 		// Success, append response headers
@@ -328,7 +338,15 @@ public class CORSRequestHandler {
 		
 		response.addHeader("Access-Control-Allow-Methods", supportedMethods);
 		
-		if (! supportedHeaders.isEmpty())
+
+		if (config.supportAnyHeader && rawRequestHeadersString != null) {
+
+			// Echo author headers
+			response.addHeader("Access-Control-Allow-Headers", rawRequestHeadersString);
+
+		} else if (! supportedHeaders.isEmpty()) {
+
 			response.addHeader("Access-Control-Allow-Headers", supportedHeaders);
+		}
 	}
 }

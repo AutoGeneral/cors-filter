@@ -11,7 +11,7 @@
 	<servlet>
 		<!-- Some servlet -->
 		<servlet-name>HelloWorld</servlet-name>
-		<servlet-class>HelloWorldServlet</servlet-class>
+		<servlet-class>com.thetransactioncompany.cors.demo.HelloWorldServlet</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
@@ -25,8 +25,8 @@
 		<filter-name>CORS</filter-name>
 		<filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
 		
-		<!-- Note: All parameters are options, if ommitted CORS Filter
-		     will fall back to the respective default values.
+		<!-- Note: All parameters are options, if omitted the CORS 
+		     Filter will fall back to the respective default values.
 		  -->
 		<init-param>
 			<param-name>cors.allowGenericHttpRequests</param-name>
@@ -50,7 +50,7 @@
 		
 		<init-param>
 			<param-name>cors.supportedHeaders</param-name>
-			<param-value>Content-Type, X-Requested-With</param-value>
+			<param-value>*</param-value>
 		</init-param>
 		
 		<init-param>

@@ -1,7 +1,6 @@
 package com.thetransactioncompany.cors.demo;
 
 
-
 import java.io.*;
 import java.util.*;
 
@@ -10,7 +9,7 @@ import javax.servlet.http.*;
 
 
 /**
- * Simple test servlet for CORS requests.
+ * Simple servlet for testing CORS requests.
  *
  * @author Vladimir Dzhuvinov
  */
