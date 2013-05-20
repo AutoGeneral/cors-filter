@@ -103,4 +103,10 @@ version 1.6 (2013-04-18)
 	* Permits any URI scheme, not just http and https, according to RFC 
 	  6454.
 
+version 1.7 (2013-05-20)
+	* Corrects handling of same-origin requests that specify an Origin 
+	  header.
+	* Augments the cors.supportedHeader configuration option to enable
+	  specification of an allow-any-header policy.
+	* Upgrades to Property Utils JAR 1.9.
 [EOF]
