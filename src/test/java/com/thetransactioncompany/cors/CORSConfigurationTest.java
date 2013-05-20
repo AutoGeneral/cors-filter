@@ -80,7 +80,8 @@ public class CORSConfigurationTest extends TestCase {
 		assertFalse(c.isSupportedMethod(HTTPMethod.PUT));
 		assertFalse(c.isSupportedMethod(HTTPMethod.TRACE));
 		
-		assertFalse(c.isSupportedHeader(new HeaderFieldName("X-Requested-By")));
+		assertTrue(c.supportAnyHeader);
+		assertTrue(c.isSupportedHeader(new HeaderFieldName("X-Requested-By")));
 		
 		assertEquals(-1, c.maxAge);
         }
@@ -92,7 +93,7 @@ public class CORSConfigurationTest extends TestCase {
 		p.setProperty("cors.allowGenericHttpRequests", "true");
 		p.setProperty("cors.allowOrigin", "*");
 		p.setProperty("cors.supportedMethods", "GET, POST, OPTIONS");
-		p.setProperty("cors.supportedHeaders", "");
+		p.setProperty("cors.supportedHeaders", "*");
 		p.setProperty("cors.supportsCredentials", "false");
 		
 		CORSConfiguration c = null;
@@ -115,6 +116,9 @@ public class CORSConfigurationTest extends TestCase {
 		assertFalse(c.isSupportedMethod(HTTPMethod.DELETE));
 		assertFalse(c.isSupportedMethod(HTTPMethod.PUT));
 		assertFalse(c.isSupportedMethod(HTTPMethod.TRACE));
+
+		assertTrue(c.supportAnyHeader);
+		assertTrue(c.isSupportedHeader(new HeaderFieldName("X-Requested-By")));
         }
 	
 	
@@ -143,6 +147,9 @@ public class CORSConfigurationTest extends TestCase {
 		assertFalse(c.isAllowedOrigin(new Origin("http://example.com:8008")));
 		assertFalse(c.isAllowedOrigin(new Origin("http://example.com")));
 		assertFalse(c.isAllowedOrigin(new Origin("http://deny-origin.com")));
+
+		assertFalse(c.supportAnyHeader);
+		assertFalse(c.isSupportedHeader(new HeaderFieldName("X-Requested-By")));
         }
 	
 	

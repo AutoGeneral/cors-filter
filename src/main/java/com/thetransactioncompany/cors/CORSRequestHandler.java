@@ -92,7 +92,7 @@ public class CORSRequestHandler {
 	
 	/**
 	 * Parses a header value consisting of zero or more space / comma / 
-	 * space+comma separated strings. The input string is trimmed before 
+	 * space + comma separated strings. The input string is trimmed before 
 	 * splitting.
 	 *
 	 * @param headerValue The header value, may be {@code null}.

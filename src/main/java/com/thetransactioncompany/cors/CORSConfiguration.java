@@ -1,6 +1,7 @@
 package com.thetransactioncompany.cors;
 
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -32,7 +33,7 @@ public class CORSConfiguration {
 
 	/**
 	 * If {@code true} the CORS filter must allow requests from any origin,
-	 * else the origin whitelist {@link #allowedOrigins} must be consulted.
+	 * else the {@link #allowedOrigins origin whitelist} must be consulted.
 	 *
 	 * <p>Property key: cors.allowOrigin (set to {@code *})
 	 */
@@ -40,10 +41,9 @@ public class CORSConfiguration {
 	
 	
 	/**
-	 * Whitelisted origins that the CORS filter must allow. Requests from 
-	 * origins not included here must be refused with a HTTP 403 
-	 * "Forbidden" response. This property is overriden by 
-	 * {@link #allowAnyOrigin}.
+	 * Origins that the CORS filter must allow. Requests from origins not 
+	 * included here must be refused with a HTTP 403 "Forbidden" response. 
+	 * This property is overridden by {@link #allowAnyOrigin}.
 	 *
 	 * <p>Note: The set is of type String instead of Origin to bypass
 	 * parsing of the request origins before matching, see 
@@ -73,9 +73,7 @@ public class CORSConfiguration {
 
 	/**
 	 * Helper method to check whether requests from the specified origin 
-	 * must be allowed. This is done by looking up {@link #allowAnyOrigin} 
-	 * and {@link #allowedOrigins} as well as the {@link #allowSubdomains}
-	 * setting.
+	 * must be allowed.
 	 *
 	 * @param origin The origin as reported by the web client (browser), 
 	 *               {@code null} if unknown.
@@ -101,8 +99,8 @@ public class CORSConfiguration {
 	
 	/**
 	 * Helper method to check whether the specified origin is a subdomain 
-	 * origin of the {@link #allowedOrigins}. This is done by looking up the
-	 * origin's scheme, hostname and port and matching them with each of the 
+	 * origin of the {@link #allowedOrigins}. This is done by matching the
+	 * origin's scheme, hostname and port against each of the 
 	 * {@link #allowedOrigins}.
 	 *
 	 * <p>Example: 
@@ -167,10 +165,21 @@ public class CORSConfiguration {
 		else
 			return false;
 	}
+
+
+	/**
+	 * If {@code true} the CORS filter must support any requested header,
+	 * else the {@link #supportedHeaders supported headers list} must be 
+	 * consulted.
+	 *
+	 * <p>Property key: cors.supportedHeaders
+	 */
+	public final boolean supportAnyHeader;
 	
 	
 	/**
-	 * The names of the supported author request headers.
+	 * The names of the supported author request headers. Applies if
+	 * {@link #supportAnyHeader} is {@code false}. Never {@code null}.
 	 * 
 	 * <p>Property key: cors.supportedHeaders
 	 */
@@ -179,8 +188,7 @@ public class CORSConfiguration {
 	
 	/**
 	 * Helper method to check whether the specified (non-simple) author 
-	 * request header is supported. This is done by looking up 
-	 * {@link #supportedHeaders}.
+	 * request header is supported.
 	 *
 	 * @param header The header field name.
 	 *
@@ -188,7 +196,7 @@ public class CORSConfiguration {
 	 */
 	public final boolean isSupportedHeader(final HeaderFieldName header) {
 
-        	if (supportedHeaders.contains(header))
+		if (supportAnyHeader || supportedHeaders.contains(header))
 			return true;
 		else
 			return false;
@@ -253,7 +261,8 @@ public class CORSConfiguration {
 	 *     <li>cors.allowSubdomains {true|false} defaults to {@code false}.
 	 *     <li>cors.supportedMethods {method-list} defaults to {@code "GET, 
 	 *         POST, HEAD, OPTIONS"}.
-	 *     <li>cors.supportedHeaders {header-list} defaults to empty list.
+	 *     <li>cors.supportedHeaders {"*"|header-list} defaults to 
+	 *         {@code *}.
 	 *     <li>cors.exposedHeaders {header-list} defaults to empty list.
 	 *     <li>cors.supportsCredentials {true|false} defaults to 
 	 *         {@code true}.
@@ -271,11 +280,9 @@ public class CORSConfiguration {
 			PropertyRetriever pr = new PropertyRetriever(props);
 
 			// Parse the allow generic HTTP requests option
-			
 			allowGenericHttpRequests = pr.getOptBoolean("cors.allowGenericHttpRequests", true);
 			
 			// Parse the allowed origins list
-			
 			String originSpec = pr.getOptString("cors.allowOrigin", "*").trim();
 			
 			allowedOrigins = new HashSet<ValidatedOrigin>();
@@ -283,8 +290,9 @@ public class CORSConfiguration {
 			if (originSpec.equals("*")) {
 
 				allowAnyOrigin = true;
-			}
-			else {
+
+			} else {
+
 				allowAnyOrigin = false;
 
 				String[] urls = parseWords(originSpec);
@@ -325,29 +333,47 @@ public class CORSConfiguration {
 			
 
 			// Parse the supported headers list
+			String headerSpec;
 
-			String[] headers = parseWords(pr.getOptString("cors.supportedHeaders", ""));
+			// Empty value has special meaning of "no supported headers"
+			try {
+				headerSpec = pr.getString("cors.supportedHeaders");
 
-			supportedHeaders = new HashSet<HeaderFieldName>();
+			} catch (PropertyParseException e) {
 
-			for (String header: headers) {
+				headerSpec = "*";
+			}
 
-				try {
-					supportedHeaders.add(new HeaderFieldName(header));
+			if (headerSpec.equals("*")) {
 
-				} catch (IllegalArgumentException e) {
-					throw new PropertyParseException("Bad header field name in property cors.supportedHeaders: " + header);
+				supportAnyHeader = true;
+				supportedHeaders = Collections.unmodifiableSet(new HashSet<HeaderFieldName>());
+
+			} else {
+
+				supportAnyHeader = false;
+
+				String[] headers = parseWords(headerSpec);
+
+				supportedHeaders = new HashSet<HeaderFieldName>();
+
+				for (String header: headers) {
+
+					try {
+						supportedHeaders.add(new HeaderFieldName(header));
+
+					} catch (IllegalArgumentException e) {
+
+						throw new PropertyParseException("Bad header field name in property cors.supportedHeaders: " + header);
+					}
 				}
 			}
 
 
 			// Parse the exposed headers list
-			
-			headers = parseWords(pr.getOptString("cors.exposedHeaders", ""));
-
 			exposedHeaders = new HashSet<HeaderFieldName>();
 
-			for (String header: headers) {
+			for (String header: parseWords(pr.getOptString("cors.exposedHeaders", ""))) {
 
 				try {
 					exposedHeaders.add(new HeaderFieldName(header));
