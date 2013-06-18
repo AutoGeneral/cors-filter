@@ -1,11 +1,6 @@
 package com.thetransactioncompany.cors;
 
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.IDN;
-
-
 /**
  * Resource request origin (not validated), as defined in The Web Origin 
  * Concept (RFC 6454).
