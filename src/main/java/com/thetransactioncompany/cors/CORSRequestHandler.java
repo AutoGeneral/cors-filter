@@ -344,7 +344,7 @@ public class CORSRequestHandler {
 			// Echo author headers
 			response.addHeader("Access-Control-Allow-Headers", rawRequestHeadersString);
 
-		} else if (! supportedHeaders.isEmpty()) {
+		} else if (supportedHeaders != null && ! supportedHeaders.isEmpty()) {
 
 			response.addHeader("Access-Control-Allow-Headers", supportedHeaders);
 		}
