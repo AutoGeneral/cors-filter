@@ -90,6 +90,7 @@ public class HeaderFieldName {
 	 *
 	 * @return The header field name as string.
 	 */
+	@Override
 	public String toString() {
 	
 		return name;
@@ -101,6 +102,7 @@ public class HeaderFieldName {
 	 *
 	 * @return The object hash code.
 	 */
+	@Override
 	public int hashCode() {
 	
 		return name.hashCode();
@@ -115,6 +117,7 @@ public class HeaderFieldName {
 	 * @return {@code true} if the objects have the same value, otherwise
 	 *         {@code false}.
 	 */
+	@Override
 	public boolean equals(Object object) {
 		
 		return object instanceof HeaderFieldName && name.equals(object.toString());
