@@ -76,8 +76,9 @@ public class CORSRequestHandler {
 	 * Serialises the items of a set into a string. Each item must have a 
 	 * meaningful {@code toString()} method.
 	 * 
-	 * @param set The set to serialise.
-	 * @param sep The string separator to apply.
+	 * @param set The set to serialise. Must not be {@code null}.
+	 * @param sep The string separator to apply. Should not be 
+	 *            {@code null}.
 	 *
 	 * @return The serialised set as string.
 	 */
@@ -130,7 +131,8 @@ public class CORSRequestHandler {
 	 * <p>Tagging is provided via {@code HttpServletRequest.setAttribute()}.
 	 *
 	 * <ul>
-	 *     <li>{@code cors.isCorsRequest} set to {@code true} or {@code false}.
+	 *     <li>{@code cors.isCorsRequest} set to {@code true} or 
+	 *         {@code false}.
 	 *     <li>{@code cors.origin} set to the value of the "Origin" header, 
 	 *         {@code null} if undefined.
 	 *     <li>{@code cors.requestType} set to "actual" or "preflight" (for 
@@ -177,7 +179,7 @@ public class CORSRequestHandler {
 	 * @param request  The HTTP request.
 	 * @param response The HTTP response.
 	 *
-	 * @throws InvalidCORSRequestException    If not a valid CORS simple/
+	 * @throws InvalidCORSRequestException    If not a valid CORS simple /
 	 *                                        actual request.
 	 * @throws CORSOriginDeniedException      If the origin is not allowed.
 	 * @throws UnsupportedHTTPMethodException If the requested HTTP method

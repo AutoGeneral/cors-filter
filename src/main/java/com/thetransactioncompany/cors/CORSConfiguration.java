@@ -204,8 +204,8 @@ public class CORSConfiguration {
 	
 	
 	/**
-	 * The non-simple response headers that the web browser should expose to 
-	 * the author of the CORS request.
+	 * The non-simple response headers that the web browser should expose 
+	 * to the author of the CORS request.
 	 *
 	 * <p>Property key: cors.exposedHeaders
 	 */
