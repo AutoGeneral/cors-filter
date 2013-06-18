@@ -109,4 +109,7 @@ version 1.7 (2013-05-20)
 	* Augments the cors.supportedHeader configuration option to enable
 	  specification of an allow-any-header policy.
 	* Upgrades to Property Utils JAR 1.9.
+
+version 1.7.1 (2013-06-18)
+	* Fixes a NullPointerException bug in CORSRequestHandler.
 [EOF]
