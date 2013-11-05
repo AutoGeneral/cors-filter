@@ -167,11 +167,10 @@ public class CORSConfigurationLoader {
 	 *
 	 * @return The loaded CORS filter configuration.
 	 *
-	 * @throws CORSFilterConfigurationException If the configuration file
-	 *                                          couldn't be loaded or
-	 *                                          parsing of one or more
-	 *                                          properties failed due to an
-	 *                                          illegal value.
+	 * @throws CORSConfigurationException If the configuration file
+	 *                                    couldn't be loaded or parsing of
+	 *                                    one or more properties failed due
+	 *                                    to an illegal value.
 	 */
 	public CORSConfiguration load()
 		throws CORSConfigurationException {

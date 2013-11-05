@@ -101,8 +101,8 @@ public class CORSFilter implements Filter {
 	 * make it easier for XHR debugger tools to identify the cause of 
 	 * failed requests.
 	 *
-	 * @param sc      The HTTP status code.
-	 * @param message The message.
+	 * @param sc  The HTTP status code.
+	 * @param msg The message.
 	 *
 	 * @throws IOException      On a I/O exception.
 	 * @throws ServletException On a general request processing exception.

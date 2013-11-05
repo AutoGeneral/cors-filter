@@ -75,7 +75,5 @@
  *     <li>{@code com.thetransactioncompany.util} provides parsing of the filter
  *         init parameters (included in the CORS filter distribution).</li>
  * </ul>
- *
- * @author Vladimir Dzhuvinov
  */
 package com.thetransactioncompany.cors;
