@@ -39,6 +39,6 @@ class MockFilterConfig implements FilterConfig {
 	@Override
 	public ServletContext getServletContext() {
 
-		return null;
+		return new MockServletContext();
 	}
 }

@@ -87,8 +87,8 @@ public class CORSConfigurationLoader {
 	 * {@code ServletContext.getResourceAsStream(String)}.
 	 *
 	 * @param filename The file name. Should begin with a '/' and is
-	 *                 interpreted as relative to the current context root.
-	 *                 Must not be {@code null}.
+	 *                 interpreted as relative to the web application root
+	 *                 directory. Must not be {@code null}.
 	 * 
 	 * @return The properties found in the file.
 	 *
@@ -146,12 +146,12 @@ public class CORSConfigurationLoader {
 	 *     <li>The system environment is checked for a 
 	 *         {@code cors.configurationFile} variable. If it exists, the
 	 *         configuration properties are loaded from the file location
-	 *         specified by the variable value. The location is typically
+	 *         specified by the variable value. The location must be
 	 *         relative to the web application root directory.
 	 *     <li>The web.xml filter initialisation parameters are checked for
 	 *         a {@code cors.configurationFile} variable. If it exists, the
 	 *         configuration properties are loaded from the file location
-	 *         specified by the parameter value. The location is typically
+	 *         specified by the parameter value. The location must be
 	 *         relative to the web application root directory.
 	 *     <li>The configuration is specified by the web.xml filter
 	 *         initialisation parameters with the matching name. If an
@@ -181,7 +181,6 @@ public class CORSConfigurationLoader {
 				configFile = filterConfig.getInitParameter(CONFIG_FILE_PARAM_NAME);
 			}
 
-			
 			if (configFile != null) {
 
 				props = loadPropertiesFromFile(configFile);
