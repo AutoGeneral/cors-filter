@@ -83,9 +83,12 @@ public class CORSConfigurationLoader {
 	
 	
 	/**
-	 * Loads the properties from the specified file.
+	 * Loads the properties from the specified file using
+	 * {@code ServletContext.getResourceAsStream(String)}.
 	 *
-	 * @param filename The file name. Must not be {@code null}.
+	 * @param filename The file name. Should begin with a '/' and is
+	 *                 interpreted as relative to the current context root.
+	 *                 Must not be {@code null}.
 	 * 
 	 * @return The properties found in the file.
 	 *
@@ -94,27 +97,18 @@ public class CORSConfigurationLoader {
 	 */
 	private Properties loadPropertiesFromFile(final String filename)
 		throws IOException {
-		
-		InputStream is = null;
 
-		try {
-			is = this.getClass().getResourceAsStream("/" + filename);
-			
-			Properties props = new Properties();
-			props.load(is);
-			return props;
-			
-		} finally {
+		String correctedFilename = filename.startsWith("/") ? filename : "/" + filename;
 
-			try {
-				if (is != null)
-					is.close();
+		InputStream is = filterConfig.getServletContext().getResourceAsStream(correctedFilename);
 
-			} catch (IOException e) {
-				
-				// ignore
-			}
-		}
+		if (is == null)
+			throw new IOException("No such filename: " + correctedFilename);
+
+		Properties props = new Properties();
+		props.load(is);
+		is.close();
+		return props;
 	}
 	
 	
