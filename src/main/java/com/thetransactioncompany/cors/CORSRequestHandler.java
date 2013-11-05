@@ -205,7 +205,7 @@ public class CORSRequestHandler {
 		
 		// Check method
 		
-		HTTPMethod method = null;
+		HTTPMethod method;
 		
 		try {
 			method = HTTPMethod.valueOf(request.getMethod());
@@ -279,7 +279,7 @@ public class CORSRequestHandler {
 		if (requestMethodHeader == null)
 			throw new InvalidCORSRequestException("Invalid preflight CORS request: Missing Access-Control-Request-Method header");
 		
-		HTTPMethod requestedMethod = null;
+		HTTPMethod requestedMethod;
 		
 		try {
 			requestedMethod = HTTPMethod.valueOf(requestMethodHeader.toUpperCase());
@@ -316,10 +316,10 @@ public class CORSRequestHandler {
 		// Author request headers check
 		if (! config.supportAnyHeader) {
 
-			for (int i=0; i<requestHeaders.length; i++) {
-			
-				if (! config.supportedHeaders.contains(requestHeaders[i]))
-					throw new UnsupportedHTTPHeaderException("Unsupported HTTP request header", requestHeaders[i]);
+			for (HeaderFieldName requestHeader : requestHeaders) {
+
+				if (!config.supportedHeaders.contains(requestHeader))
+					throw new UnsupportedHTTPHeaderException("Unsupported HTTP request header", requestHeader);
 			}			
 		}
 		
