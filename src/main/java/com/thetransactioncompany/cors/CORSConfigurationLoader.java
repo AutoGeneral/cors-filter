@@ -9,7 +9,7 @@ import java.util.Properties;
 import javax.servlet.FilterConfig;
 
 import com.thetransactioncompany.cors.environment.Environment;
-import com.thetransactioncompany.cors.environment.SystemVariablesEnvironment;
+import com.thetransactioncompany.cors.environment.SystemProperties;
 
 
 /**
@@ -120,7 +120,7 @@ public class CORSConfigurationLoader {
 	private Environment getEnvironment() {
 
 		if(environment == null)
-			this.environment = new SystemVariablesEnvironment();
+			this.environment = new SystemProperties();
 
 		return this.environment;
 	}

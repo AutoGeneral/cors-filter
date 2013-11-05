@@ -5,11 +5,11 @@ import java.util.Properties;
 
 
 /**
- * System variables environment.
+ * System properties environment.
  *
  * @author David Bellem
  */
-public class SystemVariablesEnvironment implements Environment {
+public class SystemProperties implements Environment {
 
 
 	@Override
