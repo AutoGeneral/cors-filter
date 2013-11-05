@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Handles incoming cross-origin (CORS) requests according to the configured 
  * access policy. Encapsulates the CORS processing logic as specified by the
- * <a href="http://www.w3.org/TR/2012/WD-cors-20120403/">W3C draft</a> from 
- * 2012-04-03.
+ * <a href="http://www.w3.org/TR/2013/CR-cors-20130129/">W3C draft</a> from
+ * 2013-01-29.
  *
  * <p>Note that the actual CORS exception handling (which is outside the CORS
  * specification scope) is left to the invoking class to implement.
@@ -173,7 +173,7 @@ public class CORSRequestHandler {
 	/**
 	 * Handles a simple or actual CORS request.
 	 *
-	 * <p>CORS specification: <a href="http://www.w3.org/TR/access-control/#resource-requests">Simple 
+	 * <p>CORS specification: <a href="http://www.w3.org/TR/2013/CR-cors-20130129/#resource-requests">Simple
 	 * Cross-Origin Request, Actual Request, and Redirects</a>
 	 *
 	 * @param request  The HTTP request.
@@ -239,7 +239,7 @@ public class CORSRequestHandler {
 	/**
 	 * Handles a preflight CORS request.
 	 *
-	 * <p>CORS specification: <a href="http://www.w3.org/TR/access-control/#resource-preflight-requests">Preflight 
+	 * <p>CORS specification: <a href="http://www.w3.org/TR/2013/CR-cors-20130129/#resource-preflight-requests">Preflight
 	 * Request</a>
 	 *
 	 * @param request  The HTTP request.
