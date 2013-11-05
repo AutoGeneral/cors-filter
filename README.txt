@@ -115,8 +115,8 @@ version 1.7.1 (2013-06-18)
 	* Fixes a NullPointerException bug in CORSRequestHandler.
 
 version 1.8 (2013-11-05)
-    * Switches to ServletContext.getResourceAsStream(String) for loading
-      the configuration properties file in a more reliable manner.
+    * Switches to ServletContext.getResourceAsStream(String) for loading the
+      configuration properties file in a more reliable manner.
     * Updates the CORS specification references.
 
 [EOF]
