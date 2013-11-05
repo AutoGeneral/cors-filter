@@ -17,7 +17,8 @@ web.xml descriptor file. The default CORS filter policy is to allow any origin
 filter using the supported <init-param> elements. See the CORSFilter JavaDoc 
 for configuration details. 
 
-This CORS filter version implements the W3C working draft from 2013-01-29:
+This CORS filter version implements the W3C candidate recommendation from
+2013-01-29:
 
 	http://www.w3.org/TR/2013/CR-cors-20130129/
 
@@ -33,7 +34,7 @@ Content of this package:
 
 	README.txt                This file.
 	
-	LICENSE.txt               The software license.
+	LICENSE.txt               The Apache 2.0 software license.
 	
 	cors-filter-<version>.jar JAR file containing the CORS filter and any 
 	                          other required classes.
@@ -112,4 +113,10 @@ version 1.7 (2013-05-20)
 
 version 1.7.1 (2013-06-18)
 	* Fixes a NullPointerException bug in CORSRequestHandler.
+
+version 1.8 (2013-11-05)
+    * Switches to ServletContext.getResourceAsStream(String) for loading
+      the configuration properties file in a more reliable manner.
+    * Updates the CORS specification references.
+
 [EOF]
