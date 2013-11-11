@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
  *     <li>cors.exposedHeaders {header-list} defaults to empty list.
  *     <li>cors.supportsCredentials {true|false} defaults to {@code true}.
  *     <li>cors.maxAge {int} defaults to {@code -1} (unspecified).
+ *     <li>cors.tagRequests {boolean} default to {@code false}.
  * </ul>
  *
  * @author Vladimir Dzhuvinov
@@ -142,11 +143,12 @@ public class CORSFilter implements Filter {
 		              final HttpServletResponse response, 
 		              final FilterChain chain)
 		throws IOException, ServletException {
-	
-		// Tag
-		handler.tagRequest(request);
-		
+
 		CORSRequestType type = CORSRequestType.detect(request);
+
+		// Tag if configured
+		if (config.tagRequests)
+			RequestTagger.tag(request, type);
 	
 		try {
 			if (type.equals(CORSRequestType.ACTUAL)) {
@@ -164,19 +166,16 @@ public class CORSFilter implements Filter {
 			} else if (config.allowGenericHttpRequests) {
 
 				// Not a CORS request, but allow it through
-				request.setAttribute("cors.isCorsRequest", false); // tag
 				chain.doFilter(request, response);
 
 			} else {
 
 				// Generic HTTP requests denied
-				request.setAttribute("cors.isCorsRequest", false); // tag
 				printMessage(response, HttpServletResponse.SC_FORBIDDEN, "Generic HTTP requests not allowed");
 			}
 				
 		} catch (InvalidCORSRequestException e) {
-			
-			request.setAttribute("cors.isCorsRequest", false); // tag
+
 			printMessage(response, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 		
 		} catch (CORSOriginDeniedException e) {

@@ -70,52 +70,6 @@ public class CORSRequestHandler {
 	
 	
 	/**
-	 * Tags an HTTP servlet request to provide CORS information to 
-	 * downstream handlers.
-	 *
-	 * <p>Tagging is provided via {@code HttpServletRequest.setAttribute()}.
-	 *
-	 * <ul>
-	 *     <li>{@code cors.isCorsRequest} set to {@code true} or 
-	 *         {@code false}.
-	 *     <li>{@code cors.origin} set to the value of the "Origin" header, 
-	 *         {@code null} if undefined.
-	 *     <li>{@code cors.requestType} set to "actual" or "preflight" (for 
-	 *         CORS requests).
-	 *     <li>{@code cors.requestHeaders} set to the value of the 
-	 *         "Access-Control-Request-Headers" or {@code null} if 
-	 *         undefined (added for preflight CORS requests only).
-	 * </ul>
-	 *
-	 * @param request The servlet request to inspect and tag. Must not be
-	 *                {@code null}.
-	 */
-	public void tagRequest(final HttpServletRequest request) {
-		
-		final CORSRequestType type = CORSRequestType.detect(request);
-		
-		switch (type) {
-		
-			case ACTUAL:
-				request.setAttribute("cors.isCorsRequest", true);
-				request.setAttribute("cors.origin", request.getHeader("Origin"));
-				request.setAttribute("cors.requestType", "actual");
-				break;
-				
-			case PREFLIGHT:
-				request.setAttribute("cors.isCorsRequest", true);
-				request.setAttribute("cors.origin", request.getHeader("Origin"));
-				request.setAttribute("cors.requestType", "preflight");
-				request.setAttribute("cors.requestHeaders", request.getHeader("Access-Control-Request-Headers"));
-				break;
-				
-			case OTHER:
-				request.setAttribute("cors.isCorsRequest", false);
-		}
-	}
-	
-	
-	/**
 	 * Handles a simple or actual CORS request.
 	 *
 	 * <p>CORS specification: <a href="http://www.w3.org/TR/2013/CR-cors-20130129/#resource-requests">Simple
@@ -173,11 +127,6 @@ public class CORSRequestHandler {
 		
 		if (! exposedHeaders.isEmpty())
 			response.addHeader("Access-Control-Expose-Headers", exposedHeaders);
-		
-		
-		// Tag request
-		request.setAttribute("cors.origin", requestOrigin.toString());
-		request.setAttribute("cors.requestType", "actual");
 	}
 	
 	

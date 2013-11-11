@@ -4,8 +4,8 @@
  * <p>This package provides a Java servlet filter that implements the 
  * <a href="http://www.w3.org/TR/cors/">Cross-Origin Resource Sharing (CORS)</a>
  * mechanism for making cross-site HTTP requests from web browsers. The CORS W3C
- * working draft stabilised in 2009 and as of 2010 CORS is supported by major
- * browsers such as Firefox, Safari, Chrome and IE.
+ * working draft stabilised in 2009 and as of 2010 CORS is supported by all
+ * major browsers such as Firefox, Safari, Chrome and IE.
  *
  * <p>To enable CORS for a particular HTTP resource, such as a servlet, JSP or
  * plain HTML file, attach a {@link com.thetransactioncompany.cors.CORSFilter} 
@@ -16,9 +16,9 @@
  * {@link com.thetransactioncompany.cors.CORSFilter} JavaDoc for configuration 
  * details.
  *
- * <p>The CORS Filter also tags the allowed CORS HTTP requests with
- * {@code HttpServletRequest.addAttribute()} to provide notification to 
- * downstream handlers:
+ * <p>The CORS Filter can be configured to tag the allowed CORS HTTP requests
+ * with {@code HttpServletRequest.addAttribute()} to provide the following
+ * information to downstream handlers:
  *
  * <ul>
  *     <li>{@code cors.isCorsRequest} {Boolean} Indicates if the HTTP request
