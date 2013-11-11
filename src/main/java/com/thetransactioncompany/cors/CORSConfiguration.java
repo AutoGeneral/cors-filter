@@ -228,6 +228,15 @@ public class CORSConfiguration {
 	 * <p>Property key: cors.maxAge
 	 */
 	public final int maxAge;
+
+
+	/**
+	 * Enables HTTP servlet request tagging to provide CORS information to
+	 * downstream handlers.
+	 *
+	 * <p>Property key: cors.tagRequests
+	 */
+	public final boolean tagRequests;
 	
 	
 	/**
@@ -267,6 +276,7 @@ public class CORSConfiguration {
 	 *     <li>cors.supportsCredentials {true|false} defaults to 
 	 *         {@code true}.
 	 *     <li>cors.maxAge {int} defaults to {@code -1} (unspecified).
+	 *     <li>cors.tagRequests {boolean} defaults to {@code false}.
 	 * </ul>
 	 *
 	 * @param props The properties. Must not be {@code null}.
@@ -390,6 +400,9 @@ public class CORSConfiguration {
 
 			// Parse the max cache age of preflight requests
 			maxAge = pr.getOptInt("cors.maxAge", -1);
+
+			// Controls request tagging
+			tagRequests = pr.getOptBoolean("cors.tagRequests", false);
 			
 		
 		} catch (PropertyParseException e) {

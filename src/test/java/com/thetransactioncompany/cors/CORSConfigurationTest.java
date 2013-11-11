@@ -84,6 +84,8 @@ public class CORSConfigurationTest extends TestCase {
 		assertTrue(c.isSupportedHeader(new HeaderFieldName("X-Requested-By")));
 		
 		assertEquals(-1, c.maxAge);
+
+		assertFalse(c.tagRequests);
         }
         
         
@@ -95,6 +97,7 @@ public class CORSConfigurationTest extends TestCase {
 		p.setProperty("cors.supportedMethods", "GET, POST, OPTIONS");
 		p.setProperty("cors.supportedHeaders", "*");
 		p.setProperty("cors.supportsCredentials", "false");
+		p.setProperty("cors.tagRequests", "true");
 		
 		CORSConfiguration c = null;
 		
@@ -119,6 +122,8 @@ public class CORSConfigurationTest extends TestCase {
 
 		assertTrue(c.supportAnyHeader);
 		assertTrue(c.isSupportedHeader(new HeaderFieldName("X-Requested-By")));
+
+		assertTrue(c.tagRequests);
         }
 	
 	
@@ -130,6 +135,7 @@ public class CORSConfigurationTest extends TestCase {
 		p.setProperty("cors.supportedMethods", "GET, POST, OPTIONS");
 		p.setProperty("cors.supportedHeaders", "");
 		p.setProperty("cors.supportsCredentials", "false");
+		p.setProperty("cors.tagRequests", "false");
 		
 		CORSConfiguration c = null;
 		
@@ -150,6 +156,8 @@ public class CORSConfigurationTest extends TestCase {
 
 		assertFalse(c.supportAnyHeader);
 		assertFalse(c.isSupportedHeader(new HeaderFieldName("X-Requested-By")));
+
+		assertFalse(c.tagRequests);
         }
 	
 	
