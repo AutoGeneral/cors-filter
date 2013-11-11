@@ -1,9 +1,6 @@
 package com.thetransactioncompany.cors;
 
 
-import java.util.Iterator;
-import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -59,68 +56,16 @@ public class CORSRequestHandler {
 		// Pre-compute response headers where possible
 
 		// Access-Control-Allow-Methods
-		supportedMethods = serialize(config.supportedMethods, ", ");
+		supportedMethods = HeaderUtils.serialize(config.supportedMethods, ", ");
 
 		// Access-Control-Allow-Headers
 		if (! config.supportAnyHeader)
-			supportedHeaders = serialize(config.supportedHeaders, ", ");
+			supportedHeaders = HeaderUtils.serialize(config.supportedHeaders, ", ");
 		else
 			supportedHeaders = null;
 
 		/// Access-Control-Expose-Headers
-		exposedHeaders = serialize(config.exposedHeaders, ", ");	
-	}
-	
-	
-	/**
-	 * Serialises the items of a set into a string. Each item must have a 
-	 * meaningful {@code toString()} method.
-	 * 
-	 * @param set The set to serialise. Must not be {@code null}.
-	 * @param sep The string separator to apply. Should not be 
-	 *            {@code null}.
-	 *
-	 * @return The serialised set as string.
-	 */
-	private static String serialize(final Set set, final String sep) {
-	
-		Iterator it = set.iterator();
-	
-		String s = "";
-	
-		while (it.hasNext()) {
-			
-			s = s + it.next().toString();
-			
-			if (it.hasNext())
-				s = s + sep;
-		}
-		
-		return s;
-	}
-	
-	
-	/**
-	 * Parses a header value consisting of zero or more space / comma / 
-	 * space + comma separated strings. The input string is trimmed before 
-	 * splitting.
-	 *
-	 * @param headerValue The header value, may be {@code null}.
-	 *
-	 * @return A string array of the parsed string items, empty if none
-	 *         were found or the input was {@code null}.
-	 */
-	private static String[] parseMultipleHeaderValues(final String headerValue) {
-	
-		if (headerValue == null)
-			return new String[0];
-	
-		String trimmedHeaderValue = headerValue.trim();
-		
-		if (trimmedHeaderValue.isEmpty())
-			return new String[0];
-	
-		return trimmedHeaderValue.split("\\s*,\\s*|\\s+");
+		exposedHeaders = HeaderUtils.serialize(config.exposedHeaders, ", ");
 	}
 	
 	
@@ -292,7 +237,7 @@ public class CORSRequestHandler {
 		
 		// Parse the requested author (custom) headers
 		final String rawRequestHeadersString = request.getHeader("Access-Control-Request-Headers");
-		final String[] requestHeaderValues = parseMultipleHeaderValues(rawRequestHeadersString);
+		final String[] requestHeaderValues = HeaderUtils.parseMultipleHeaderValues(rawRequestHeadersString);
 		
 		final HeaderFieldName[] requestHeaders = new HeaderFieldName[requestHeaderValues.length];
 		
