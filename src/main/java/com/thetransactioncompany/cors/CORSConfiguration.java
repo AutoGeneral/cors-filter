@@ -159,11 +159,8 @@ public class CORSConfiguration {
 	 * @return {@code true} if the method is supported, else {@code false}.
 	 */
 	public final boolean isSupportedMethod(final HTTPMethod method) {
-	
-		if (supportedMethods.contains(method))
-			return true;
-		else
-			return false;
+
+		return supportedMethods.contains(method);
 	}
 
 
@@ -196,10 +193,7 @@ public class CORSConfiguration {
 	 */
 	public final boolean isSupportedHeader(final HeaderFieldName header) {
 
-		if (supportAnyHeader || supportedHeaders.contains(header))
-			return true;
-		else
-			return false;
+		return supportAnyHeader || supportedHeaders.contains(header);
 	}
 	
 	
