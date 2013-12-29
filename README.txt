@@ -125,5 +125,6 @@ version 1.9 (2013-12-29)
       downstream filters and servlets.
     * Adds support for loading the configuration properties file relative to
       the application classpath.
+    * Upgrades to Property Utils JAR 1.9.1.
 
 [EOF]

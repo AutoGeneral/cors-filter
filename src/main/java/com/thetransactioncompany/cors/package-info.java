@@ -12,12 +12,12 @@
  * to it via a {@code <filter-mapping>} element in the {@code web.xml} 
  * descriptor file. The default CORS filter policy is to allow any origin 
  * (including credentials). To impose a stricter access policy configure the 
- * filter using the supported {@code <init-param>} elements. See the 
- * {@link com.thetransactioncompany.cors.CORSFilter} JavaDoc for configuration 
- * details.
+ * filter using the supported {@code <init-param>} elements or a Java
+ * properties file. See the {@link com.thetransactioncompany.cors.CORSFilter}
+ * JavaDoc for configuration details.
  *
  * <p>The CORS Filter can be configured to tag the allowed CORS HTTP requests
- * with {@code HttpServletRequest.addAttribute()} to provide the following
+ * with {@code HttpServletRequest.addAttribute} to provide the following
  * information to downstream handlers:
  *
  * <ul>
