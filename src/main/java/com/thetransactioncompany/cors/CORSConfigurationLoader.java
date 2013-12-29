@@ -83,12 +83,19 @@ public class CORSConfigurationLoader {
 	
 	
 	/**
-	 * Loads the properties from the specified file using
-	 * {@code ServletContext.getResourceAsStream(String)}.
+	 * Loads the properties from the specified file.
+	 *
+	 * <p>The following location precedence applies:
+	 *
+	 * <ol>
+	 *     <li>Web application root directory.
+	 *     <li>Classpath.
+	 * </ol>
 	 *
 	 * @param filename The file name. Should begin with a '/' and is
 	 *                 interpreted as relative to the web application root
-	 *                 directory. Must not be {@code null}.
+	 *                 directory or relative to the class path. Must not be
+	 *                 {@code null}.
 	 * 
 	 * @return The properties found in the file.
 	 *
@@ -101,6 +108,9 @@ public class CORSConfigurationLoader {
 		String correctedFilename = filename.startsWith("/") ? filename : "/" + filename;
 
 		InputStream is = filterConfig.getServletContext().getResourceAsStream(correctedFilename);
+
+		if (is == null)
+			is = getClass().getResourceAsStream(correctedFilename);
 
 		if (is == null)
 			throw new IOException("No such filename: " + correctedFilename);
@@ -147,12 +157,14 @@ public class CORSConfigurationLoader {
 	 *         {@code cors.configurationFile} variable. If it exists, the
 	 *         configuration properties are loaded from the file location
 	 *         specified by the variable value. The location must be
-	 *         relative to the web application root directory.
+	 *         relative to the web application root directory or relative
+	 *         to the classpath.
 	 *     <li>The web.xml filter initialisation parameters are checked for
 	 *         a {@code cors.configurationFile} variable. If it exists, the
 	 *         configuration properties are loaded from the file location
 	 *         specified by the parameter value. The location must be
-	 *         relative to the web application root directory.
+	 *         relative to the web application root directory or relative
+	 *         to the classpath.
 	 *     <li>The configuration is specified by the web.xml filter
 	 *         initialisation parameters with the matching name. If an
 	 *         initialisation parameter is not defined the default 
