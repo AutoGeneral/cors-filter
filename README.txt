@@ -119,9 +119,11 @@ version 1.8 (2013-11-05)
       configuration properties file in a more reliable manner.
     * Updates the CORS specification references.
 
-version 1.9 (2013-11-11)
+version 1.9 (2013-12-29)
     * Adds cors.tagRequests configuration option to enable / disable tagging
       of handled HTTP requests with CORS information, to be passed to
       downstream filters and servlets.
+    * Adds support for loading the configuration properties file relative to
+      the application classpath.
 
 [EOF]
