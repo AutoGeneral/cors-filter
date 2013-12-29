@@ -68,6 +68,11 @@
 			<param-value>3600</param-value>
 		</init-param>
 
+        <init-param>
+            <param-name>cors.tagRequests</param-name>
+            <param-value>true</param-value>
+        </init-param>
+
 	</filter>
 
 	<filter-mapping>
