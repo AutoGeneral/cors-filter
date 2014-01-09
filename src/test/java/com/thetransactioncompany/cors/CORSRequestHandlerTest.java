@@ -39,6 +39,30 @@ public class CORSRequestHandlerTest extends TestCase {
 	}
 
 
+	public void testActualRequestWithCredentialsNotAllowed()
+		throws Exception {
+
+		Properties props = new Properties();
+		props.setProperty("cors.supportsCredentials", "false");
+		CORSConfiguration config = new CORSConfiguration(props);
+
+		CORSRequestHandler handler = new CORSRequestHandler(config);
+
+		MockServletRequest request = new MockServletRequest();
+		request.setHeader("Origin", "http://example.com");
+
+		MockServletResponse response = new MockServletResponse();
+
+		handler.handleActualRequest(request, response);
+
+		assertEquals("*", response.getHeader("Access-Control-Allow-Origin"));
+
+		assertNull(response.getHeader("Access-Control-Allow-Credentials"));
+
+		assertEquals(1, response.getHeaders().size());
+	}
+
+
 	public void testActualRequestWithExposedHeaders()
 		throws Exception {
 
@@ -145,5 +169,38 @@ public class CORSRequestHandlerTest extends TestCase {
 		assertEquals("true", response.getHeader("Access-Control-Allow-Credentials"));
 
 		assertEquals(3, response.getHeaders().size());
+	}
+
+
+	public void testPreflightRequestWithCredentialsNotAllowed()
+		throws Exception {
+
+		Properties props = new Properties();
+		props.setProperty("cors.supportsCredentials", "false");
+		CORSConfiguration config = new CORSConfiguration(props);
+
+		CORSRequestHandler handler = new CORSRequestHandler(config);
+
+		MockServletRequest request = new MockServletRequest();
+		request.setHeader("Origin", "http://example.com");
+		request.setHeader("Access-Control-Request-Method", "POST");
+		request.setMethod("OPTIONS");
+
+		MockServletResponse response = new MockServletResponse();
+
+		handler.handlePreflightRequest(request, response);
+
+		assertEquals("*", response.getHeader("Access-Control-Allow-Origin"));
+
+		Set<String> methods = new HashSet<String>(Arrays.asList(HeaderUtils.parseMultipleHeaderValues(response.getHeader("Access-Control-Allow-Methods"))));
+		assertTrue(methods.contains("HEAD"));
+		assertTrue(methods.contains("GET"));
+		assertTrue(methods.contains("POST"));
+		assertTrue(methods.contains("OPTIONS"));
+		assertEquals(4, methods.size());
+
+		assertNull(response.getHeader("Access-Control-Allow-Credentials"));
+
+		assertEquals(2, response.getHeaders().size());
 	}
 }

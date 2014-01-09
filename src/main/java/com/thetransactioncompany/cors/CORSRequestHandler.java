@@ -119,11 +119,20 @@ public class CORSRequestHandler {
 		
 		
 		// Success, append response headers
-		
-		response.addHeader("Access-Control-Allow-Origin", requestOrigin.toString());
-		
-		if (config.supportsCredentials)
+		if (config.supportsCredentials) {
+
 			response.addHeader("Access-Control-Allow-Credentials", "true");
+
+			// The string "*" cannot be used for a resource that supports credentials.
+			response.addHeader("Access-Control-Allow-Origin", requestOrigin.toString());
+
+		} else {
+			if (config.allowAnyOrigin) {
+				response.addHeader("Access-Control-Allow-Origin", "*");
+			} else {
+				response.addHeader("Access-Control-Allow-Origin", requestOrigin.toString());
+			}
+		}
 		
 		if (! exposedHeaders.isEmpty())
 			response.addHeader("Access-Control-Expose-Headers", exposedHeaders);
