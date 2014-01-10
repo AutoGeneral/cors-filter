@@ -10,7 +10,7 @@
 
 	<groupId>com.thetransactioncompany</groupId>
 	<artifactId>cors-filter</artifactId>
-	<version>1.10-SNAPSHOT</version>
+	<version>1.9.1</version>
 	<packaging>jar</packaging>
 
 	<name>CORS Filter</name>
@@ -58,7 +58,7 @@
 		<connection>scm:git:https://bitbucket.org/thetransactioncompany/cors-filter.git</connection>
 		<developerConnection>scm:git:git@bitbucket.org:thetransactioncompany/cors-filter.git</developerConnection>
 		<url>https://bitbucket.org/thetransactioncompany/cors-filter</url>
-	  	<tag>HEAD</tag>
+	  	<tag>1.9.1</tag>
 	</scm>
 
 	<dependencies>
