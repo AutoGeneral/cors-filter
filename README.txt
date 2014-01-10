@@ -1,6 +1,6 @@
 Java Cross-Origin Resource Sharing (CORS) Filter
 
-Copyright (c) Vladimir Dzhuvinov, 2010 - 2013
+Copyright (c) Vladimir Dzhuvinov, 2010 - 2014
 
 
 README
@@ -126,5 +126,9 @@ version 1.9 (2013-12-29)
     * Adds support for loading the configuration properties file relative to
       the application classpath.
     * Upgrades to Property Utils JAR 1.9.1.
+    
+version 1.9.1 (2014-01-10)
+    * Makes '*' the preferred value of Access-Control-Allow-Origin response 
+      headers (see issue #16).
 
 [EOF]
