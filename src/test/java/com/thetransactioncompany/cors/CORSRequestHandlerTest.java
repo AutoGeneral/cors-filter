@@ -32,10 +32,11 @@ public class CORSRequestHandlerTest extends TestCase {
 		handler.handleActualRequest(request, response);
 
 		assertEquals("http://example.com", response.getHeader("Access-Control-Allow-Origin"));
+		assertEquals("Origin", response.getHeader("Vary"));
 
 		assertEquals("true", response.getHeader("Access-Control-Allow-Credentials"));
 
-		assertEquals(2, response.getHeaders().size());
+		assertEquals(3, response.getHeaders().size());
 	}
 
 
@@ -81,12 +82,13 @@ public class CORSRequestHandlerTest extends TestCase {
 		handler.handleActualRequest(request, response);
 
 		assertEquals("http://example.com", response.getHeader("Access-Control-Allow-Origin"));
+		assertEquals("Origin", response.getHeader("Vary"));
 
 		assertEquals("true", response.getHeader("Access-Control-Allow-Credentials"));
 
 		assertEquals("X-Custom", response.getHeader("Access-Control-Expose-Headers"));
 
-		assertEquals(3, response.getHeaders().size());
+		assertEquals(4, response.getHeaders().size());
 	}
 
 
@@ -158,6 +160,7 @@ public class CORSRequestHandlerTest extends TestCase {
 		handler.handlePreflightRequest(request, response);
 
 		assertEquals("http://example.com", response.getHeader("Access-Control-Allow-Origin"));
+		assertEquals("Origin", response.getHeader("Vary"));
 
 		Set<String> methods = new HashSet<String>(Arrays.asList(HeaderUtils.parseMultipleHeaderValues(response.getHeader("Access-Control-Allow-Methods"))));
 		assertTrue(methods.contains("HEAD"));
@@ -168,7 +171,7 @@ public class CORSRequestHandlerTest extends TestCase {
 
 		assertEquals("true", response.getHeader("Access-Control-Allow-Credentials"));
 
-		assertEquals(3, response.getHeaders().size());
+		assertEquals(4, response.getHeaders().size());
 	}
 
 

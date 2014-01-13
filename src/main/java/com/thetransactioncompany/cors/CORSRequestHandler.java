@@ -126,11 +126,17 @@ public class CORSRequestHandler {
 			// The string "*" cannot be used for a resource that supports credentials.
 			response.addHeader("Access-Control-Allow-Origin", requestOrigin.toString());
 
+			// See https://bitbucket.org/thetransactioncompany/cors-filter/issue/16/
+			response.addHeader("Vary", "Origin");
+
 		} else {
 			if (config.allowAnyOrigin) {
 				response.addHeader("Access-Control-Allow-Origin", "*");
 			} else {
 				response.addHeader("Access-Control-Allow-Origin", requestOrigin.toString());
+
+				// See https://bitbucket.org/thetransactioncompany/cors-filter/issue/16/
+				response.addHeader("Vary", "Origin");
 			}
 		}
 		
@@ -231,11 +237,18 @@ public class CORSRequestHandler {
 		if (config.supportsCredentials) {
 			response.addHeader("Access-Control-Allow-Origin", requestOrigin.toString());
 			response.addHeader("Access-Control-Allow-Credentials", "true");
+
+			// See https://bitbucket.org/thetransactioncompany/cors-filter/issue/16/
+			response.addHeader("Vary", "Origin");
 		} else {
-			if (config.allowAnyOrigin)
+			if (config.allowAnyOrigin) {
 				response.addHeader("Access-Control-Allow-Origin", "*");
-			else
+			} else {
 				response.addHeader("Access-Control-Allow-Origin", requestOrigin.toString());
+
+				// See https://bitbucket.org/thetransactioncompany/cors-filter/issue/16/
+				response.addHeader("Vary", "Origin");
+			}
 		}
 		
 		if (config.maxAge > 0)
