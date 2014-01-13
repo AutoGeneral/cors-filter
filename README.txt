@@ -131,4 +131,8 @@ version 1.9.1 (2014-01-10)
     * Makes '*' the preferred value of Access-Control-Allow-Origin response 
       headers (see issue #16).
 
+version 1.9.2 (2014-01-13)
+    * Adds Vary: Origin header to preflight and actual requests if credentials
+      are allowed or the allowed origin list is bounded (see issue #16).
+
 [EOF]
