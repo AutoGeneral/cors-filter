@@ -86,47 +86,109 @@ public class HeaderFieldNameTest extends TestCase {
 		
 		assertFalse(n1.equals(n2));
 	}
-	
-	
-	public void testInvalid1() {
-	
-		try {
-			HeaderFieldName h = new HeaderFieldName("X-r%b");
-			
-			fail("Failed to raise exeption on bad header name");
-			
-		} catch (IllegalArgumentException e) {
-			// ok
-		}
-		
-	}
-	
-	
-	public void testInvalid2() {
-	
-		try {
-			HeaderFieldName h = new HeaderFieldName("1-X-r");
-			
-			fail("Failed to raise exeption on bad header name");
-			
-		} catch (IllegalArgumentException e) {
-			// ok
-		}
-		
-	}
-	
-	
-	public void testInvalid3() {
-	
-		try {
-			HeaderFieldName h = new HeaderFieldName("Aaa Bbb");
-			
-			fail("Failed to raise exeption on bad header name");
-			
-		} catch (IllegalArgumentException e) {
-			// ok
-		}
-		
-	}
-	
+
+    public void testTrim() {
+        String expected = "Content-Type";
+        String n1 = HeaderFieldName.formatCanonical("content-type\n");
+        String n2 = HeaderFieldName.formatCanonical(" CONTEnt-Type ");
+
+        assertEquals("All whitespace should be trimmed", expected, n1);
+        assertEquals("All whitespace should be trimmed", expected, n2);
+    }
+
+    public void testInvalid1() {
+        assertInvalid("X-r@b");
+    }
+
+
+    public void testInvalid2() {
+        assertInvalid("1=X-r");
+    }
+
+
+    public void testInvalid3() {
+        assertInvalid("Aaa Bbb");
+    }
+
+
+    public void testInvalid4() {
+        assertInvalid("less<than");
+    }
+
+
+    public void testInvalid5() {
+        assertInvalid("alpha1>");
+    }
+
+
+    public void testInvalid6() {
+        assertInvalid("X-Forwarded-By-{");
+    }
+
+
+    public void testInvalid7() {
+        assertInvalid("a}");
+    }
+
+
+    public void testInvalid8() {
+        assertInvalid("separator:");
+    }
+
+
+    public void testInvalid9() {
+        assertInvalid("asd\"f;");
+    }
+
+
+    public void testInvalid10() {
+        assertInvalid("rfc@w3c.org");
+    }
+
+
+    public void testInvalid11() {
+        assertInvalid("bracket[");
+    }
+
+
+    public void testInvalid12() {
+        assertInvalid("control\u0002header");
+    }
+
+
+    public void testInvalid13() {
+        assertInvalid("control\nembedded");
+    }
+
+
+    public void testInvalid14() {
+        assertInvalid("uni╚(•⌂•)╝");
+    }
+
+
+    public void testInvalid15() {
+        assertInvalid("uni\u3232_\u3232");
+    }
+
+
+    public void testUnusualButValid() {
+        new HeaderFieldName("__2");
+        new HeaderFieldName("$%.%");
+        new HeaderFieldName("`~'&#*!^|");
+        new HeaderFieldName("Original_Name");
+    }
+
+
+    private void assertInvalid(String header) {
+        try {
+            new HeaderFieldName(header);
+
+            fail("Failed to raise exeption on bad header name");
+
+        } catch (IllegalArgumentException e) {
+            // ok
+        }
+
+    }
+
 }
