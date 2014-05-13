@@ -1,5 +1,8 @@
 package com.thetransactioncompany.cors;
 
+import java.util.regex.Pattern;
+
+import static java.util.regex.Pattern.compile;
 
 /**
  * Represents an HTTP header field name. Provides an {@link #equals} method
@@ -18,8 +21,16 @@ package com.thetransactioncompany.cors;
  */
 public class HeaderFieldName {
 
+    /**
+     * Must match "token", 1 or more of any US-ASCII char except control chars
+     * or specific "separators", see:
+     * http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2 and
+     * http://www.w3.org/Protocols/rfc2616/rfc2616-sec2.html#sec2
+     * Note use of regex character class subtraction and character class metacharacter rules.
+     */
+    private static final Pattern VALID = compile("^[\\x21-\\x7e&&[^]\\[}{()<>@,;:\\\\\"/?=]]+$");
 
-	/**
+    /**
 	 * The header field name, formatted as {@code Aaa-Bbb-Ccc}.
 	 */
 	private final String name;
@@ -43,9 +54,9 @@ public class HeaderFieldName {
 		if (nameTrimmed.isEmpty())
 			throw new IllegalArgumentException("The header field name must not be an empty string");
 		
-		// Check for valid syntax: must begin with letter, then only word and dash chars allowed
-		if (! nameTrimmed.matches("^[a-zA-Z][\\w-]*$"))
-			throw new IllegalArgumentException("Invalid header field name syntax");
+		// Check for valid syntax
+		if (! VALID.matcher(nameTrimmed).matches())
+			throw new IllegalArgumentException("Invalid header field name syntax (see RFC 2616)");
 		
 	
 		String[] tokens = nameTrimmed.toLowerCase().split("-");
