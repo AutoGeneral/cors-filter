@@ -135,4 +135,7 @@ version 1.9.2 (2014-01-13)
     * Adds Vary: Origin header to preflight and actual requests if credentials
       are allowed or the allowed origin list is bounded (see issue #16).
 
+version 1.9.3 (2014-05-13)
+    * Fixes validation of HTTP Header names (issue #19).
+
 [EOF]
