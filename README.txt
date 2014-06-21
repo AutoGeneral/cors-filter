@@ -140,6 +140,7 @@ version 1.9.3 (2014-05-13)
 
 version 2.0 (2014-06-21)
     * Upgrades to Servlet API 3.0.
+    * Annotates CORSFilter to enable asynchronous requests.
     * Adds HttpServletResponseWrapper to preserve CORS response headers on
       HttpServletResponse.reset().
 
