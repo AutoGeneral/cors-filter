@@ -3,6 +3,7 @@ package com.thetransactioncompany.cors;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -73,6 +74,18 @@ public class MockServletResponse implements HttpServletResponse {
 
 	@Override
 	public void addDateHeader(String s, long l) {
+	}
+
+
+	@Override
+	public Collection<String> getHeaders(String s) {
+		return null;
+	}
+
+
+	@Override
+	public Collection<String> getHeaderNames() {
+		return null;
 	}
 
 

@@ -42,15 +42,15 @@ public final class RequestTagger {
 
 			case ACTUAL:
 				request.setAttribute("cors.isCorsRequest", true);
-				request.setAttribute("cors.origin", request.getHeader("Origin"));
+				request.setAttribute("cors.origin", request.getHeader(HeaderName.ORIGIN));
 				request.setAttribute("cors.requestType", "actual");
 				break;
 
 			case PREFLIGHT:
 				request.setAttribute("cors.isCorsRequest", true);
-				request.setAttribute("cors.origin", request.getHeader("Origin"));
+				request.setAttribute("cors.origin", request.getHeader(HeaderName.ORIGIN));
 				request.setAttribute("cors.requestType", "preflight");
-				request.setAttribute("cors.requestHeaders", request.getHeader("Access-Control-Request-Headers"));
+				request.setAttribute("cors.requestHeaders", request.getHeader(HeaderName.ACCESS_CONTROL_REQUEST_HEADERS));
 				break;
 
 			case OTHER:

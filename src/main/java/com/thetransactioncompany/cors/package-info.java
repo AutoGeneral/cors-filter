@@ -2,10 +2,10 @@
  * <h1>Cross-Origin Resource Sharing (CORS) Filter</h1>
  *
  * <p>This package provides a Java servlet filter that implements the 
- * <a href="http://www.w3.org/TR/cors/">Cross-Origin Resource Sharing (CORS)</a>
- * mechanism for making cross-site HTTP requests from web browsers. The CORS W3C
- * working draft stabilised in 2009 and as of 2010 CORS is supported by all
- * major browsers such as Firefox, Safari, Chrome and IE.
+ * <a href="http://www.w3.org/TR/cors/">Cross-Origin Resource Sharing
+ * (CORS)</a> mechanism for making cross-site HTTP requests from web browsers.
+ * The CORS W3C working draft stabilised in 2009 and as of 2010 CORS is
+ * supported by all major browsers such as Firefox, Safari, Chrome and IE.
  *
  * <p>To enable CORS for a particular HTTP resource, such as a servlet, JSP or
  * plain HTML file, attach a {@link com.thetransactioncompany.cors.CORSFilter} 
@@ -33,14 +33,14 @@
  * </ul>
  *
  * <p>This CORS filter version implements the W3C 
- * <a href="http://www.w3.org/TR/2013/CR-cors-20130129/">working draft</a> from
- * 2013-01-29.</p>
+ * <a href="http://www.w3.org/TR/2014/REC-cors-20140116/">recommendation</a>
+ * from 16 January 2014.</p>
  *
  * <p>Supported CORS request types:</p>
  * 		    
  * <ul>
- *         <li><a href="http://www.w3.org/TR/2013/CR-cors-20130129/#resource-requests">Simple / actual requests</a></li>
- *         <li><a href="http://www.w3.org/TR/2013/CR-cors-20130129/#resource-preflight-requests">Preflight requests</a></li>
+ *         <li><a href="http://www.w3.org/TR/2014/REC-cors-20140116/#resource-requests">Simple / actual requests</a></li>
+ *         <li><a href="http://www.w3.org/TR/2014/REC-cors-20140116/#resource-preflight-requests">Preflight requests</a></li>
  * 
  * </ul>
  * 
@@ -49,21 +49,21 @@
  * <ul>
  *     <li>Request headers:
  *         <ul>
- *             <li><a href="http://www.w3.org/TR/2013/CR-cors-20130129/#origin-request-header">Origin</a></li>
- *             <li><a href="http://www.w3.org/TR/2013/CR-cors-20130129/#access-control-request-method-request-header">Access-Control-Request-Method</a></li>
- *             <li><a href="http://www.w3.org/TR/2013/CR-cors-20130129/#access-control-request-headers-request-header">Access-Control-Request-Headers</a></li>
+ *             <li><a href="http://www.w3.org/TR/2014/REC-cors-20140116/#origin-request-header">Origin</a></li>
+ *             <li><a href="http://www.w3.org/TR/2014/REC-cors-20140116/#access-control-request-method-request-header">Access-Control-Request-Method</a></li>
+ *             <li><a href="http://www.w3.org/TR/2014/REC-cors-20140116/#access-control-request-headers-request-header">Access-Control-Request-Headers</a></li>
  *         </ul>
  *     </li>
  *
  *     <li>Response headers:
  *         <ul>
- *             <li><a href="http://www.w3.org/TR/2013/CR-cors-20130129/#access-control-allow-origin-response-header">Access-Control-Allow-Origin</a></li>
- *             <li><a href="http://www.w3.org/TR/2013/CR-cors-20130129/#access-control-allow-credentials-response-header">Access-Control-Allow-Credentials</a></li>
- *             <li><a href="http://www.w3.org/TR/2013/CR-cors-20130129/#access-control-allow-methods-response-header">Access-Control-Allow-Methods</a></li>
- *             <li><a href="http://www.w3.org/TR/2013/CR-cors-20130129/#access-control-allow-headers-response-header">Access-Control-Allow-Headers</a></li>
+ *             <li><a href="http://www.w3.org/TR/2014/REC-cors-20140116/#access-control-allow-origin-response-header">Access-Control-Allow-Origin</a></li>
+ *             <li><a href="http://www.w3.org/TR/2014/REC-cors-20140116/#access-control-allow-credentials-response-header">Access-Control-Allow-Credentials</a></li>
+ *             <li><a href="http://www.w3.org/TR/2014/REC-cors-20140116/#access-control-allow-methods-response-header">Access-Control-Allow-Methods</a></li>
+ *             <li><a href="http://www.w3.org/TR/2014/REC-cors-20140116/#access-control-allow-headers-response-header">Access-Control-Allow-Headers</a></li>
  * 
- *             <li><a href="http://www.w3.org/TR/2013/CR-cors-20130129/#access-control-expose-headers-response-header">Access-Control-Expose-Headers</a></li>
- *             <li><a href="http://www.w3.org/TR/2013/CR-cors-20130129/#access-control-max-age-response-header">Access-Control-Max-Age</a></li>
+ *             <li><a href="http://www.w3.org/TR/2014/REC-cors-20140116/#access-control-expose-headers-response-header">Access-Control-Expose-Headers</a></li>
+ *             <li><a href="http://www.w3.org/TR/2014/REC-cors-20140116/#access-control-max-age-response-header">Access-Control-Max-Age</a></li>
  *         </ul>
  *     </li>
  * </ul>

@@ -39,28 +39,32 @@ public enum CORSRequestType {
 	 * @return The CORS request type.
 	 */
 	public static CORSRequestType detect(final HttpServletRequest request) {
-	
-		// All CORS request have an Origin header
-		if (request.getHeader("Origin") == null)
-			return OTHER;
 
+		if (request.getHeader(HeaderName.ORIGIN) == null) {
+
+			// All CORS request have an Origin header
+			return OTHER;
+		}
 
 		// Some browsers include the Origin header even when submitting 
 		// from the same domain. This is legal according to RFC 6454, 
 		// section-7.3
-		String serverOrigin = request.getScheme() + "://" + request.getHeader("Host");
+		String serverOrigin = request.getScheme() + "://" + request.getHeader(HeaderName.HOST);
 
-		if (request.getHeader("Host") != null && request.getHeader("Origin").equals(serverOrigin))
+		if (request.getHeader(HeaderName.HOST) != null && request.getHeader(HeaderName.ORIGIN).equals(serverOrigin)) {
 			return OTHER;
+		}
 		
 		// We have a CORS request - determine type
-		if (request.getHeader("Access-Control-Request-Method") != null &&
-		    request.getMethod()                                != null &&
-		    request.getMethod().equals("OPTIONS")                         )
-		    
+		if (request.getHeader(HeaderName.ACCESS_CONTROL_REQUEST_METHOD) != null &&
+		    request.getMethod()                                         != null &&
+		    request.getMethod().equals(HTTPMethod.OPTIONS.name())                  ) {
+
 			return PREFLIGHT;
-			
-		else
+
+		} else {
+
 			return ACTUAL;
+		}
 	}
 }

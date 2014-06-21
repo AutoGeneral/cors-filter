@@ -13,7 +13,7 @@ public class UnsupportedHTTPHeaderException extends CORSException {
 	/**
 	 * The HTTP header.
 	 */
-	private final HeaderFieldName header;
+	private final HeaderName header;
 	
 	
 	/**
@@ -36,7 +36,7 @@ public class UnsupportedHTTPHeaderException extends CORSException {
 	 * @param requestHeader The request HTTP header name, {@code null} if 
 	 *                      unknown.
 	 */
-	public UnsupportedHTTPHeaderException(final String message, final HeaderFieldName requestHeader) {
+	public UnsupportedHTTPHeaderException(final String message, final HeaderName requestHeader) {
 	
 		super(message);
 		
@@ -49,7 +49,7 @@ public class UnsupportedHTTPHeaderException extends CORSException {
 	 *
 	 * @return The request header name, {@code null} if unknown or not set.
 	 */
-	public HeaderFieldName getRequestHeader() {
+	public HeaderName getRequestHeader() {
 	
 		return header;
 	}

@@ -17,10 +17,10 @@ web.xml descriptor file. The default CORS filter policy is to allow any origin
 filter using the supported <init-param> elements. See the CORSFilter JavaDoc 
 for configuration details. 
 
-This CORS filter version implements the W3C candidate recommendation from
-2013-01-29:
+This CORS filter version implements the W3C recommendation from 16 January
+2014:
 
-	http://www.w3.org/TR/2013/CR-cors-20130129/
+	http://www.w3.org/TR/2014/REC-cors-20140116/
 
 
 For installation instructions, usage and other information visit the CORS 
@@ -137,5 +137,10 @@ version 1.9.2 (2014-01-13)
 
 version 1.9.3 (2014-05-13)
     * Fixes validation of HTTP Header names (issue #19).
+
+version 2.0 (2014-06-21)
+    * Upgrades to Servlet API 3.0.
+    * Adds HttpServletResponseWrapper to preserve CORS response headers on
+      HttpServletResponse.reset().
 
 [EOF]

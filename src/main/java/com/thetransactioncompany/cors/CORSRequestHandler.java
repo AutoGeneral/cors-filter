@@ -96,7 +96,7 @@ public class CORSRequestHandler {
 		
 		
 		// Check origin against allow list
-		Origin requestOrigin = new Origin(request.getHeader("Origin"));
+		Origin requestOrigin = new Origin(request.getHeader(HeaderName.ORIGIN));
 		
 		if (! config.isAllowedOrigin(requestOrigin))
 			throw new CORSOriginDeniedException("CORS origin denied", requestOrigin);
@@ -121,27 +121,27 @@ public class CORSRequestHandler {
 		// Success, append response headers
 		if (config.supportsCredentials) {
 
-			response.addHeader("Access-Control-Allow-Credentials", "true");
+			response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
 
 			// The string "*" cannot be used for a resource that supports credentials.
-			response.addHeader("Access-Control-Allow-Origin", requestOrigin.toString());
+			response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN, requestOrigin.toString());
 
 			// See https://bitbucket.org/thetransactioncompany/cors-filter/issue/16/
-			response.addHeader("Vary", "Origin");
+			response.addHeader(HeaderName.VARY, "Origin");
 
 		} else {
 			if (config.allowAnyOrigin) {
-				response.addHeader("Access-Control-Allow-Origin", "*");
+				response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 			} else {
-				response.addHeader("Access-Control-Allow-Origin", requestOrigin.toString());
+				response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN, requestOrigin.toString());
 
 				// See https://bitbucket.org/thetransactioncompany/cors-filter/issue/16/
-				response.addHeader("Vary", "Origin");
+				response.addHeader(HeaderName.VARY, "Origin");
 			}
 		}
 		
 		if (! exposedHeaders.isEmpty())
-			response.addHeader("Access-Control-Expose-Headers", exposedHeaders);
+			response.addHeader(HeaderName.ACCESS_CONTROL_EXPOSE_HEADERS, exposedHeaders);
 	}
 	
 	
@@ -174,7 +174,7 @@ public class CORSRequestHandler {
 			throw new InvalidCORSRequestException("Invalid preflight CORS request");
 		
 		// Check origin against allow list
-		Origin requestOrigin = new Origin(request.getHeader("Origin"));
+		Origin requestOrigin = new Origin(request.getHeader(HeaderName.ORIGIN));
 		
 		if (! config.isAllowedOrigin(requestOrigin))
 			throw new CORSOriginDeniedException("CORS origin denied", requestOrigin);
@@ -183,7 +183,7 @@ public class CORSRequestHandler {
 		// Parse requested method
 		// Note: method checking must be done after header parsing, see CORS spec
 		
-		String requestMethodHeader = request.getHeader("Access-Control-Request-Method");
+		String requestMethodHeader = request.getHeader(HeaderName.ACCESS_CONTROL_REQUEST_METHOD);
 		
 		if (requestMethodHeader == null)
 			throw new InvalidCORSRequestException("Invalid preflight CORS request: Missing Access-Control-Request-Method header");
@@ -200,15 +200,15 @@ public class CORSRequestHandler {
 		
 		
 		// Parse the requested author (custom) headers
-		final String rawRequestHeadersString = request.getHeader("Access-Control-Request-Headers");
+		final String rawRequestHeadersString = request.getHeader(HeaderName.ACCESS_CONTROL_REQUEST_HEADERS);
 		final String[] requestHeaderValues = HeaderUtils.parseMultipleHeaderValues(rawRequestHeadersString);
 		
-		final HeaderFieldName[] requestHeaders = new HeaderFieldName[requestHeaderValues.length];
+		final HeaderName[] requestHeaders = new HeaderName[requestHeaderValues.length];
 		
 		for (int i=0; i<requestHeaders.length; i++) {
 		
 			try {
-				requestHeaders[i] = new HeaderFieldName(requestHeaderValues[i]);
+				requestHeaders[i] = new HeaderName(requestHeaderValues[i]);
 				
 			} catch (IllegalArgumentException e) {
 				// Invalid header name
@@ -225,7 +225,7 @@ public class CORSRequestHandler {
 		// Author request headers check
 		if (! config.supportAnyHeader) {
 
-			for (HeaderFieldName requestHeader : requestHeaders) {
+			for (HeaderName requestHeader : requestHeaders) {
 
 				if (!config.supportedHeaders.contains(requestHeader))
 					throw new UnsupportedHTTPHeaderException("Unsupported HTTP request header", requestHeader);
@@ -235,36 +235,36 @@ public class CORSRequestHandler {
 		// Success, append response headers
 		
 		if (config.supportsCredentials) {
-			response.addHeader("Access-Control-Allow-Origin", requestOrigin.toString());
-			response.addHeader("Access-Control-Allow-Credentials", "true");
+			response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN, requestOrigin.toString());
+			response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
 
 			// See https://bitbucket.org/thetransactioncompany/cors-filter/issue/16/
-			response.addHeader("Vary", "Origin");
+			response.addHeader(HeaderName.VARY, "Origin");
 		} else {
 			if (config.allowAnyOrigin) {
-				response.addHeader("Access-Control-Allow-Origin", "*");
+				response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 			} else {
-				response.addHeader("Access-Control-Allow-Origin", requestOrigin.toString());
+				response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN, requestOrigin.toString());
 
 				// See https://bitbucket.org/thetransactioncompany/cors-filter/issue/16/
-				response.addHeader("Vary", "Origin");
+				response.addHeader(HeaderName.VARY, "Origin");
 			}
 		}
 		
 		if (config.maxAge > 0)
-			response.addHeader("Access-Control-Max-Age", Integer.toString(config.maxAge));
+			response.addHeader(HeaderName.ACCESS_CONTROL_MAX_AGE, Integer.toString(config.maxAge));
 		
-		response.addHeader("Access-Control-Allow-Methods", supportedMethods);
+		response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_METHODS, supportedMethods);
 		
 
 		if (config.supportAnyHeader && rawRequestHeadersString != null) {
 
 			// Echo author headers
-			response.addHeader("Access-Control-Allow-Headers", rawRequestHeadersString);
+			response.addHeader(HeaderName.ACCESS_CONTROL_EXPOSE_HEADERS, rawRequestHeadersString);
 
 		} else if (supportedHeaders != null && ! supportedHeaders.isEmpty()) {
 
-			response.addHeader("Access-Control-Allow-Headers", supportedHeaders);
+			response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_HEADERS, supportedHeaders);
 		}
 	}
 }

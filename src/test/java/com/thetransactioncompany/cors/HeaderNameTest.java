@@ -9,43 +9,60 @@ import junit.framework.TestCase;
  *
  * @author Vladimir Dzhuvinov
  */
-public class HeaderFieldNameTest extends TestCase {
+public class HeaderNameTest extends TestCase {
+
+
+	public void testConstants() {
+
+		assertEquals("Origin", HeaderName.ORIGIN);
+		assertEquals("Access-Control-Request-Method", HeaderName.ACCESS_CONTROL_REQUEST_METHOD);
+		assertEquals("Access-Control-Request-Headers", HeaderName.ACCESS_CONTROL_REQUEST_HEADERS);
+		assertEquals("Access-Control-Allow-Origin", HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN);
+		assertEquals("Access-Control-Allow-Methods", HeaderName.ACCESS_CONTROL_ALLOW_METHODS);
+		assertEquals("Access-Control-Allow-Headers", HeaderName.ACCESS_CONTROL_ALLOW_HEADERS);
+		assertEquals("Access-Control-Allow-Credentials", HeaderName.ACCESS_CONTROL_ALLOW_CREDENTIALS);
+		assertEquals("Access-Control-Max-Age", HeaderName.ACCESS_CONTROL_MAX_AGE);
+		assertEquals("Access-Control-Expose-Headers", HeaderName.ACCESS_CONTROL_EXPOSE_HEADERS);
+		assertEquals("Access-Control-Expose-Headers", HeaderName.ACCESS_CONTROL_EXPOSE_HEADERS);
+		assertEquals("Vary", HeaderName.VARY);
+		assertEquals("Host", HeaderName.HOST);
+	}
         
         
         public void testFormatCanonical1() {
 		
-		assertEquals(HeaderFieldName.formatCanonical("content-type"), "Content-Type");
+		assertEquals(HeaderName.formatCanonical("content-type"), "Content-Type");
         }
 	
 	
 	public void testFormatCanonical2() {
 		
-		assertEquals(HeaderFieldName.formatCanonical("CONTENT-TYPE"), "Content-Type");
+		assertEquals(HeaderName.formatCanonical("CONTENT-TYPE"), "Content-Type");
         }
 	
 	
 	public void testFormatCanonical3() {
 		
-		assertEquals(HeaderFieldName.formatCanonical("X-type"), "X-Type");
+		assertEquals(HeaderName.formatCanonical("X-type"), "X-Type");
         }
 	
 	
 	public void testFormatCanonical4() {
 		
-		assertEquals(HeaderFieldName.formatCanonical("Origin"), "Origin");
+		assertEquals(HeaderName.formatCanonical("Origin"), "Origin");
         }
 	
 	
 	public void testFormatCanonical5() {
 		
-		assertEquals(HeaderFieldName.formatCanonical("A"), "A");
+		assertEquals(HeaderName.formatCanonical("A"), "A");
         }
 	
 	
 	public void testFormatCanonical6() {
 		
 		try {
-			assertEquals(HeaderFieldName.formatCanonical(""), "");
+			assertEquals(HeaderName.formatCanonical(""), "");
 			fail("Failed to raise IllegalArgumentException on empty string");
 			
 		} catch (IllegalArgumentException e) {
@@ -56,7 +73,7 @@ public class HeaderFieldNameTest extends TestCase {
 	
 	public void testConstructor1() {
 	
-		HeaderFieldName n = new HeaderFieldName("content-type");
+		HeaderName n = new HeaderName("content-type");
 		
 		assertEquals(n.toString(), "Content-Type");
 	}
@@ -64,7 +81,7 @@ public class HeaderFieldNameTest extends TestCase {
 	
 	public void testConstructor2() {
 	
-		HeaderFieldName n = new HeaderFieldName("X-ABC");
+		HeaderName n = new HeaderName("X-ABC");
 		
 		assertEquals(n.toString(), "X-Abc");
 	}
@@ -72,8 +89,8 @@ public class HeaderFieldNameTest extends TestCase {
 	
 	public void testEquality1() {
 	
-		HeaderFieldName n1 = new HeaderFieldName("content-type");
-		HeaderFieldName n2 = new HeaderFieldName("CONTENT-TYPE");
+		HeaderName n1 = new HeaderName("content-type");
+		HeaderName n2 = new HeaderName("CONTENT-TYPE");
 		
 		assertTrue(n1.equals(n2));
 	}
@@ -81,16 +98,16 @@ public class HeaderFieldNameTest extends TestCase {
 	
 	public void testEquality2() {
 	
-		HeaderFieldName n1 = new HeaderFieldName("content-type");
-		HeaderFieldName n2 = new HeaderFieldName("CONTENT");
+		HeaderName n1 = new HeaderName("content-type");
+		HeaderName n2 = new HeaderName("CONTENT");
 		
 		assertFalse(n1.equals(n2));
 	}
 
     public void testTrim() {
         String expected = "Content-Type";
-        String n1 = HeaderFieldName.formatCanonical("content-type\n");
-        String n2 = HeaderFieldName.formatCanonical(" CONTEnt-Type ");
+        String n1 = HeaderName.formatCanonical("content-type\n");
+        String n2 = HeaderName.formatCanonical(" CONTEnt-Type ");
 
         assertEquals("All whitespace should be trimmed", expected, n1);
         assertEquals("All whitespace should be trimmed", expected, n2);
@@ -172,16 +189,16 @@ public class HeaderFieldNameTest extends TestCase {
 
 
     public void testUnusualButValid() {
-        new HeaderFieldName("__2");
-        new HeaderFieldName("$%.%");
-        new HeaderFieldName("`~'&#*!^|");
-        new HeaderFieldName("Original_Name");
+        new HeaderName("__2");
+        new HeaderName("$%.%");
+        new HeaderName("`~'&#*!^|");
+        new HeaderName("Original_Name");
     }
 
 
     private void assertInvalid(String header) {
         try {
-            new HeaderFieldName(header);
+            new HeaderName(header);
 
             fail("Failed to raise exeption on bad header name");
 

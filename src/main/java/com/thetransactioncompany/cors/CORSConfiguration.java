@@ -180,7 +180,7 @@ public class CORSConfiguration {
 	 * 
 	 * <p>Property key: cors.supportedHeaders
 	 */
-	public final Set<HeaderFieldName> supportedHeaders;
+	public final Set<HeaderName> supportedHeaders;
 	
 	
 	/**
@@ -191,7 +191,7 @@ public class CORSConfiguration {
 	 *
 	 * @return {@code true} if the header is supported, else {@code false}.
 	 */
-	public final boolean isSupportedHeader(final HeaderFieldName header) {
+	public final boolean isSupportedHeader(final HeaderName header) {
 
 		return supportAnyHeader || supportedHeaders.contains(header);
 	}
@@ -203,7 +203,7 @@ public class CORSConfiguration {
 	 *
 	 * <p>Property key: cors.exposedHeaders
 	 */
-	public final Set<HeaderFieldName> exposedHeaders;
+	public final Set<HeaderName> exposedHeaders;
 	
 	
 	/**
@@ -351,7 +351,7 @@ public class CORSConfiguration {
 			if (headerSpec.equals("*")) {
 
 				supportAnyHeader = true;
-				supportedHeaders = Collections.unmodifiableSet(new HashSet<HeaderFieldName>());
+				supportedHeaders = Collections.unmodifiableSet(new HashSet<HeaderName>());
 
 			} else {
 
@@ -359,12 +359,12 @@ public class CORSConfiguration {
 
 				String[] headers = parseWords(headerSpec);
 
-				supportedHeaders = new HashSet<HeaderFieldName>();
+				supportedHeaders = new HashSet<HeaderName>();
 
 				for (String header: headers) {
 
 					try {
-						supportedHeaders.add(new HeaderFieldName(header));
+						supportedHeaders.add(new HeaderName(header));
 
 					} catch (IllegalArgumentException e) {
 
@@ -375,12 +375,12 @@ public class CORSConfiguration {
 
 
 			// Parse the exposed headers list
-			exposedHeaders = new HashSet<HeaderFieldName>();
+			exposedHeaders = new HashSet<HeaderName>();
 
 			for (String header: parseWords(pr.getOptString("cors.exposedHeaders", ""))) {
 
 				try {
-					exposedHeaders.add(new HeaderFieldName(header));
+					exposedHeaders.add(new HeaderName(header));
 
 				} catch (IllegalArgumentException e) {
 					throw new PropertyParseException("Bad header field name in property cors.exposedHeaders: " + header);

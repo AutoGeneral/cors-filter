@@ -7,18 +7,22 @@ import static java.util.regex.Pattern.compile;
 
 
 /**
- * Represents an HTTP header field name. Provides an {@link #equals} method to
+ * Represents an HTTP header name. Provides an {@link #equals} method to
  * compare two header names using case-insensitive matching (RFC 2616, section
  * 4.2).
  *
  * <p>Header field name examples:
  *
- * <ul> <li>Content-Type <li>User-Agent <li>X-Requested-With </ul>
+ * <ul>
+ *     <li>Content-Type
+ *     <li>User-Agent
+ *     <li>X-Requested-With
+ * </ul>
  *
  * @author Vladimir Dzhuvinov
  * @author Chris Mountford
  */
-public class HeaderFieldName {
+public class HeaderName {
 
 
 	/**
@@ -32,6 +36,72 @@ public class HeaderFieldName {
 	 * metacharacter rules.
 	 */
 	private static final Pattern VALID = compile("^[\\x21-\\x7e&&[^]\\[}{()<>@,;:\\\\\"/?=]]+$");
+
+
+	/**
+	 * "Origin" header name.
+	 */
+	public static final String ORIGIN = "Origin";
+
+
+	/**
+	 * "Access-Control-Request-Method" header name.
+	 */
+	public static final String ACCESS_CONTROL_REQUEST_METHOD = "Access-Control-Request-Method";
+
+
+	/**
+	 * "Access-Control-Request-Headers" header name.
+	 */
+	public static final String ACCESS_CONTROL_REQUEST_HEADERS = "Access-Control-Request-Headers";
+
+
+	/**
+	 * "Access-Control-Allow-Origin" header name.
+	 */
+	public static final String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
+
+
+	/**
+	 * "Access-Control-Allow-Methods" header name.
+	 */
+	public static final String ACCESS_CONTROL_ALLOW_METHODS = "Access-Control-Allow-Methods";
+
+
+	/**
+	 * "Access-Control-Allow-Headers" header name.
+	 */
+	public static final String ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
+
+
+	/**
+	 * "Access-Control-Allow-Credentials" header name.
+	 */
+	public static final String ACCESS_CONTROL_ALLOW_CREDENTIALS = "Access-Control-Allow-Credentials";
+
+
+	/**
+	 * "Access-Control-Expose-Headers" header name.
+	 */
+	public static final String ACCESS_CONTROL_EXPOSE_HEADERS = "Access-Control-Expose-Headers";
+
+
+	/**
+	 * "Access-Control-Max-Age" header name.
+	 */
+	public static final String ACCESS_CONTROL_MAX_AGE = "Access-Control-Max-Age";
+
+
+	/**
+	 * "Vary" header name.
+	 */
+	public static final String VARY = "Vary";
+
+
+	/**
+	 * "Host" header name.
+	 */
+	public static final String HOST = "Host";
 
 
 	/**
@@ -58,8 +128,10 @@ public class HeaderFieldName {
 		if (nameTrimmed.isEmpty())
 			throw new IllegalArgumentException("The header field name must not be an empty string");
 
+		assert(VALID != null);
+
 		// Check for valid syntax
-		if (!VALID.matcher(nameTrimmed).matches())
+		if (! VALID.matcher(nameTrimmed).matches())
 			throw new IllegalArgumentException("Invalid header field name syntax (see RFC 2616)");
 
 
@@ -93,7 +165,7 @@ public class HeaderFieldName {
 	 * @throws IllegalArgumentException On a empty or invalid header field
 	 *                                  name.
 	 */
-	public HeaderFieldName(final String name) {
+	public HeaderName(final String name) {
 
 		this.name = formatCanonical(name);
 	}
@@ -135,6 +207,6 @@ public class HeaderFieldName {
 	@Override
 	public boolean equals(Object object) {
 
-		return object instanceof HeaderFieldName && name.equals(object.toString());
+		return object instanceof HeaderName && name.equalsIgnoreCase(object.toString());
 	}
 }

@@ -81,7 +81,7 @@ public class CORSConfigurationTest extends TestCase {
 		assertFalse(c.isSupportedMethod(HTTPMethod.TRACE));
 		
 		assertTrue(c.supportAnyHeader);
-		assertTrue(c.isSupportedHeader(new HeaderFieldName("X-Requested-By")));
+		assertTrue(c.isSupportedHeader(new HeaderName("X-Requested-By")));
 		
 		assertEquals(-1, c.maxAge);
 
@@ -121,7 +121,7 @@ public class CORSConfigurationTest extends TestCase {
 		assertFalse(c.isSupportedMethod(HTTPMethod.TRACE));
 
 		assertTrue(c.supportAnyHeader);
-		assertTrue(c.isSupportedHeader(new HeaderFieldName("X-Requested-By")));
+		assertTrue(c.isSupportedHeader(new HeaderName("X-Requested-By")));
 
 		assertTrue(c.tagRequests);
         }
@@ -155,7 +155,7 @@ public class CORSConfigurationTest extends TestCase {
 		assertFalse(c.isAllowedOrigin(new Origin("http://deny-origin.com")));
 
 		assertFalse(c.supportAnyHeader);
-		assertFalse(c.isSupportedHeader(new HeaderFieldName("X-Requested-By")));
+		assertFalse(c.isSupportedHeader(new HeaderName("X-Requested-By")));
 
 		assertFalse(c.tagRequests);
         }
@@ -180,9 +180,9 @@ public class CORSConfigurationTest extends TestCase {
 			fail(e.getMessage());
 		}
 		
-		assertTrue(c.isSupportedHeader(new HeaderFieldName(h1)));
-		assertTrue(c.isSupportedHeader(new HeaderFieldName(h2)));
-		assertFalse(c.isSupportedHeader(new HeaderFieldName(h3)));
+		assertTrue(c.isSupportedHeader(new HeaderName(h1)));
+		assertTrue(c.isSupportedHeader(new HeaderName(h2)));
+		assertFalse(c.isSupportedHeader(new HeaderName(h3)));
 	}
 	
 	
@@ -205,9 +205,9 @@ public class CORSConfigurationTest extends TestCase {
 			fail(e.getMessage());
 		}
 		
-		assertTrue(c.exposedHeaders.contains(new HeaderFieldName(h1)));
-		assertTrue(c.exposedHeaders.contains(new HeaderFieldName(h2)));
-		assertFalse(c.exposedHeaders.contains(new HeaderFieldName(h3)));
+		assertTrue(c.exposedHeaders.contains(new HeaderName(h1)));
+		assertTrue(c.exposedHeaders.contains(new HeaderName(h2)));
+		assertFalse(c.exposedHeaders.contains(new HeaderName(h3)));
 	}
 	
 	

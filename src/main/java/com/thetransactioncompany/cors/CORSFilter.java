@@ -38,6 +38,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Vladimir Dzhuvinov
  * @author David Bellem
+ * @author Gervasio Amy
  */
 public class CORSFilter implements Filter {
 
@@ -155,7 +156,11 @@ public class CORSFilter implements Filter {
 
 				// Simple / actual CORS request
 				handler.handleActualRequest(request, response);
-				chain.doFilter(request, response);
+
+				// Preserve CORS response headers on reset()
+				CORSResponseWrapper responseWrapper = new CORSResponseWrapper(response);
+
+				chain.doFilter(request, responseWrapper);
 
 			} else if (type.equals(CORSRequestType.PREFLIGHT)) {
 				
@@ -198,7 +203,7 @@ public class CORSFilter implements Filter {
 		
 			String msg = e.getMessage();
 			
-			HeaderFieldName header = e.getRequestHeader();
+			HeaderName header = e.getRequestHeader();
 			
 			if (header != null)
 				msg = msg + ": " + header.toString();
