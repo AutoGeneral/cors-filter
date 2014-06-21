@@ -1,8 +1,7 @@
 package com.thetransactioncompany.cors;
 
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
@@ -17,6 +16,22 @@ import javax.servlet.http.HttpServletResponseWrapper;
  * @author Gervasio Amy
  */
 public class CORSResponseWrapper extends HttpServletResponseWrapper {
+
+
+	/**
+	 * The names of the CORS response headers to preserve.
+	 */
+	public static final Set<String> RESPONSE_HEADER_NAMES;
+
+
+	static {
+		Set<String> headerNames = new HashSet<String>();
+		headerNames.add(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN);
+		headerNames.add(HeaderName.ACCESS_CONTROL_ALLOW_CREDENTIALS);
+		headerNames.add(HeaderName.ACCESS_CONTROL_EXPOSE_HEADERS);
+		headerNames.add(HeaderName.VARY);
+		RESPONSE_HEADER_NAMES = Collections.unmodifiableSet(headerNames);
+	}
 
 
 	/**
@@ -35,9 +50,10 @@ public class CORSResponseWrapper extends HttpServletResponseWrapper {
 
 		Map<String,String> corsHeaders = new HashMap<String,String>();
 
-		for (String headerName : this.getHeaderNames()) {
-			if (headerName.startsWith("Access-Control-")) {
-				// it's a CORS header
+		for (String headerName : getHeaderNames()) {
+
+			if (RESPONSE_HEADER_NAMES.contains(headerName)) {
+				// save
 				corsHeaders.put(headerName, getHeader(headerName));
 			}
 		}
