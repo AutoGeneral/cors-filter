@@ -29,32 +29,6 @@ Filter website:
 	http://software.dzhuvinov.com/cors-filter.html
 
 
-
-Content of this package:
-
-	README.txt                This file.
-	
-	LICENSE.txt               The Apache 2.0 software license.
-	
-	cors-filter-<version>.jar JAR file containing the CORS filter and any 
-	                          other required classes.
-
-	cors-demo.war             CORS demo web application.
-	
-	build.xml                 Apache Ant build file.
-	
-	demo/                     CORS filter demo with requesting page.
-	
-	javadoc/                  JavaDoc files.
-	
-	lib/                      Build, test and run-time dependencies.
-	
-	src/                      The source code.
-	
-	test/                     JUnit tests.
-
-
-
 Change log:
 
 version 1.0 (2010-09-29)
