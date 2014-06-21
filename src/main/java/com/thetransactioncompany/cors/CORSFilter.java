@@ -205,10 +205,10 @@ public class CORSFilter implements Filter {
 		
 			String msg = e.getMessage();
 			
-			HeaderName header = e.getRequestHeader();
+			String header = e.getRequestHeader();
 			
 			if (header != null)
-				msg = msg + ": " + header.toString();
+				msg = msg + ": " + header;
 		
 			printMessage(response, HttpServletResponse.SC_FORBIDDEN, msg);
 		}

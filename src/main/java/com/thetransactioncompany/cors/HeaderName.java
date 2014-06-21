@@ -7,17 +7,7 @@ import static java.util.regex.Pattern.compile;
 
 
 /**
- * Represents an HTTP header name. Provides an {@link #equals} method to
- * compare two header names using case-insensitive matching (RFC 2616, section
- * 4.2).
- *
- * <p>Header field name examples:
- *
- * <ul>
- *     <li>Content-Type
- *     <li>User-Agent
- *     <li>X-Requested-With
- * </ul>
+ * HTTP header name constants and utilities.
  *
  * @author Vladimir Dzhuvinov
  * @author Chris Mountford
@@ -105,23 +95,16 @@ public class HeaderName {
 
 
 	/**
-	 * The header field name, formatted as {@code Aaa-Bbb-Ccc}.
+	 * Applies a {@code Aaa-Bbb-Ccc} format to a header name.
+	 *
+	 * @param name The header name to format, must not be an empty string
+	 *             or {@code null}.
+	 *
+	 * @return The formatted header name.
+	 *
+	 * @throws IllegalArgumentException On a empty or invalid header name.
 	 */
-	private final String name;
-
-
-	/**
-	 * Applies a {@code Aaa-Bbb-Ccc} format to a header field name.
-	 *
-	 * @param name The header field name to format, must not be an empty
-	 *             string or {@code null}.
-	 *
-	 * @return The formatted header field name.
-	 *
-	 * @throws IllegalArgumentException On a empty or invalid header field
-	 *                                  name.
-	 */
-	protected static String formatCanonical(final String name) {
+	public static String formatCanonical(final String name) {
 
 		String nameTrimmed = name.trim();
 
@@ -157,56 +140,9 @@ public class HeaderName {
 
 
 	/**
-	 * Creates a new header field name from the specified string.
-	 *
-	 * @param name The header field name, must not be an empty strings or
-	 *             {@code null}.
-	 *
-	 * @throws IllegalArgumentException On a empty or invalid header field
-	 *                                  name.
+	 * Prevents public instantiation.
 	 */
-	public HeaderName(final String name) {
+	private HeaderName() {
 
-		this.name = formatCanonical(name);
-	}
-
-
-	/**
-	 * Returns a string representation of a header field name in {@code
-	 * Aaa-Bbb-Ccc} format.
-	 *
-	 * @return The header field name as string.
-	 */
-	@Override
-	public String toString() {
-
-		return name;
-	}
-
-
-	/**
-	 * Overrides {@code Object.hashCode}.
-	 *
-	 * @return The object hash code.
-	 */
-	@Override
-	public int hashCode() {
-
-		return name.hashCode();
-	}
-
-
-	/**
-	 * Overrides {@code Object.equals()}.
-	 *
-	 * @param object The object to compare to.
-	 *
-	 * @return {@code true} if the objects have the same value, otherwise
-	 * {@code false}.
-	 */
-	@Override
-	public boolean equals(Object object) {
-
-		return object instanceof HeaderName && name.equalsIgnoreCase(object.toString());
 	}
 }

@@ -50,11 +50,11 @@ public class CORSConfigurationLoaderTest extends TestCase {
 		assertTrue(c.isSupportedMethod(HTTPMethod.DELETE));
 		assertTrue(c.isSupportedMethod(HTTPMethod.PUT));
 		
-		assertTrue(c.isSupportedHeader(new HeaderName("Origin")));
-		assertTrue(c.isSupportedHeader(new HeaderName("X-Requested-With")));
-		assertTrue(c.isSupportedHeader(new HeaderName("Content-Type")));
-		assertTrue(c.isSupportedHeader(new HeaderName("Accept")));
-		assertFalse(c.isSupportedHeader(new HeaderName("X-Forwarded-Proto")));
+		assertTrue(c.isSupportedHeader("Origin"));
+		assertTrue(c.isSupportedHeader("X-Requested-With"));
+		assertTrue(c.isSupportedHeader("Content-Type"));
+		assertTrue(c.isSupportedHeader("Accept"));
+		assertFalse(c.isSupportedHeader("X-Forwarded-Proto"));
 		
 		assertTrue(c.exposedHeaders.size() == 0);
 		

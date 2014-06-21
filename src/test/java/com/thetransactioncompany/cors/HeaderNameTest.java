@@ -27,185 +27,153 @@ public class HeaderNameTest extends TestCase {
 		assertEquals("Vary", HeaderName.VARY);
 		assertEquals("Host", HeaderName.HOST);
 	}
-        
-        
-        public void testFormatCanonical1() {
-		
+
+
+	public void testFormatCanonical1() {
+
 		assertEquals(HeaderName.formatCanonical("content-type"), "Content-Type");
-        }
-	
-	
+	}
+
+
 	public void testFormatCanonical2() {
-		
+
 		assertEquals(HeaderName.formatCanonical("CONTENT-TYPE"), "Content-Type");
-        }
-	
-	
+	}
+
+
 	public void testFormatCanonical3() {
-		
+
 		assertEquals(HeaderName.formatCanonical("X-type"), "X-Type");
-        }
-	
-	
+	}
+
+
 	public void testFormatCanonical4() {
-		
+
 		assertEquals(HeaderName.formatCanonical("Origin"), "Origin");
-        }
-	
-	
+	}
+
+
 	public void testFormatCanonical5() {
-		
+
 		assertEquals(HeaderName.formatCanonical("A"), "A");
-        }
-	
-	
+	}
+
+
 	public void testFormatCanonical6() {
-		
+
 		try {
 			assertEquals(HeaderName.formatCanonical(""), "");
 			fail("Failed to raise IllegalArgumentException on empty string");
-			
+
 		} catch (IllegalArgumentException e) {
 			// ok
 		}
-        }
-	
-	
-	public void testConstructor1() {
-	
-		HeaderName n = new HeaderName("content-type");
-		
-		assertEquals(n.toString(), "Content-Type");
-	}
-	
-	
-	public void testConstructor2() {
-	
-		HeaderName n = new HeaderName("X-ABC");
-		
-		assertEquals(n.toString(), "X-Abc");
-	}
-	
-	
-	public void testEquality1() {
-	
-		HeaderName n1 = new HeaderName("content-type");
-		HeaderName n2 = new HeaderName("CONTENT-TYPE");
-		
-		assertTrue(n1.equals(n2));
-	}
-	
-	
-	public void testEquality2() {
-	
-		HeaderName n1 = new HeaderName("content-type");
-		HeaderName n2 = new HeaderName("CONTENT");
-		
-		assertFalse(n1.equals(n2));
 	}
 
-    public void testTrim() {
-        String expected = "Content-Type";
-        String n1 = HeaderName.formatCanonical("content-type\n");
-        String n2 = HeaderName.formatCanonical(" CONTEnt-Type ");
 
-        assertEquals("All whitespace should be trimmed", expected, n1);
-        assertEquals("All whitespace should be trimmed", expected, n2);
-    }
+	public void testTrim() {
+		String expected = "Content-Type";
+		String n1 = HeaderName.formatCanonical("content-type\n");
+		String n2 = HeaderName.formatCanonical(" CONTEnt-Type ");
 
-    public void testInvalid1() {
-        assertInvalid("X-r@b");
-    }
+		assertEquals("All whitespace should be trimmed", expected, n1);
+		assertEquals("All whitespace should be trimmed", expected, n2);
+	}
 
 
-    public void testInvalid2() {
-        assertInvalid("1=X-r");
-    }
+	public void testInvalid1() {
+		assertInvalid("X-r@b");
+	}
 
 
-    public void testInvalid3() {
-        assertInvalid("Aaa Bbb");
-    }
+	public void testInvalid2() {
+		assertInvalid("1=X-r");
+	}
 
 
-    public void testInvalid4() {
-        assertInvalid("less<than");
-    }
+	public void testInvalid3() {
+		assertInvalid("Aaa Bbb");
+	}
 
 
-    public void testInvalid5() {
-        assertInvalid("alpha1>");
-    }
+	public void testInvalid4() {
+		assertInvalid("less<than");
+	}
 
 
-    public void testInvalid6() {
-        assertInvalid("X-Forwarded-By-{");
-    }
+	public void testInvalid5() {
+		assertInvalid("alpha1>");
+	}
 
 
-    public void testInvalid7() {
-        assertInvalid("a}");
-    }
+	public void testInvalid6() {
+		assertInvalid("X-Forwarded-By-{");
+	}
 
 
-    public void testInvalid8() {
-        assertInvalid("separator:");
-    }
+	public void testInvalid7() {
+		assertInvalid("a}");
+	}
 
 
-    public void testInvalid9() {
-        assertInvalid("asd\"f;");
-    }
+	public void testInvalid8() {
+		assertInvalid("separator:");
+	}
 
 
-    public void testInvalid10() {
-        assertInvalid("rfc@w3c.org");
-    }
+	public void testInvalid9() {
+		assertInvalid("asd\"f;");
+	}
 
 
-    public void testInvalid11() {
-        assertInvalid("bracket[");
-    }
+	public void testInvalid10() {
+		assertInvalid("rfc@w3c.org");
+	}
 
 
-    public void testInvalid12() {
-        assertInvalid("control\u0002header");
-    }
+	public void testInvalid11() {
+		assertInvalid("bracket[");
+	}
 
 
-    public void testInvalid13() {
-        assertInvalid("control\nembedded");
-    }
+	public void testInvalid12() {
+		assertInvalid("control\u0002header");
+	}
 
 
-    public void testInvalid14() {
-        assertInvalid("uni╚(•⌂•)╝");
-    }
+	public void testInvalid13() {
+		assertInvalid("control\nembedded");
+	}
 
 
-    public void testInvalid15() {
-        assertInvalid("uni\u3232_\u3232");
-    }
+	public void testInvalid14() {
+		assertInvalid("uni╚(•⌂•)╝");
+	}
 
 
-    public void testUnusualButValid() {
-        new HeaderName("__2");
-        new HeaderName("$%.%");
-        new HeaderName("`~'&#*!^|");
-        new HeaderName("Original_Name");
-    }
+	public void testInvalid15() {
+		assertInvalid("uni\u3232_\u3232");
+	}
 
 
-    private void assertInvalid(String header) {
-        try {
-            new HeaderName(header);
+	public void testUnusualButValid() {
+		HeaderName.formatCanonical("__2");
+		HeaderName.formatCanonical("$%.%");
+		HeaderName.formatCanonical("`~'&#*!^|");
+		HeaderName.formatCanonical("Original_Name");
+	}
 
-            fail("Failed to raise exeption on bad header name");
 
-        } catch (IllegalArgumentException e) {
-            // ok
-        }
+	private void assertInvalid(String header) {
+		try {
+			HeaderName.formatCanonical(header);
 
-    }
+			fail("Failed to raise exeption on bad header name");
+
+		} catch (IllegalArgumentException e) {
+			// ok
+		}
+
+	}
 
 }

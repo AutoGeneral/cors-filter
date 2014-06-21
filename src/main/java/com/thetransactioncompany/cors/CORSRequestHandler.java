@@ -203,12 +203,12 @@ public class CORSRequestHandler {
 		final String rawRequestHeadersString = request.getHeader(HeaderName.ACCESS_CONTROL_REQUEST_HEADERS);
 		final String[] requestHeaderValues = HeaderUtils.parseMultipleHeaderValues(rawRequestHeadersString);
 		
-		final HeaderName[] requestHeaders = new HeaderName[requestHeaderValues.length];
+		final String[] requestHeaders = new String[requestHeaderValues.length];
 		
 		for (int i=0; i<requestHeaders.length; i++) {
 		
 			try {
-				requestHeaders[i] = new HeaderName(requestHeaderValues[i]);
+				requestHeaders[i] = HeaderName.formatCanonical(requestHeaderValues[i]);
 				
 			} catch (IllegalArgumentException e) {
 				// Invalid header name
@@ -225,7 +225,7 @@ public class CORSRequestHandler {
 		// Author request headers check
 		if (! config.supportAnyHeader) {
 
-			for (HeaderName requestHeader : requestHeaders) {
+			for (String requestHeader : requestHeaders) {
 
 				if (!config.supportedHeaders.contains(requestHeader))
 					throw new UnsupportedHTTPHeaderException("Unsupported HTTP request header", requestHeader);
