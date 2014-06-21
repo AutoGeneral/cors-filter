@@ -58,7 +58,7 @@ public enum CORSRequestType {
 		// We have a CORS request - determine type
 		if (request.getHeader(HeaderName.ACCESS_CONTROL_REQUEST_METHOD) != null &&
 		    request.getMethod()                                         != null &&
-		    request.getMethod().equals(HTTPMethod.OPTIONS.name())                  ) {
+		    request.getMethod().equalsIgnoreCase("OPTIONS")                        ) {
 
 			return PREFLIGHT;
 

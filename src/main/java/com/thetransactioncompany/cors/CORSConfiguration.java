@@ -147,7 +147,7 @@ public class CORSConfiguration {
 	 *
 	 * <p>Property key: cors.supportedMethods
 	 */
-	public final Set<HTTPMethod> supportedMethods;
+	public final Set<String> supportedMethods;
 	
 	
 	/**
@@ -158,7 +158,7 @@ public class CORSConfiguration {
 	 *
 	 * @return {@code true} if the method is supported, else {@code false}.
 	 */
-	public final boolean isSupportedMethod(final HTTPMethod method) {
+	public final boolean isSupportedMethod(final String method) {
 
 		return supportedMethods.contains(method);
 	}
@@ -321,18 +321,11 @@ public class CORSConfiguration {
 
 			String methodSpec = pr.getOptString("cors.supportedMethods", "GET, POST, HEAD, OPTIONS").trim().toUpperCase();
 
-			String[] methodNames = parseWords(methodSpec);
+			supportedMethods = new HashSet<String>();
 
-			supportedMethods = new HashSet<HTTPMethod>();
+			for (String methodName: parseWords(methodSpec)) {
 
-			for (String methodName: methodNames) {
-
-				try {
-					supportedMethods.add(HTTPMethod.valueOf(methodName));
-
-				} catch (IllegalArgumentException e) {
-					throw new PropertyParseException("Bad HTTP method name in property cors.allowMethods: " + methodName);
-				}
+				supportedMethods.add(methodName);
 			}
 			
 

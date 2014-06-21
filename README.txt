@@ -120,5 +120,6 @@ version 2.0 (2014-06-21)
 
 version 2.0.1 (2014-06-21)
     * Narrows down CORS response headers to preserve in CORSResponseWrapper.
+    * Removes bound on supported HTTP methods.
 
 [EOF]

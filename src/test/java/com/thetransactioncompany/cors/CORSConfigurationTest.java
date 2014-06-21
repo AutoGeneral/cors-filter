@@ -72,13 +72,13 @@ public class CORSConfigurationTest extends TestCase {
 		assertTrue(c.allowAnyOrigin);
 		assertTrue(c.isAllowedOrigin(new Origin("http://example.com")));
 		
-		assertTrue(c.isSupportedMethod(HTTPMethod.GET));
-		assertTrue(c.isSupportedMethod(HTTPMethod.POST));
-		assertTrue(c.isSupportedMethod(HTTPMethod.HEAD));
-		assertTrue(c.isSupportedMethod(HTTPMethod.OPTIONS));
-		assertFalse(c.isSupportedMethod(HTTPMethod.DELETE));
-		assertFalse(c.isSupportedMethod(HTTPMethod.PUT));
-		assertFalse(c.isSupportedMethod(HTTPMethod.TRACE));
+		assertTrue(c.isSupportedMethod("GET"));
+		assertTrue(c.isSupportedMethod("POST"));
+		assertTrue(c.isSupportedMethod("HEAD"));
+		assertTrue(c.isSupportedMethod("OPTIONS"));
+		assertFalse(c.isSupportedMethod("DELETE"));
+		assertFalse(c.isSupportedMethod("PUT"));
+		assertFalse(c.isSupportedMethod("TRACE"));
 		
 		assertTrue(c.supportAnyHeader);
 		assertTrue(c.isSupportedHeader("X-Requested-By"));
@@ -113,12 +113,12 @@ public class CORSConfigurationTest extends TestCase {
 		assertTrue(c.allowAnyOrigin);		
 		assertTrue(c.isAllowedOrigin(new Origin("http://example.com")));
 		
-		assertTrue(c.isSupportedMethod(HTTPMethod.GET));
-		assertTrue(c.isSupportedMethod(HTTPMethod.POST));
-		assertTrue(c.isSupportedMethod(HTTPMethod.OPTIONS));
-		assertFalse(c.isSupportedMethod(HTTPMethod.DELETE));
-		assertFalse(c.isSupportedMethod(HTTPMethod.PUT));
-		assertFalse(c.isSupportedMethod(HTTPMethod.TRACE));
+		assertTrue(c.isSupportedMethod("GET"));
+		assertTrue(c.isSupportedMethod("POST"));
+		assertTrue(c.isSupportedMethod("OPTIONS"));
+		assertFalse(c.isSupportedMethod("DELETE"));
+		assertFalse(c.isSupportedMethod("PUT"));
+		assertFalse(c.isSupportedMethod("TRACE"));
 
 		assertTrue(c.supportAnyHeader);
 		assertTrue(c.isSupportedHeader("X-Requested-By"));

@@ -194,10 +194,10 @@ public class CORSFilter implements Filter {
 		
 			String msg = e.getMessage();
 			
-			HTTPMethod method = e.getRequestedMethod();
+			String method = e.getRequestedMethod();
 			
 			if (method != null)
-				msg = msg + ": " + method.toString();
+				msg = msg + ": " + method;
 		
 			printMessage(response, HttpServletResponse.SC_METHOD_NOT_ALLOWED, msg);
 			

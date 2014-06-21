@@ -12,7 +12,7 @@ public class UnsupportedHTTPMethodException extends CORSException {
 	/**
 	 * The requested HTTP method.
 	 */
-	private final HTTPMethod method;
+	private final String method;
 	
 	
 	/**
@@ -35,7 +35,7 @@ public class UnsupportedHTTPMethodException extends CORSException {
 	 * @param requestedMethod The requested HTTP method, {@code null} if 
 	 *                        unknown.
 	 */
-	public UnsupportedHTTPMethodException(final String message, final HTTPMethod requestedMethod) {
+	public UnsupportedHTTPMethodException(final String message, final String requestedMethod) {
 	
 		super(message);
 		
@@ -48,7 +48,7 @@ public class UnsupportedHTTPMethodException extends CORSException {
 	 *
 	 * @return The requested method, {@code null} if unknown or not set.
 	 */
-	public HTTPMethod getRequestedMethod() {
+	public String getRequestedMethod() {
 	
 		return method;
 	}

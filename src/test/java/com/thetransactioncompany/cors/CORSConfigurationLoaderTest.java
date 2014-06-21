@@ -43,12 +43,12 @@ public class CORSConfigurationLoaderTest extends TestCase {
 		assertFalse(c.isAllowedOrigin(new Origin("http://example.com")));
 		assertFalse(c.isAllowedOrigin(new Origin("http://deny-origin.com")));
 		
-		assertTrue(c.isSupportedMethod(HTTPMethod.GET));
-		assertTrue(c.isSupportedMethod(HTTPMethod.POST));
-		assertTrue(c.isSupportedMethod(HTTPMethod.HEAD));
-		assertTrue(c.isSupportedMethod(HTTPMethod.OPTIONS));
-		assertTrue(c.isSupportedMethod(HTTPMethod.DELETE));
-		assertTrue(c.isSupportedMethod(HTTPMethod.PUT));
+		assertTrue(c.isSupportedMethod("GET"));
+		assertTrue(c.isSupportedMethod("POST"));
+		assertTrue(c.isSupportedMethod("HEAD"));
+		assertTrue(c.isSupportedMethod("OPTIONS"));
+		assertTrue(c.isSupportedMethod("DELETE"));
+		assertTrue(c.isSupportedMethod("PUT"));
 		
 		assertTrue(c.isSupportedHeader("Origin"));
 		assertTrue(c.isSupportedHeader("X-Requested-With"));
