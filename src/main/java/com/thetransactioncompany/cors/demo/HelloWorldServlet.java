@@ -2,7 +2,6 @@ package com.thetransactioncompany.cors.demo;
 
 
 import java.io.*;
-import java.util.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -44,7 +43,7 @@ public class HelloWorldServlet extends HttpServlet {
 		
 		out.println("");
 		
-		out.println("Listing CORS Filter request tags: ");
+		out.println("CORS Filter request tags: ");
 		out.println("\tcors.isCorsRequest: " + request.getAttribute("cors.isCorsRequest"));
 		out.println("\tcors.origin: " + request.getAttribute("cors.origin"));
 		out.println("\tcors.requestType: " + request.getAttribute("cors.requestType"));
