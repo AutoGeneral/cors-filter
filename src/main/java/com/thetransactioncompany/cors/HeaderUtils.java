@@ -23,15 +23,15 @@ public class HeaderUtils {
 	 *
 	 * @return The serialised set as string.
 	 */
-	public static String serialize(final Set set, final String sep) {
-
-		Iterator it = set.iterator();
+	public static String serialize(final Set<String> set, final String sep) {
 
 		StringBuilder sb = new StringBuilder();
 
+		Iterator<String> it = set.iterator();
+
 		while (it.hasNext()) {
 
-			sb.append(it.next().toString());
+			sb.append(it.next());
 
 			if (it.hasNext())
 				sb.append(sep);
