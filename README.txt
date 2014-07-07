@@ -122,4 +122,7 @@ version 2.1 (2014-06-22)
     * Narrows down CORS response headers to preserve in CORSResponseWrapper.
     * Removes bound on supported HTTP methods.
 
+version 2.1.1 (2014-07-07)
+    * Fixes regression bug affecting Access-Control-Allow-Headers (issue #22).
+
 [EOF]
