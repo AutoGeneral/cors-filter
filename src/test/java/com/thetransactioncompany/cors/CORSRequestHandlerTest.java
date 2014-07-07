@@ -206,4 +206,28 @@ public class CORSRequestHandlerTest extends TestCase {
 
 		assertEquals(2, response.getHeaders().size());
 	}
+
+
+	public void testPreflightRequestWithSupportAnyHeader()
+		throws Exception {
+
+		Properties props = new Properties();
+		props.setProperty("cors.supportedHeaders", "*");
+
+		CORSConfiguration config = new CORSConfiguration(props);
+
+		CORSRequestHandler handler = new CORSRequestHandler(config);
+
+		MockServletRequest request = new MockServletRequest();
+		request.setHeader("Origin", "http://example.com");
+		request.setHeader("Access-Control-Request-Method", "POST");
+		request.setHeader("Access-Control-Request-Headers", "Authorization, Content-Type");
+		request.setMethod("OPTIONS");
+
+		MockServletResponse response = new MockServletResponse();
+
+		handler.handlePreflightRequest(request, response);
+
+		assertEquals("Authorization, Content-Type", response.getHeader("Access-Control-Allow-Headers"));
+	}
 }

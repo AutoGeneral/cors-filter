@@ -242,7 +242,7 @@ public class CORSRequestHandler {
 		if (config.supportAnyHeader && rawRequestHeadersString != null) {
 
 			// Echo author headers
-			response.addHeader(HeaderName.ACCESS_CONTROL_EXPOSE_HEADERS, rawRequestHeadersString);
+			response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_HEADERS, rawRequestHeadersString);
 
 		} else if (supportedHeaders != null && ! supportedHeaders.isEmpty()) {
 
