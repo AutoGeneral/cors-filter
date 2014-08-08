@@ -125,4 +125,8 @@ version 2.1 (2014-06-22)
 version 2.1.1 (2014-07-07)
     * Fixes regression bug affecting Access-Control-Allow-Headers (issue #22).
 
+version 2.1.2 (2014-08-08)
+    * Removes @WebFilter(asyncSupported = true) annotation, asynchronous
+      support should be specified in web.xml instead (issue #26).
+
 [EOF]
