@@ -8,7 +8,7 @@
  * supported by all major browsers such as Firefox, Safari, Chrome and IE.
  *
  * <p>To enable CORS for a particular HTTP resource, such as a servlet, JSP or
- * plain HTML file, attach a {@link com.thetransactioncompany.cors.CORSFilter} 
+ * plain HTML file, attach a {@link com.thetransactioncompany.cors.CORSFilter}
  * to it via a {@code <filter-mapping>} element in the {@code web.xml} 
  * descriptor file. The default CORS filter policy is to allow any origin 
  * (including credentials). To impose a stricter access policy configure the 

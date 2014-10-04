@@ -1,9 +1,8 @@
 package com.thetransactioncompany.cors;
 
 
-import junit.framework.TestCase;
-
 import com.thetransactioncompany.cors.environment.MockEnvironment;
+import junit.framework.TestCase;
 
 
 /**
