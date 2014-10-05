@@ -54,6 +54,24 @@ public class CORSFilter implements Filter {
 	 */
 	private CORSRequestHandler handler;
 
+    /**
+     * Simple constructor for Bean stuff
+     */
+    CORSFilter (){super();}
+
+    /**
+     * Allows an alternative means of setting the configuration that suits
+     * a Spring bean constructor approach rather than a servlet init approach.
+     *
+     * See https://bitbucket.org/thetransactioncompany/cors-filter/issue/24
+     *
+     * @param config properties
+     * @throws ServletException
+     */
+    public CORSFilter(CORSConfiguration config) throws ServletException {
+        this.config=config;
+        handler = new CORSRequestHandler(config);
+    }
 
 	/**
 	 * Gets the configuration of this CORS filter.
