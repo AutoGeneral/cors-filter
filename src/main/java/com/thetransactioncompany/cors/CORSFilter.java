@@ -72,10 +72,22 @@ public class CORSFilter implements Filter {
 	 *
 	 * See https://bitbucket.org/thetransactioncompany/cors-filter/issue/24
 	 *
-	 * @param config Specifies the cross-origin access policy. Must not be
+	 * @param config The cross-origin access policy. Must not be
 	 *               {@code null}.
 	 */
 	public CORSFilter(final CORSConfiguration config) {
+
+		setConfiguration(config);
+	}
+
+
+	/**
+	 * Sets the cross-origin access policy for this CORS filter.
+	 *
+	 * @param config The cross-origin access policy. Must not be
+	 *               {@code null}.
+	 */
+	private void setConfiguration(final CORSConfiguration config) {
 
 		this.config = config;
 		handler = new CORSRequestHandler(config);
@@ -83,10 +95,10 @@ public class CORSFilter implements Filter {
 
 
 	/**
-	 * Gets the configuration of this CORS filter.
+	 * Gets the cross-origin access policy for this CORS filter.
 	 *
-	 * @return The configuration, {@code null} if the filter is not
-	 *         initialised.
+	 * @return The cross-origin access policy, {@code null} if the filter
+	 *         is not initialised.
 	 */
 	public CORSConfiguration getConfiguration() {
 
@@ -95,7 +107,7 @@ public class CORSFilter implements Filter {
 
 
 	/**
-	 * This method is invoked by the web container to initialise the
+	 * This method is invoked by the servlet container to initialise the
 	 * filter at startup.
 	 *
 	 * @param filterConfig The servlet filter configuration. Must not be
@@ -110,14 +122,12 @@ public class CORSFilter implements Filter {
 		CORSConfigurationLoader configLoader = new CORSConfigurationLoader(filterConfig);
 
 		try {
-			config = configLoader.load();
+			setConfiguration(configLoader.load());
 
 		} catch (CORSConfigurationException e) {
 
 			throw new ServletException(e.getMessage(), e);
 		}
-
-		handler = new CORSRequestHandler(config);
 	}
 
 
@@ -130,8 +140,9 @@ public class CORSFilter implements Filter {
 	 * make it easier for XHR debugger tools to identify the cause of
 	 * failed requests.
 	 *
-	 * @param sc  The HTTP status code.
-	 * @param msg The message.
+	 * @param response The HTTP servlet response. Must not be {@code null}.
+	 * @param sc       The HTTP status code.
+	 * @param msg      The message.
 	 *
 	 * @throws IOException      On a I/O exception.
 	 * @throws ServletException On a general request processing exception.
@@ -142,15 +153,10 @@ public class CORSFilter implements Filter {
 		// Set the status code
 		response.setStatus(sc);
 
-
 		// Write the error message
-
 		response.resetBuffer();
-
 		response.setContentType("text/plain");
-
 		PrintWriter out = response.getWriter();
-
 		out.println("Cross-Origin Resource Sharing (CORS) Filter: " + msg);
 	}
 
