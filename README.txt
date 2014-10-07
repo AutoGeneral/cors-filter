@@ -129,4 +129,7 @@ version 2.1.2 (2014-08-08)
     * Removes @WebFilter(asyncSupported = true) annotation, asynchronous
       support should be specified in web.xml instead (issue #26).
 
+version 2.2 (2014-10-07)
+    * Adds support for constructor-based initialisation (issue #24).
+
 [EOF]
