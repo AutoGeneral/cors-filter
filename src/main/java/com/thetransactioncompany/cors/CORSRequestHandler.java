@@ -47,7 +47,8 @@ public class CORSRequestHandler {
 	/**
 	 * Creates a new CORS request handler.
 	 *
-	 * @param config Specifies the cross-origin access policy.
+	 * @param config Specifies the cross-origin access policy. Must not be
+	 *               {@code null}.
 	 */
 	public CORSRequestHandler(final CORSConfiguration config) {
 	
