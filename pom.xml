@@ -10,7 +10,7 @@
 
 	<groupId>com.thetransactioncompany</groupId>
 	<artifactId>cors-filter</artifactId>
-	<version>2.3-SNAPSHOT</version>
+	<version>2.2.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>CORS Filter</name>
