@@ -57,9 +57,10 @@ public class CORSFilter implements Filter {
 
 
 	/**
-	 * Default constructor.
+	 * Creates a new uninitialised CORS filter. Must be then initialised
+	 * with {@link #setConfiguration} or {@link #init}.
 	 */
-	CORSFilter() {
+	public CORSFilter() {
 
 		super();
 	}
@@ -87,7 +88,7 @@ public class CORSFilter implements Filter {
 	 * @param config The cross-origin access policy. Must not be
 	 *               {@code null}.
 	 */
-	private void setConfiguration(final CORSConfiguration config) {
+	public void setConfiguration(final CORSConfiguration config) {
 
 		this.config = config;
 		handler = new CORSRequestHandler(config);

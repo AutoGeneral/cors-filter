@@ -132,4 +132,7 @@ version 2.1.2 (2014-08-08)
 version 2.2 (2014-10-07)
     * Adds support for constructor-based initialisation (issue #24).
 
+version 2.2.1 (2014-10-08)
+    * Restores public CORSFilter constructor (issue #27).
+
 [EOF]
