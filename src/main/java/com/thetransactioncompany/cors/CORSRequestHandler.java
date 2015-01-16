@@ -116,16 +116,16 @@ public class CORSRequestHandler {
 			response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
 
 			// The string "*" cannot be used for a resource that supports credentials.
-			response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN, requestOrigin.toString());
+			response.setHeader(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN, requestOrigin.toString());
 
 			// See https://bitbucket.org/thetransactioncompany/cors-filter/issue/16/
 			response.addHeader(HeaderName.VARY, "Origin");
 
 		} else {
 			if (config.allowAnyOrigin) {
-				response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+				response.setHeader(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 			} else {
-				response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN, requestOrigin.toString());
+				response.setHeader(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN, requestOrigin.toString());
 
 				// See https://bitbucket.org/thetransactioncompany/cors-filter/issue/16/
 				response.addHeader(HeaderName.VARY, "Origin");
@@ -218,16 +218,16 @@ public class CORSRequestHandler {
 		// Success, append response headers
 		
 		if (config.supportsCredentials) {
-			response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN, requestOrigin.toString());
+			response.setHeader(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN, requestOrigin.toString());
 			response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
 
 			// See https://bitbucket.org/thetransactioncompany/cors-filter/issue/16/
 			response.addHeader(HeaderName.VARY, "Origin");
 		} else {
 			if (config.allowAnyOrigin) {
-				response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+				response.setHeader(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 			} else {
-				response.addHeader(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN, requestOrigin.toString());
+				response.setHeader(HeaderName.ACCESS_CONTROL_ALLOW_ORIGIN, requestOrigin.toString());
 
 				// See https://bitbucket.org/thetransactioncompany/cors-filter/issue/16/
 				response.addHeader(HeaderName.VARY, "Origin");

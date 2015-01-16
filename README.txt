@@ -135,4 +135,8 @@ version 2.2 (2014-10-07)
 version 2.2.1 (2014-10-08)
     * Restores public CORSFilter constructor (issue #27).
 
+version 2.2.2 (2015-01-16)
+	* Changed addHeader to setHeader to fix up double Access-Control-Allow-Origin
+	  bug.
+
 [EOF]
