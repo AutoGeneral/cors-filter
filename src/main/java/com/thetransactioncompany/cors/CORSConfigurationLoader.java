@@ -6,10 +6,10 @@ import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Properties;
 
-import javax.servlet.FilterConfig;
 
 import com.thetransactioncompany.cors.environment.Environment;
 import com.thetransactioncompany.cors.environment.SystemProperties;
+import jakarta.servlet.FilterConfig;
 
 
 /**

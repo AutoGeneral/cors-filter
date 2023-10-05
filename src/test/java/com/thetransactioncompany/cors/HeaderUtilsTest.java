@@ -1,10 +1,12 @@
 package com.thetransactioncompany.cors;
 
 
+import org.junit.jupiter.api.Test;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
@@ -12,10 +14,11 @@ import junit.framework.TestCase;
  *
  * @author Vladimir Dzhuvinov
  */
-public class HeaderUtilsTest extends TestCase {
+public class HeaderUtilsTest {
 
 
-	public void testSerialize() {
+	@Test
+    public void testSerialize() {
 
 		Set<String> values = new LinkedHashSet<String>();
 		values.add("apples");
@@ -36,7 +39,8 @@ public class HeaderUtilsTest extends TestCase {
 	}
 
 
-	public void testParseMultipleHeaderValues() {
+	@Test
+    public void testParseMultipleHeaderValues() {
 
 		String[] out = HeaderUtils.parseMultipleHeaderValues(null);
 

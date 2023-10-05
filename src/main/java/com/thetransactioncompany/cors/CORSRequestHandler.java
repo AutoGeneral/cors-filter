@@ -1,9 +1,8 @@
 package com.thetransactioncompany.cors;
 
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Handles incoming cross-origin (CORS) requests according to the configured 
@@ -86,7 +85,7 @@ public class CORSRequestHandler {
 	 *                                        is not supported by the CORS
 	 *                                        policy.
 	 */
-	public void handleActualRequest(final HttpServletRequest request, 
+	public void handleActualRequest(final HttpServletRequest request,
 		                        final HttpServletResponse response)
 		throws InvalidCORSRequestException, 
 		       CORSOriginDeniedException, 

@@ -1,6 +1,9 @@
 package com.thetransactioncompany.cors;
 
 
+import jakarta.servlet.*;
+import jakarta.servlet.descriptor.JspConfigDescriptor;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,8 +14,7 @@ import java.util.EventListener;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.*;
-import javax.servlet.descriptor.JspConfigDescriptor;
+
 
 
 /**
@@ -101,33 +103,8 @@ public class MockServletContext implements ServletContext {
 		return null;
 	}
 
-
-	@Override
-	public Servlet getServlet(String s) throws ServletException {
-		return null;
-	}
-
-
-	@Override
-	public Enumeration getServlets() {
-		return null;
-	}
-
-
-	@Override
-	public Enumeration getServletNames() {
-		return null;
-	}
-
-
 	@Override
 	public void log(String s) {
-
-	}
-
-
-	@Override
-	public void log(Exception e, String s) {
 
 	}
 
@@ -212,6 +189,11 @@ public class MockServletContext implements ServletContext {
 
 	@Override
 	public ServletRegistration.Dynamic addServlet(String s, Class<? extends Servlet> aClass) {
+		return null;
+	}
+
+	@Override
+	public ServletRegistration.Dynamic addJspFile(String s, String s1) {
 		return null;
 	}
 
@@ -332,6 +314,41 @@ public class MockServletContext implements ServletContext {
 
 	@Override
 	public void declareRoles(String... strings) {
+
+	}
+
+	@Override
+	public String getVirtualServerName() {
+		return null;
+	}
+
+	@Override
+	public int getSessionTimeout() {
+		return 0;
+	}
+
+	@Override
+	public void setSessionTimeout(int i) {
+
+	}
+
+	@Override
+	public String getRequestCharacterEncoding() {
+		return null;
+	}
+
+	@Override
+	public void setRequestCharacterEncoding(String s) {
+
+	}
+
+	@Override
+	public String getResponseCharacterEncoding() {
+		return null;
+	}
+
+	@Override
+	public void setResponseCharacterEncoding(String s) {
 
 	}
 }

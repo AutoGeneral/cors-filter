@@ -1,10 +1,10 @@
 package com.thetransactioncompany.cors;
 
 
-import java.util.Enumeration;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletContext;
 
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
+import java.util.Enumeration;
 
 
 /**

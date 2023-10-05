@@ -1,14 +1,14 @@
 package com.thetransactioncompany.cors;
 
 
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-
 
 /**
  * Mock servlet request.
@@ -44,6 +44,11 @@ public class MockServletRequest implements HttpServletRequest {
 
 	@Override
 	public Part getPart(String s) throws IOException, ServletException {
+		return null;
+	}
+
+	@Override
+	public <T extends HttpUpgradeHandler> T upgrade(Class<T> aClass) throws IOException, ServletException {
 		return null;
 	}
 
@@ -86,6 +91,21 @@ public class MockServletRequest implements HttpServletRequest {
 
 	@Override
 	public DispatcherType getDispatcherType() {
+		return null;
+	}
+
+	@Override
+	public String getRequestId() {
+		return null;
+	}
+
+	@Override
+	public String getProtocolRequestId() {
+		return null;
+	}
+
+	@Override
+	public ServletConnection getServletConnection() {
 		return null;
 	}
 
@@ -214,6 +234,11 @@ public class MockServletRequest implements HttpServletRequest {
 	}
 
 	@Override
+	public String changeSessionId() {
+		return null;
+	}
+
+	@Override
 	public boolean isRequestedSessionIdValid() {
 		return false;
 	}
@@ -225,11 +250,6 @@ public class MockServletRequest implements HttpServletRequest {
 
 	@Override
 	public boolean isRequestedSessionIdFromURL() {
-		return false;
-	}
-
-	@Override
-	public boolean isRequestedSessionIdFromUrl() {
 		return false;
 	}
 
@@ -254,6 +274,11 @@ public class MockServletRequest implements HttpServletRequest {
 
 	@Override
 	public int getContentLength() {
+		return 0;
+	}
+
+	@Override
+	public long getContentLengthLong() {
 		return 0;
 	}
 
@@ -347,11 +372,6 @@ public class MockServletRequest implements HttpServletRequest {
 
 	@Override
 	public RequestDispatcher getRequestDispatcher(String s) {
-		return null;
-	}
-
-	@Override
-	public String getRealPath(String s) {
 		return null;
 	}
 

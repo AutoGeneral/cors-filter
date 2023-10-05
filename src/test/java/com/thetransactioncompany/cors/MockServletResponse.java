@@ -1,16 +1,16 @@
 package com.thetransactioncompany.cors;
 
 
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -43,16 +43,6 @@ public class MockServletResponse implements HttpServletResponse {
 
 	@Override
 	public String encodeRedirectURL(String s) {
-		return null;
-	}
-
-	@Override
-	public String encodeUrl(String s) {
-		return null;
-	}
-
-	@Override
-	public String encodeRedirectUrl(String s) {
 		return null;
 	}
 
@@ -133,9 +123,7 @@ public class MockServletResponse implements HttpServletResponse {
 	public void setStatus(int i) {
 	}
 
-	@Override
-	public void setStatus(int i, String s) {
-	}
+
 
 	@Override
 	public String getCharacterEncoding() {
@@ -163,6 +151,11 @@ public class MockServletResponse implements HttpServletResponse {
 
 	@Override
 	public void setContentLength(int i) {
+	}
+
+	@Override
+	public void setContentLengthLong(long l) {
+
 	}
 
 	@Override
