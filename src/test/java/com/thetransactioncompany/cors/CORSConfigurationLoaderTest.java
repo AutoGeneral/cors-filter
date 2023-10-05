@@ -2,7 +2,11 @@ package com.thetransactioncompany.cors;
 
 
 import com.thetransactioncompany.cors.environment.MockEnvironment;
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+
 
 
 /**
@@ -11,9 +15,10 @@ import junit.framework.TestCase;
  * @author David Bellem
  * @author Vladimir Dzhuvinov
  */
-public class CORSConfigurationLoaderTest extends TestCase {
+public class CORSConfigurationLoaderTest {
 	
-	
+
+	@Test
 	public void testEnvVarBasedConfig() {
 		
 		CORSConfigurationLoader configLoader = new CORSConfigurationLoader(new MockFilterConfig());
@@ -55,7 +60,7 @@ public class CORSConfigurationLoaderTest extends TestCase {
 		assertTrue(c.isSupportedHeader("Accept"));
 		assertFalse(c.isSupportedHeader("X-Forwarded-Proto"));
 		
-		assertTrue(c.exposedHeaders.size() == 0);
+		assertEquals(0, c.exposedHeaders.size());
 		
 		assertTrue(c.supportsCredentials);
 		

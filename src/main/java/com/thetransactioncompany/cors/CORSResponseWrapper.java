@@ -1,14 +1,15 @@
 package com.thetransactioncompany.cors;
 
 
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
+
 import java.util.*;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
 
 
 /**
  * HTTP response wrapper that preserves the CORS response headers on
- * {@link javax.servlet.ServletResponse#reset()}. Some web applications and
+ * {@link jakarta.servlet.ServletResponse#reset()}. Some web applications and
  * frameworks (e.g. RestEasy) reset the servlet response when a HTTP 4xx error
  * is produced; this wrapper ensures previously set CORS headers survive such a
  * reset.

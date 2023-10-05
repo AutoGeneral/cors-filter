@@ -1,8 +1,7 @@
 package com.thetransactioncompany.cors;
 
 
-import javax.servlet.http.HttpServletRequest;
-
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Request tagger. Tags HTTP servlet requests to provide CORS information to 

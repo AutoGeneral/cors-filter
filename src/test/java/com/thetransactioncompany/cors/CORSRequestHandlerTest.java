@@ -6,7 +6,9 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -14,10 +16,11 @@ import junit.framework.TestCase;
  *
  * @author Vladimir Dzhuvinov
  */
-public class CORSRequestHandlerTest extends TestCase {
+public class CORSRequestHandlerTest {
 
 
-	public void testActualRequestWithDefaultConfiguration()
+	@Test
+    public void testActualRequestWithDefaultConfiguration()
 		throws Exception {
 
 		CORSConfiguration config = new CORSConfiguration(new Properties());
@@ -40,7 +43,8 @@ public class CORSRequestHandlerTest extends TestCase {
 	}
 
 
-	public void testActualRequestWithCredentialsNotAllowed()
+	@Test
+    public void testActualRequestWithCredentialsNotAllowed()
 		throws Exception {
 
 		Properties props = new Properties();
@@ -64,7 +68,8 @@ public class CORSRequestHandlerTest extends TestCase {
 	}
 
 
-	public void testActualRequestWithExposedHeaders()
+	@Test
+    public void testActualRequestWithExposedHeaders()
 		throws Exception {
 
 		Properties props = new Properties();
@@ -92,7 +97,8 @@ public class CORSRequestHandlerTest extends TestCase {
 	}
 
 
-	public void testActualRequestWithDeniedOrigin()
+	@Test
+    public void testActualRequestWithDeniedOrigin()
 		throws Exception {
 
 		Properties props = new Properties();
@@ -117,7 +123,8 @@ public class CORSRequestHandlerTest extends TestCase {
 	}
 
 
-	public void testActualRequestWithUnsupportedMethod()
+	@Test
+    public void testActualRequestWithUnsupportedMethod()
 		throws Exception {
 
 		Properties props = new Properties();
@@ -143,7 +150,8 @@ public class CORSRequestHandlerTest extends TestCase {
 	}
 
 
-	public void testPreflightRequestWithDefaultConfiguration()
+	@Test
+    public void testPreflightRequestWithDefaultConfiguration()
 		throws Exception {
 
 		CORSConfiguration config = new CORSConfiguration(new Properties());
@@ -175,7 +183,8 @@ public class CORSRequestHandlerTest extends TestCase {
 	}
 
 
-	public void testPreflightRequestWithCredentialsNotAllowed()
+	@Test
+    public void testPreflightRequestWithCredentialsNotAllowed()
 		throws Exception {
 
 		Properties props = new Properties();
@@ -208,7 +217,8 @@ public class CORSRequestHandlerTest extends TestCase {
 	}
 
 
-	public void testPreflightRequestWithSupportAnyHeader()
+	@Test
+    public void testPreflightRequestWithSupportAnyHeader()
 		throws Exception {
 
 		Properties props = new Properties();

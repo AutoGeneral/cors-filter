@@ -1,18 +1,21 @@
 package com.thetransactioncompany.cors;
 
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Tests the header field name class.
  *
  * @author Vladimir Dzhuvinov
  */
-public class HeaderNameTest extends TestCase {
+public class HeaderNameTest {
 
 
-	public void testConstants() {
+	@Test
+    public void testConstants() {
 
 		assertEquals("Origin", HeaderName.ORIGIN);
 		assertEquals("Access-Control-Request-Method", HeaderName.ACCESS_CONTROL_REQUEST_METHOD);
@@ -29,37 +32,43 @@ public class HeaderNameTest extends TestCase {
 	}
 
 
-	public void testFormatCanonical1() {
+	@Test
+    public void testFormatCanonical1() {
 
 		assertEquals(HeaderName.formatCanonical("content-type"), "Content-Type");
 	}
 
 
-	public void testFormatCanonical2() {
+	@Test
+    public void testFormatCanonical2() {
 
 		assertEquals(HeaderName.formatCanonical("CONTENT-TYPE"), "Content-Type");
 	}
 
 
-	public void testFormatCanonical3() {
+	@Test
+    public void testFormatCanonical3() {
 
 		assertEquals(HeaderName.formatCanonical("X-type"), "X-Type");
 	}
 
 
-	public void testFormatCanonical4() {
+	@Test
+    public void testFormatCanonical4() {
 
 		assertEquals(HeaderName.formatCanonical("Origin"), "Origin");
 	}
 
 
-	public void testFormatCanonical5() {
+	@Test
+    public void testFormatCanonical5() {
 
 		assertEquals(HeaderName.formatCanonical("A"), "A");
 	}
 
 
-	public void testFormatCanonical6() {
+	@Test
+    public void testFormatCanonical6() {
 
 		try {
 			assertEquals(HeaderName.formatCanonical(""), "");
@@ -71,92 +80,109 @@ public class HeaderNameTest extends TestCase {
 	}
 
 
-	public void testTrim() {
+	@Test
+    public void testTrim() {
 		String expected = "Content-Type";
 		String n1 = HeaderName.formatCanonical("content-type\n");
 		String n2 = HeaderName.formatCanonical(" CONTEnt-Type ");
 
-		assertEquals("All whitespace should be trimmed", expected, n1);
-		assertEquals("All whitespace should be trimmed", expected, n2);
+		assertEquals(expected, n1, "All whitespace should be trimmed");
+		assertEquals(expected, n2, "All whitespace should be trimmed");
 	}
 
 
-	public void testInvalid1() {
+	@Test
+    public void testInvalid1() {
 		assertInvalid("X-r@b");
 	}
 
 
-	public void testInvalid2() {
+	@Test
+    public void testInvalid2() {
 		assertInvalid("1=X-r");
 	}
 
 
-	public void testInvalid3() {
+	@Test
+    public void testInvalid3() {
 		assertInvalid("Aaa Bbb");
 	}
 
 
-	public void testInvalid4() {
+	@Test
+    public void testInvalid4() {
 		assertInvalid("less<than");
 	}
 
 
-	public void testInvalid5() {
+	@Test
+    public void testInvalid5() {
 		assertInvalid("alpha1>");
 	}
 
 
-	public void testInvalid6() {
+	@Test
+    public void testInvalid6() {
 		assertInvalid("X-Forwarded-By-{");
 	}
 
 
-	public void testInvalid7() {
+	@Test
+    public void testInvalid7() {
 		assertInvalid("a}");
 	}
 
 
-	public void testInvalid8() {
+	@Test
+    public void testInvalid8() {
 		assertInvalid("separator:");
 	}
 
 
-	public void testInvalid9() {
+	@Test
+    public void testInvalid9() {
 		assertInvalid("asd\"f;");
 	}
 
 
-	public void testInvalid10() {
+	@Test
+    public void testInvalid10() {
 		assertInvalid("rfc@w3c.org");
 	}
 
 
-	public void testInvalid11() {
+	@Test
+    public void testInvalid11() {
 		assertInvalid("bracket[");
 	}
 
 
-	public void testInvalid12() {
+	@Test
+    public void testInvalid12() {
 		assertInvalid("control\u0002header");
 	}
 
 
-	public void testInvalid13() {
+	@Test
+    public void testInvalid13() {
 		assertInvalid("control\nembedded");
 	}
 
 
-	public void testInvalid14() {
+	@Test
+    public void testInvalid14() {
 		assertInvalid("uni╚(•⌂•)╝");
 	}
 
 
-	public void testInvalid15() {
+	@Test
+    public void testInvalid15() {
 		assertInvalid("uni\u3232_\u3232");
 	}
 
 
-	public void testUnusualButValid() {
+	@Test
+    public void testUnusualButValid() {
 		HeaderName.formatCanonical("__2");
 		HeaderName.formatCanonical("$%.%");
 		HeaderName.formatCanonical("`~'&#*!^|");

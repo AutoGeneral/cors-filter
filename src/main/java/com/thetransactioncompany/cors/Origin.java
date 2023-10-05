@@ -46,13 +46,14 @@ public class Origin {
 		
 		this.value = value;
 	}
-	
-	
+
+
 	/**
 	 * Returns a validated instance of this origin.
-	 * 
+	 *
 	 * @throws OriginException If the value doesn't represent a valid and
 	 *                         supported origin string.
+	 * @return a validated instance of this origin
 	 */
 	public ValidatedOrigin validate()
 		throws OriginException {

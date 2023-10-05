@@ -1,7 +1,10 @@
 package com.thetransactioncompany.cors;
 
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 
 /**
@@ -10,10 +13,11 @@ import junit.framework.TestCase;
  * @author Vladimir Dzhuvinov
  * @author Jared Ottley
  */
-public class ValidatedOriginTest extends TestCase {
+public class ValidatedOriginTest {
 	
 	
-	public void testHTTPOrigin() {
+	@Test
+    public void testHTTPOrigin() {
 	
 		String uri = "http://example.com";
 		
@@ -35,7 +39,8 @@ public class ValidatedOriginTest extends TestCase {
 	}
 
 
-	public void testHTTPSOrigin() {
+	@Test
+    public void testHTTPSOrigin() {
 	
 		String uri = "https://example.com";
 		
@@ -79,7 +84,8 @@ public class ValidatedOriginTest extends TestCase {
         }
 	
 	
-	public void testIPAddressHost() {
+	@Test
+    public void testIPAddressHost() {
 	
 		String uri = "http://192.168.0.1:8080";
 		
